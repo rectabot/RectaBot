@@ -46,7 +46,7 @@ Place the PCB under a loupe/microscope and verify:
 - ✅ The W5500 QFN and SP3485 SOIC-8 packages are correctly oriented (pin 1 marker = bottom-left)
 - ✅ No **solder bridges** between adjacent RP2350B pins (the biggest risk)
 - ✅ LM358 (U23), 2N7002 (Q1/Q2) are in place
-- ✅ All LEDs (D1-D6) are present and correctly oriented
+- ✅ All LEDs (LED1-LED6, marked KT-0805G in BOM) are present and correctly oriented
 - ✅ The TF (microSD) connector is well soldered and clicks via its push-push mechanism
 
 ### 1b. Bottom side check

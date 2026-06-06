@@ -75,15 +75,19 @@ Before power-on, visually verify **one more time**:
 
 ### 2c. LED indicator sequence (expected)
 
+> **Naming note:** the BOM uses `LED1-LED6` (KT-0805G) for the power LEDs.
+> `D1` is the **SS54 reverse-polarity Schottky diode** (not a LED).
+
 | LED | Location | When it lights | What it indicates |
 |---|---|---|---|
-| **D1 - 24V power** | Near CN42 | Immediately at power-on | +24V rail OK |
-| **D2 - 5V power** | Near TPS5430 | ~10ms later | +5V buck working |
-| **D3 - 3V3 power** | Near AMS1117 | ~50ms later | +3.3V LDO working, MCU powered |
-| **D4 - 24V_ISO** | Near U3 | ~100ms later | ISO rail active (opto supply) |
-| **D5 - USB activity** | Near USB-C | OFF (no USB cable) | Off is OK with no PC connection |
+| **LED1 - 24V power** | Near CN42 | Immediately at power-on | +24V rail OK (after SS54 D1) |
+| **LED2 - 5V power** | Near TPS5430 | ~10ms later | +5V buck working |
+| **LED3 - 3V3 power** | Near AMS1117 | ~50ms later | +3.3V LDO working, MCU powered |
+| **LED4 - 24V_ISO** | Near U3 | ~100ms later | ISO rail active (opto supply) |
+| **LED5 - USB activity** | Near USB-C | OFF (no USB cable) | Off is OK with no PC connection |
+| **LED6 - VFD output** | Near U23 (LM358) | Off at idle | Brightens with spindle PWM (0-10V output) |
 
-**If any of D1-D4 does not light up:**
+**If any of LED1-LED4 does not light up:**
 - **Power off immediately** (cut power)
 - See the Troubleshooting section below
 
@@ -145,7 +149,7 @@ With **power on**, measure the following (black probe on GND, red on the test po
 - RectaBot side into the USB-C port on the board
 
 ### 4b. Observe
-- **D5 (USB activity LED)** should light up
+- **LED5 (USB activity LED)** should light up
 - Windows/macOS should recognize a **new USB device**:
   - **Without firmware:** "USB Device" with unknown VID/PID (normal)
   - **With BOOTSEL active:** "RPI-RP2" Mass Storage Device
@@ -183,16 +187,17 @@ ping <ip-from-router>     # direct
 
 ## 🆘 Troubleshooting
 
-### Problem: 24V LED does not light up
+### Problem: LED1 (24V power) does not light up
 **Causes:**
-- Wrong power-supply polarity (CN42 pin 1 and 2 swapped)
-- SS54 Schottky diode (D1) is fried or soldered reversed
+- Wrong power-supply polarity (CN42 pin 1 and 2 swapped) — **but the SS54 D1 blocks the reverse current, so no damage occurs!**
+- SS54 Schottky diode (D1) is damaged or soldered reversed
 - Trace broken between CN42 and the power tree
 
 **Solution:**
-1. Multimeter on the CN42 pins — verify 24V with correct polarity
-2. Multimeter on D1 (SS54) — voltage drop ~0.4V in the forward direction
-3. Inspect the CN42 solder joints
+1. Multimeter on the CN42 pins — verify 24V with correct polarity (+24V on pin 1, GND on pin 2)
+2. Multimeter on D1 (SS54) — voltage drop ~0.4V in the forward direction (cathode toward the +24V rail)
+3. If you reversed the supply polarity, the SS54 blocks current — just connect it correctly and LED1 will light up
+4. Inspect the CN42 solder joints
 
 ---
 
@@ -273,7 +278,7 @@ ping <ip-from-router>     # direct
 - [ ] D7 cathode orientation verified
 - [ ] C7 polarity verified
 - [ ] 24V power-on with no sparks, smoke, or hot components
-- [ ] D1-D4 LEDs are all active
+- [ ] LED1-LED4 are all active
 - [ ] +5V rail = 5.00 ± 0.05V
 - [ ] +3.3V rail = 3.30 ± 0.05V
 - [ ] +24V_ISO rail = 24.0 ± 1.0V
@@ -306,10 +311,12 @@ Pre-power tests:
   [ ] C7 polarity: VERIFIED
 
 Power-On:
-  D1 (24V):   ON / OFF
-  D2 (5V):    ON / OFF
-  D3 (3V3):   ON / OFF
-  D4 (ISO):   ON / OFF
+  LED1 (24V):  ON / OFF
+  LED2 (5V):   ON / OFF
+  LED3 (3V3):  ON / OFF
+  LED4 (ISO):  ON / OFF
+  LED5 (USB):  ON / OFF
+  LED6 (VFD):  ON / OFF
 
 Voltage measurements:
   +5V rail:    _____ V (spec: 4.95-5.05)
