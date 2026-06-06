@@ -75,3 +75,6 @@ package-lock.json
 # Local notes / drafts
 NOTES.local.md
 DRAFT_*.md
+
+# Private planning / R&D documents (v2, future ideas, internal strategy)
+.private/

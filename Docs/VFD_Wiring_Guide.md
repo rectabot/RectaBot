@@ -321,9 +321,9 @@ For longer runs (>3m), use **shielded multi-conductor cable** and ground the shi
 
 For issues with specific VFD models not listed here, or custom configurations:
 
-- **Documentation:** https://github.com/rectabot/docs (TBD)
-- **Discord:** RectaBot Users community (TBD)
-- **Email:** support@rectabot.com (TBD)
+- **Documentation:** https://github.com/rectabot
+- **Discord:** RectaBot Users community (planned)
+- **Email:** hello@rectabot.org
 
 **When asking for help, please include:**
 1. VFD make and model
