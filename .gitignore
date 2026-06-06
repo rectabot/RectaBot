@@ -1,0 +1,76 @@
+# ============================================================
+# RectaBot main repo .gitignore
+# ============================================================
+
+# Separate repositories (split out, not tracked in main repo)
+Firmware/
+SmartPendant/
+
+# Build artifacts
+build/
+**/build/
+*.o
+*.elf
+*.bin
+*.hex
+*.uf2
+*.map
+*.dis
+
+# IDE and editor caches
+.cache/
+.vscode/
+.vs/
+*.code-workspace
+
+# OS-specific
+Thumbs.db
+.DS_Store
+Desktop.ini
+$RECYCLE.BIN/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.old
+*~
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Prototype scratch (keep for now but exclude binaries)
+Prototype/**/*.bin
+Prototype/**/*.uf2
+Prototype/**/build/
+
+# EasyEDA temp files
+*.lck
+*.bak.json
+
+# JLCPCB / LCSC generated files we don't track (keep CSV inputs)
+*.zip
+
+# Python virtual environments
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Node modules (if web/configurator ever uses build tools)
+node_modules/
+dist/
+package-lock.json
+
+# Environment variables (keep these PRIVATE!)
+.env
+.env.local
+*.key
+*.pem
+
+# Local notes / drafts
+NOTES.local.md
+DRAFT_*.md

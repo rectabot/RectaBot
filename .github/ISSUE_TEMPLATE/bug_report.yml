@@ -1,0 +1,86 @@
+name: 🐛 Bug Report
+description: Report a bug in RectaBot hardware, firmware, or web tools
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug!
+        Please fill out the form below to help us reproduce and fix the issue.
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Which component is affected?
+      options:
+        - Hardware (PCB issue, soldering, etc.)
+        - Firmware (grblHAL configuration / behavior)
+        - Web Configurator
+        - Documentation
+        - Other / unsure
+    validations:
+      required: true
+
+  - type: input
+    id: hw-revision
+    attributes:
+      label: Hardware Revision
+      description: e.g., v1.0, v1.1, v2.0
+      placeholder: v1.0
+    validations:
+      required: false
+
+  - type: input
+    id: fw-version
+    attributes:
+      label: Firmware Version
+      description: Output of `$I` command in serial monitor
+      placeholder: GrblHAL 1.1f.20260605:RectaBot v1.0
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: Clear description of what went wrong
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open Configurator
+        2. Select 5 axes
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: |
+        - OS: Windows 11 / macOS 14 / Ubuntu 22.04
+        - Browser (for web issues): Chrome 130 / Edge / etc.
+        - CNC machine: e.g., 1500x1000mm gantry router
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / screenshots
+      description: Paste serial monitor output, browser console errors, photos
+      render: shell

@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RectaBot Configurator — Plug & Play CNC Setup</title>
+    <meta name="description" content="Generate a custom grblHAL configuration for your CNC machine. Answer a few questions, download config, plug-and-play.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Consolas', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { background-color: #020617; color: #f1f5f9; font-family: 'Inter', sans-serif; }
+        .step-indicator.active { background-color: #22d3ee; color: #020617; }
+        .step-indicator.completed { background-color: #10b981; color: #020617; }
+        .step-indicator.pending { background-color: #1e293b; color: #64748b; }
+        .input-field {
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: #f1f5f9;
+            border-radius: 6px;
+            padding: 10px 14px;
+            width: 100%;
+            outline: none;
+            transition: border-color 0.2s;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+        }
+        .input-field:focus { border-color: #22d3ee; }
+        .input-field:invalid { border-color: #ef4444; }
+        .option-card {
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .option-card:hover { border-color: #22d3ee; transform: translateY(-2px); }
+        .option-card.selected { border-color: #22d3ee; background: rgba(34, 211, 238, 0.05); }
+        .step-content { display: none; }
+        .step-content.active { display: block; }
+        .config-preview {
+            background: #020617;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            line-height: 1.7;
+            max-height: 400px;
+            overflow-y: auto;
+            color: #67e8f9;
+        }
+        .config-preview .comment { color: #64748b; }
+        .config-preview .cmd { color: #22d3ee; }
+        .config-preview .val { color: #fbbf24; }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Header -->
+    <nav class="border-b border-slate-800 backdrop-blur-lg bg-slate-950/80 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-2 font-bold text-xl">
+                <span class="text-cyan-400 font-mono">▣</span>
+                <span>RectaBot</span>
+                <span class="text-slate-500 text-sm font-mono">Configurator</span>
+            </a>
+            <span class="text-xs text-slate-500 font-mono">v1.0 BETA</span>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="max-w-4xl mx-auto px-6 pt-12 pb-8 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">
+            Configure Your <span class="text-cyan-400">RectaBot</span>
+        </h1>
+        <p class="text-lg text-slate-300 max-w-2xl mx-auto">
+            Answer 5 quick questions about your CNC machine. We'll generate a ready-to-use
+            <span class="font-mono text-cyan-400">grblHAL configuration</span> — no manual setup, no math.
+        </p>
+    </section>
+
+    <!-- Progress Bar -->
+    <div class="max-w-4xl mx-auto px-6 mb-8">
+        <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2 flex-1">
+                <div id="indicator-1" class="step-indicator active w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">1</div>
+                <div class="flex-1 h-1 bg-slate-800 rounded">
+                    <div id="bar-1-2" class="h-1 bg-cyan-400 rounded transition-all" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 flex-1">
+                <div id="indicator-2" class="step-indicator pending w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">2</div>
+                <div class="flex-1 h-1 bg-slate-800 rounded">
+                    <div id="bar-2-3" class="h-1 bg-cyan-400 rounded transition-all" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 flex-1">
+                <div id="indicator-3" class="step-indicator pending w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">3</div>
+                <div class="flex-1 h-1 bg-slate-800 rounded">
+                    <div id="bar-3-4" class="h-1 bg-cyan-400 rounded transition-all" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 flex-1">
+                <div id="indicator-4" class="step-indicator pending w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">4</div>
+                <div class="flex-1 h-1 bg-slate-800 rounded">
+                    <div id="bar-4-5" class="h-1 bg-cyan-400 rounded transition-all" style="width: 0%"></div>
+                </div>
+            </div>
+            <div id="indicator-5" class="step-indicator pending w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">5</div>
+        </div>
+        <div class="grid grid-cols-5 gap-2 text-xs text-slate-500 font-mono text-center">
+            <span>Machine</span>
+            <span>Axes</span>
+            <span>Spindle</span>
+            <span>Safety</span>
+            <span>Generate</span>
+        </div>
+    </div>
+
+    <!-- Main Form Container -->
+    <main class="max-w-4xl mx-auto px-6 pb-16">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 md:p-10">
+
+            <!-- STEP 1: Machine Type -->
+            <div id="step-1" class="step-content active">
+                <h2 class="text-2xl font-bold mb-2">What type of CNC machine?</h2>
+                <p class="text-slate-400 mb-6">This determines defaults for acceleration, max speed, and homing direction.</p>
+
+                <div class="grid md:grid-cols-3 gap-4 mb-8">
+                    <div class="option-card" data-machine="router" onclick="selectOption(this, 'machine')">
+                        <div class="text-4xl mb-2">🔨</div>
+                        <h3 class="font-semibold text-lg mb-1">CNC Router</h3>
+                        <p class="text-slate-400 text-sm">Wood / aluminum, gantry, lower forces, faster travel.</p>
+                        <p class="text-xs text-cyan-400 mt-2 font-mono">~3000mm/min, 200mm/s²</p>
+                    </div>
+                    <div class="option-card" data-machine="mill" onclick="selectOption(this, 'machine')">
+                        <div class="text-4xl mb-2">⚙️</div>
+                        <h3 class="font-semibold text-lg mb-1">CNC Mill</h3>
+                        <p class="text-slate-400 text-sm">Steel/iron, rigid frame, higher forces, precision work.</p>
+                        <p class="text-xs text-cyan-400 mt-2 font-mono">~1500mm/min, 100mm/s²</p>
+                    </div>
+                    <div class="option-card" data-machine="laser" onclick="selectOption(this, 'machine')">
+                        <div class="text-4xl mb-2">⚡</div>
+                        <h3 class="font-semibold text-lg mb-1">Laser Cutter</h3>
+                        <p class="text-slate-400 text-sm">Engrave/cut, very fast travel, PWM laser control.</p>
+                        <p class="text-xs text-cyan-400 mt-2 font-mono">~10000mm/min, 500mm/s²</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-end">
+                    <button onclick="nextStep(1)" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold px-6 py-3 rounded-md transition disabled:opacity-40" id="next-1" disabled>Continue →</button>
+                </div>
+            </div>
+
+            <!-- STEP 2: Axes Setup -->
+            <div id="step-2" class="step-content">
+                <h2 class="text-2xl font-bold mb-2">Axes & Motors</h2>
+                <p class="text-slate-400 mb-6">Configure each axis. Steps/mm is calculated automatically.</p>
+
+                <!-- Number of axes -->
+                <div class="mb-6">
+                    <label class="text-sm font-semibold mb-2 block">Number of axes</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="option-card text-center" data-axes="3" onclick="selectOption(this, 'axes')">
+                            <div class="font-bold text-lg">3 axes</div>
+                            <div class="text-xs text-slate-400">X · Y · Z</div>
+                        </div>
+                        <div class="option-card text-center" data-axes="4" onclick="selectOption(this, 'axes')">
+                            <div class="font-bold text-lg">4 axes</div>
+                            <div class="text-xs text-slate-400">X · Y · Z · A</div>
+                        </div>
+                        <div class="option-card text-center" data-axes="5" onclick="selectOption(this, 'axes')">
+                            <div class="font-bold text-lg">5 axes</div>
+                            <div class="text-xs text-slate-400">X · Y · Z · A · B</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- A axis function (only for 4+ axes) -->
+                <div id="a-axis-section" class="hidden mb-6 bg-slate-950/50 border border-slate-800 rounded-lg p-4">
+                    <label class="text-sm font-semibold mb-2 block">A axis function</label>
+                    <select id="a-function" class="input-field" onchange="updatePreview()">
+                        <option value="rotational">🔄 Rotational — independent rotation (around X, like a 4th axis lathe attachment)</option>
+                        <option value="clone-x">↔️ Clone X — mirrors X motion (dual-head router, side-by-side spindles)</option>
+                        <option value="clone-y">↕️ Clone Y — mirrors Y motion (dual-head, front-back spindles)</option>
+                        <option value="clone-z">⬇️ Clone Z — mirrors Z motion (rare, dual Z-axis for heavy gantry)</option>
+                    </select>
+                    <p class="text-xs text-slate-500 mt-2 font-mono" id="a-function-hint">
+                        Independent rotational axis. Configure as degrees/step in next step.
+                    </p>
+                </div>
+
+                <!-- B axis function (only for 5 axes) -->
+                <div id="b-axis-section" class="hidden mb-6 bg-slate-950/50 border border-slate-800 rounded-lg p-4">
+                    <label class="text-sm font-semibold mb-2 block">B axis function</label>
+                    <select id="b-function" class="input-field" onchange="updatePreview()">
+                        <option value="y2-tandem">⚖️ Y2 Tandem (auto-square gantry) — RectaBot default, dual Y motors keep gantry parallel</option>
+                        <option value="rotational">🔄 Rotational — independent rotation around Y (true 5-axis machining)</option>
+                        <option value="clone-x">↔️ Clone X — mirrors X (triple-head config, very advanced)</option>
+                        <option value="clone-z">⬇️ Clone Z — mirrors Z (heavy Z gantry support)</option>
+                    </select>
+                    <p class="text-xs text-slate-500 mt-2 font-mono" id="b-function-hint">
+                        Y2 tandem with auto-square homing. Two motors drive the same Y axis, homing aligns both ends of the gantry.
+                    </p>
+                </div>
+
+                <!-- Stepper Driver -->
+                <div class="mb-6">
+                    <label class="text-sm font-semibold mb-2 block">Stepper Driver</label>
+                    <select id="driver" class="input-field" onchange="updateDriver()">
+                        <option value="dm556">DM556 (default, 200-512 microstep)</option>
+                        <option value="dm860">DM860 (high current 6A)</option>
+                        <option value="tb6600">TB6600 (cheap, 4A)</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                </div>
+
+                <!-- Mechanical -->
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label class="text-sm font-semibold mb-2 block">Motor steps/rev</label>
+                        <select id="motor-steps" class="input-field" onchange="calcSteps()">
+                            <option value="200">200 (1.8° NEMA17/23, standard)</option>
+                            <option value="400">400 (0.9° NEMA17 hi-res)</option>
+                            <option value="100">100 (3.6° NEMA17 low cost)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-sm font-semibold mb-2 block">Microstepping</label>
+                        <select id="microstep" class="input-field" onchange="calcSteps()">
+                            <option value="8">8 (1600 pulses/rev, recommended)</option>
+                            <option value="16">16 (3200 pulses/rev, smoother)</option>
+                            <option value="32">32 (6400 pulses/rev, max smooth)</option>
+                            <option value="4">4 (800 pulses/rev, fast)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- X / Y mechanics -->
+                <div class="mb-6">
+                    <label class="text-sm font-semibold mb-2 block">X &amp; Y axis mechanics (both axes use same setup)</label>
+                    <select id="xy-mech" class="input-field" onchange="calcSteps()">
+                        <option value="ballscrew-5">Ball screw 5mm pitch</option>
+                        <option value="ballscrew-10">Ball screw 10mm pitch</option>
+                        <option value="ballscrew-4">Ball screw 4mm pitch</option>
+                        <option value="leadscrew-8">Lead screw 8mm (T8)</option>
+                        <option value="belt-gt2-20">GT2 belt + 20T pulley</option>
+                        <option value="belt-gt2-16">GT2 belt + 16T pulley</option>
+                        <option value="rack-pinion">Rack &amp; pinion (manual entry)</option>
+                    </select>
+                    <p class="text-xs text-slate-500 mt-2 font-mono" id="xy-steps">Steps/mm: <span class="text-cyan-400">320.00</span></p>
+                </div>
+
+                <!-- Z mechanics -->
+                <div class="mb-6">
+                    <label class="text-sm font-semibold mb-2 block">Z axis mechanics</label>
+                    <select id="z-mech" class="input-field" onchange="calcSteps()">
+                        <option value="ballscrew-4">Ball screw 4mm pitch (recommended)</option>
+                        <option value="ballscrew-5">Ball screw 5mm pitch</option>
+                        <option value="leadscrew-8">Lead screw 8mm (T8)</option>
+                        <option value="ballscrew-2">Ball screw 2mm pitch (ultra precise)</option>
+                    </select>
+                    <p class="text-xs text-slate-500 mt-2 font-mono" id="z-steps">Steps/mm: <span class="text-cyan-400">400.00</span></p>
+                </div>
+
+                <!-- Working area dimensions -->
+                <div class="mb-6 bg-slate-950/50 border border-cyan-500/30 rounded-lg p-5">
+                    <h3 class="font-semibold mb-1 flex items-center gap-2">
+                        <span>📐</span> Working area dimensions
+                    </h3>
+                    <p class="text-xs text-slate-400 mb-4">
+                        The physical reach of your spindle in each direction. Used for soft limits (motion alarm boundary).
+                    </p>
+                    <div class="grid md:grid-cols-3 gap-3 mb-3">
+                        <div>
+                            <label class="text-xs text-slate-400 mb-1 block font-mono">Length (X, mm)</label>
+                            <input type="number" id="xy-travel" class="input-field" value="800" min="50" oninput="updatePreview()">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 mb-1 block font-mono">Width (Y, mm)</label>
+                            <input type="number" id="y-travel" class="input-field" value="600" min="50" oninput="updatePreview()">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 mb-1 block font-mono">Height (Z, mm)</label>
+                            <input type="number" id="z-travel" class="input-field" value="120" min="20" oninput="updatePreview()">
+                        </div>
+                    </div>
+                    <div class="bg-amber-500/5 border border-amber-500/20 rounded p-3 text-xs text-slate-300">
+                        <span class="text-amber-300 font-semibold">Working envelope:</span>
+                        <span id="working-area-display" class="font-mono text-cyan-400">800 × 600 × 120 mm</span>
+                        <span class="text-slate-500"> — this becomes your soft limit boundary in grblHAL ($130/$131/$132).</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-between">
+                    <button onclick="prevStep(2)" class="border border-slate-700 hover:border-slate-500 px-6 py-3 rounded-md transition">← Back</button>
+                    <button onclick="nextStep(2)" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold px-6 py-3 rounded-md transition" id="next-2">Continue →</button>
+                </div>
+            </div>
+
+            <!-- STEP 3: Spindle -->
+            <div id="step-3" class="step-content">
+                <h2 class="text-2xl font-bold mb-2">Spindle / VFD</h2>
+                <p class="text-slate-400 mb-6">Configure spindle control. RectaBot supports analog 0-10V, Modbus RS-485, or both for closed-loop monitoring.</p>
+
+                <!-- Spindle type -->
+                <label class="text-sm font-semibold mb-3 block">Spindle type</label>
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div class="option-card" data-spindle="vfd" onclick="selectOption(this, 'spindle')">
+                        <div class="text-3xl mb-2">🔄</div>
+                        <h3 class="font-semibold text-lg mb-1">VFD Spindle</h3>
+                        <p class="text-slate-400 text-sm">Huanyang HY01/HY02, Lapond SVD-EM, Delta VFD-M/EL, ATO, Hitachi WJ200.</p>
+                    </div>
+                    <div class="option-card" data-spindle="laser" onclick="selectOption(this, 'spindle')">
+                        <div class="text-3xl mb-2">⚡</div>
+                        <h3 class="font-semibold text-lg mb-1">Laser (PWM)</h3>
+                        <p class="text-slate-400 text-sm">Diode laser modules with TTL/PWM input (Endurance, NEJE, J-Tech).</p>
+                    </div>
+                    <div class="option-card" data-spindle="pwm" onclick="selectOption(this, 'spindle')">
+                        <div class="text-3xl mb-2">🌀</div>
+                        <h3 class="font-semibold text-lg mb-1">PWM Spindle (DC)</h3>
+                        <p class="text-slate-400 text-sm">Cheap DC brushless spindles with PWM speed control (kresses, Makita-style).</p>
+                    </div>
+                    <div class="option-card" data-spindle="none" onclick="selectOption(this, 'spindle')">
+                        <div class="text-3xl mb-2">🚫</div>
+                        <h3 class="font-semibold text-lg mb-1">No Spindle</h3>
+                        <p class="text-slate-400 text-sm">Motion control only (plotter, dispensing, drag knife).</p>
+                    </div>
+                </div>
+
+                <!-- VFD-specific options -->
+                <div id="vfd-options" class="hidden">
+                    <!-- VFD interface -->
+                    <label class="text-sm font-semibold mb-3 block">VFD control interface</label>
+                    <div class="grid md:grid-cols-3 gap-3 mb-6">
+                        <div class="option-card" data-vfdif="analog" onclick="selectOption(this, 'vfdif')">
+                            <div class="font-semibold mb-1">📊 Analog 0-10V</div>
+                            <p class="text-slate-400 text-xs">Wired CN39. Simplest, most common. No feedback from VFD.</p>
+                            <p class="text-cyan-400 text-xs mt-2 font-mono">~85% of small VFDs</p>
+                        </div>
+                        <div class="option-card" data-vfdif="modbus" onclick="selectOption(this, 'vfdif')">
+                            <div class="font-semibold mb-1">📡 Modbus RS-485</div>
+                            <p class="text-slate-400 text-xs">Wired CN22. Read actual RPM, errors, current. Closed-loop control.</p>
+                            <p class="text-cyan-400 text-xs mt-2 font-mono">Smart VFDs only</p>
+                        </div>
+                        <div class="option-card" data-vfdif="both" onclick="selectOption(this, 'vfdif')">
+                            <div class="font-semibold mb-1">🔗 Both (analog + Modbus)</div>
+                            <p class="text-slate-400 text-xs">Analog drives speed, Modbus reads status. Best of both.</p>
+                            <p class="text-amber-300 text-xs mt-2 font-mono">Advanced setup</p>
+                        </div>
+                    </div>
+
+                    <!-- VFD model (only for Modbus or Both) -->
+                    <div id="vfd-model-section" class="hidden mb-6">
+                        <label class="text-sm font-semibold mb-2 block">VFD model (Modbus protocol)</label>
+                        <select id="vfd-model" class="input-field" onchange="updatePreview()">
+                            <option value="huanyang-hy02">Huanyang HY02 (most common, hobby)</option>
+                            <option value="huanyang-hy01">Huanyang HY01 (older protocol)</option>
+                            <option value="lapond-svdem">Lapond SVD-EM</option>
+                            <option value="delta-vfdm">Delta VFD-M series</option>
+                            <option value="delta-c2000">Delta C2000 series</option>
+                            <option value="atto-h100">ATO H100 series</option>
+                            <option value="hitachi-wj200">Hitachi WJ200</option>
+                            <option value="generic-modbus">Generic Modbus RTU (manual config)</option>
+                        </select>
+                        <p class="text-xs text-slate-500 mt-2 font-mono">Modbus address: 1 (default) · Baud: 9600 8N1 (most VFDs)</p>
+                    </div>
+
+                    <!-- Max RPM -->
+                    <label class="text-sm font-semibold mb-2 block">Max Spindle RPM</label>
+                    <input type="number" id="max-rpm" class="input-field mb-6" value="24000" min="1000" max="100000" oninput="updatePreview()">
+                </div>
+
+                <div class="flex justify-between">
+                    <button onclick="prevStep(3)" class="border border-slate-700 hover:border-slate-500 px-6 py-3 rounded-md transition">← Back</button>
+                    <button onclick="nextStep(3)" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold px-6 py-3 rounded-md transition" id="next-3">Continue →</button>
+                </div>
+            </div>
+
+            <!-- STEP 4: Safety -->
+            <div id="step-4" class="step-content">
+                <h2 class="text-2xl font-bold mb-2">Safety & Limit Switches</h2>
+                <p class="text-slate-400 mb-6">Configure homing, limit switches, and emergency stop behavior.</p>
+
+                <div class="mb-6">
+                    <label class="text-sm font-semibold mb-2 block">Limit switch type</label>
+                    <div class="grid md:grid-cols-2 gap-3">
+                        <div class="option-card" data-limit="npn" onclick="selectOption(this, 'limit')">
+                            <h3 class="font-semibold mb-1">NPN (sinking) — Recommended</h3>
+                            <p class="text-slate-400 text-sm">Most inductive sensors (LJ12A3, etc.). Active LOW.</p>
+                        </div>
+                        <div class="option-card" data-limit="mechanical" onclick="selectOption(this, 'limit')">
+                            <h3 class="font-semibold mb-1">Mechanical switches</h3>
+                            <p class="text-slate-400 text-sm">Microswitches, optical. NO contact + opto.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="text-sm font-semibold mb-2 block">Homing direction</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" id="home-xy-neg" class="w-4 h-4 accent-cyan-400" checked onchange="updatePreview()">
+                            <span class="text-sm">X, Y home to <span class="font-mono text-cyan-400">MIN</span> (left/front, typical)</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" id="home-z-pos" class="w-4 h-4 accent-cyan-400" checked onchange="updatePreview()">
+                            <span class="text-sm">Z homes to <span class="font-mono text-cyan-400">MAX</span> (top, safer)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- MAX limit switches via DOOR input -->
+                <div class="mb-6">
+                    <label class="text-sm font-semibold mb-2 block">MAX limit protection</label>
+                    <p class="text-xs text-slate-400 mb-3">
+                        RectaBot v1 has individual MIN/HOME switches per axis (X_MIN, Y_MIN, Z_MAX, A_MIN, B_MIN).
+                        The DOOR input (CN32) can be repurposed as a serial chain of mechanical MAX switches —
+                        recommended for routers without safety door.
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-3">
+                        <div class="option-card" data-doorfunc="max-chain" onclick="selectOption(this, 'doorfunc')">
+                            <h3 class="font-semibold mb-1 flex items-center gap-2">
+                                <span>🔗</span> DOOR = MAX switches chain
+                            </h3>
+                            <p class="text-slate-400 text-xs mb-2">
+                                Wire mechanical NC switches in series on X_MAX, Y_MAX, Z_MIN ends.
+                                If any axis hits its end, DOOR opens → grblHAL alarm.
+                            </p>
+                            <p class="text-cyan-400 text-xs font-mono">Recommended for routers</p>
+                        </div>
+                        <div class="option-card" data-doorfunc="safety-door" onclick="selectOption(this, 'doorfunc')">
+                            <h3 class="font-semibold mb-1 flex items-center gap-2">
+                                <span>🚪</span> DOOR = Safety door sensor
+                            </h3>
+                            <p class="text-slate-400 text-xs mb-2">
+                                Cabinet door / enclosure interlock. Pauses motion when door opens.
+                                Use when you have a separate MAX protection or only soft limits.
+                            </p>
+                            <p class="text-slate-500 text-xs font-mono">Mill / enclosed machine</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Soft limits warning if no MAX chain -->
+                <div class="mb-6 bg-amber-500/5 border border-amber-500/30 rounded-lg p-4">
+                    <div class="flex items-start gap-3">
+                        <span class="text-2xl">⚠️</span>
+                        <div class="flex-1">
+                            <p class="text-sm font-semibold text-amber-300 mb-2">Soft limits are CRITICAL</p>
+                            <p class="text-xs text-slate-300">
+                                Without MAX limit switches (DOOR chain) OR soft limits, your machine has
+                                <strong>zero protection</strong> against running off an axis end (crash, motor stall, damage).
+                                Soft limits use the working area from Step 2 as the alarm boundary.
+                                <strong class="text-cyan-300">We recommend enabling both</strong> when possible.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="text-sm font-semibold mb-2 block">Safety features</label>
+                    <div class="space-y-3">
+                        <label class="flex items-start gap-2 cursor-pointer p-3 bg-slate-950/50 border border-slate-800 rounded hover:border-cyan-400 transition">
+                            <input type="checkbox" id="soft-limits" class="w-4 h-4 accent-cyan-400 mt-0.5" checked onchange="updatePreview()">
+                            <div>
+                                <span class="text-sm font-semibold text-cyan-300">Soft limits — RECOMMENDED ON</span>
+                                <p class="text-xs text-slate-400 mt-1">
+                                    grblHAL stops motion before axes exceed the working area defined in Step 2.
+                                    Required after homing ($H). Catches G-code errors that would otherwise crash.
+                                </p>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-2 cursor-pointer p-3 bg-slate-950/50 border border-slate-800 rounded hover:border-cyan-400 transition">
+                            <input type="checkbox" id="hard-limits" class="w-4 h-4 accent-cyan-400 mt-0.5" checked onchange="updatePreview()">
+                            <div>
+                                <span class="text-sm font-semibold">Hard limits</span>
+                                <p class="text-xs text-slate-400 mt-1">
+                                    Motion immediately stops if any limit switch is triggered (alarm state).
+                                    Backup protection on top of soft limits.
+                                </p>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-2 cursor-pointer p-3 bg-slate-950/50 border border-slate-800 rounded hover:border-cyan-400 transition">
+                            <input type="checkbox" id="probe-input" class="w-4 h-4 accent-cyan-400 mt-0.5" checked onchange="updatePreview()">
+                            <div>
+                                <span class="text-sm font-semibold">Tool length probe input</span>
+                                <p class="text-xs text-slate-400 mt-1">
+                                    Enables G38.x probe commands for automatic Z-zero (tool length, surface detection).
+                                </p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="flex justify-between">
+                    <button onclick="prevStep(4)" class="border border-slate-700 hover:border-slate-500 px-6 py-3 rounded-md transition">← Back</button>
+                    <button onclick="nextStep(4)" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold px-6 py-3 rounded-md transition" id="next-4">Generate Config →</button>
+                </div>
+            </div>
+
+            <!-- STEP 5: Generate -->
+            <div id="step-5" class="step-content">
+                <h2 class="text-2xl font-bold mb-2">Your RectaBot Configuration</h2>
+                <p class="text-slate-400 mb-6">Review and download. Apply to your RectaBot via SD card or serial monitor.</p>
+
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="text-sm font-semibold">Configuration preview</label>
+                        <span id="config-summary" class="text-xs text-slate-500 font-mono">XX commands · X.X KB</span>
+                    </div>
+                    <pre id="config-preview" class="config-preview"></pre>
+                </div>
+
+                <!-- WebSerial Direct Flash Section -->
+                <div id="webserial-section" class="bg-gradient-to-br from-cyan-500/10 to-slate-900 border border-cyan-500/30 rounded-xl p-6 mb-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold mb-1 flex items-center gap-2">
+                                <span>⚡</span> Apply directly to RectaBot
+                            </h3>
+                            <p class="text-sm text-slate-300">
+                                Connect via USB-C and apply this config in <strong>30 seconds</strong>.
+                                No PuTTY, no manual setup.
+                            </p>
+                        </div>
+                        <span id="webserial-badge" class="text-xs font-mono bg-emerald-500/20 text-emerald-300 px-2 py-1 rounded">CHROME / EDGE</span>
+                    </div>
+
+                    <!-- Unsupported browser message -->
+                    <div id="webserial-unsupported" class="hidden bg-amber-500/10 border border-amber-500/30 rounded-lg p-4 mb-4">
+                        <p class="text-sm text-amber-300 font-semibold mb-1">⚠️ Your browser doesn't support WebSerial</p>
+                        <p class="text-xs text-slate-300">
+                            WebSerial API requires Chrome, Edge, or Opera (desktop).
+                            Firefox and Safari don't support it yet.
+                            Please use the <strong>Download</strong> option below and apply manually,
+                            or switch to a supported browser.
+                        </p>
+                    </div>
+
+                    <!-- Connect button (default state) -->
+                    <div id="webserial-default">
+                        <button onclick="connectAndFlash()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold py-4 rounded-md transition flex items-center justify-center gap-2 mb-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                            Connect to RectaBot & Apply Configuration
+                        </button>
+                        <p class="text-xs text-slate-500 text-center font-mono">
+                            Power on your RectaBot, connect USB-C, then click above.
+                        </p>
+                    </div>
+
+                    <!-- Active flashing state -->
+                    <div id="webserial-active" class="hidden">
+                        <div class="mb-3">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-semibold" id="webserial-status">Connecting...</span>
+                                <span class="text-xs font-mono text-slate-400" id="webserial-progress">0 / 0</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                                <div id="webserial-progress-bar" class="bg-cyan-400 h-2 rounded-full transition-all" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div id="webserial-log" class="bg-slate-950 border border-slate-800 rounded p-3 font-mono text-xs h-32 overflow-y-auto"></div>
+                        <button onclick="cancelFlash()" class="mt-3 w-full border border-red-500/40 hover:border-red-500 text-red-300 hover:text-red-200 font-semibold py-2 rounded-md transition text-sm">
+                            Cancel
+                        </button>
+                    </div>
+
+                    <!-- Success state -->
+                    <div id="webserial-success" class="hidden">
+                        <div class="text-center py-4">
+                            <div class="text-5xl mb-2">✅</div>
+                            <h4 class="text-xl font-bold text-emerald-400 mb-1">Configuration Applied!</h4>
+                            <p class="text-sm text-slate-300 mb-4" id="webserial-success-detail">All commands sent successfully.</p>
+                            <button onclick="resetWebSerial()" class="border border-slate-700 hover:border-cyan-400 px-6 py-2 rounded-md transition text-sm">
+                                Send another config
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manual options -->
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <button onclick="downloadConfig()" class="border border-slate-700 hover:border-cyan-400 text-slate-100 font-semibold py-4 rounded-md transition flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        Download config.txt
+                    </button>
+                    <button onclick="copyConfig()" class="border border-slate-700 hover:border-cyan-400 font-semibold py-4 rounded-md transition flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                        <span id="copy-text">Copy to clipboard</span>
+                    </button>
+                </div>
+
+                <details class="bg-slate-950 border border-slate-800 rounded-lg p-4 mb-6">
+                    <summary class="font-semibold text-cyan-400 cursor-pointer">📋 Manual setup (PuTTY / Arduino IDE)</summary>
+                    <ol class="text-sm text-slate-300 space-y-2 list-decimal list-inside mt-3">
+                        <li>Install <strong>PuTTY</strong> (Windows) or use <strong>Arduino IDE Serial Monitor</strong></li>
+                        <li>Connect RectaBot via USB-C (Device Manager → find COM port)</li>
+                        <li>Open serial connection at <span class="font-mono text-cyan-400">115200 baud, 8N1</span></li>
+                        <li>Open downloaded <span class="font-mono">rectabot_config.txt</span> in a text editor</li>
+                        <li>Copy commands line-by-line into serial monitor, wait for <span class="font-mono text-emerald-400">ok</span> after each</li>
+                        <li>Verify with <span class="font-mono text-cyan-400">$$</span> command — should show your settings</li>
+                    </ol>
+                </details>
+
+                <div class="flex justify-between">
+                    <button onclick="prevStep(5)" class="border border-slate-700 hover:border-slate-500 px-6 py-3 rounded-md transition">← Back to edit</button>
+                    <button onclick="restart()" class="border border-slate-700 hover:border-slate-500 px-6 py-3 rounded-md transition">Start over</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer note -->
+        <p class="text-center text-xs text-slate-500 mt-6 font-mono">
+            Generated configs are for grblHAL 1.1f on RectaBot v1.0 hardware.
+        </p>
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        const config = {
+            machine: null,
+            axes: null,
+            spindle: null,
+            vfdif: null,
+            limit: null,
+            doorfunc: null
+        };
+
+        let currentStep = 1;
+
+        function selectOption(el, key) {
+            // Remove selected from siblings
+            el.parentElement.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+
+            // Get value
+            const value = el.dataset[key];
+            config[key] = value;
+
+            // Show/hide VFD options
+            if (key === 'spindle') {
+                document.getElementById('vfd-options').classList.toggle('hidden', value !== 'vfd');
+            }
+
+            // Show/hide VFD model section based on interface
+            if (key === 'vfdif') {
+                const needsModbus = (value === 'modbus' || value === 'both');
+                document.getElementById('vfd-model-section').classList.toggle('hidden', !needsModbus);
+            }
+
+            // Show/hide A and B axis sections based on number of axes
+            if (key === 'axes') {
+                const n = parseInt(value);
+                document.getElementById('a-axis-section').classList.toggle('hidden', n < 4);
+                document.getElementById('b-axis-section').classList.toggle('hidden', n < 5);
+            }
+
+            // Enable next button
+            const nextBtn = document.getElementById(`next-${currentStep}`);
+            if (nextBtn) nextBtn.disabled = false;
+
+            updatePreview();
+        }
+
+        // Update axis function hints based on selection
+        function setupAxisFunctionHints() {
+            const aSelect = document.getElementById('a-function');
+            const bSelect = document.getElementById('b-function');
+            const aHint = document.getElementById('a-function-hint');
+            const bHint = document.getElementById('b-function-hint');
+
+            const aHints = {
+                'rotational': 'Independent rotational axis. Configure as degrees/step in next step.',
+                'clone-x':    'Dual-head config. A motor runs in sync with X. Use case: 2 spindles side-by-side cutting in parallel (saves ~50% time).',
+                'clone-y':    'Dual-head config. A motor runs in sync with Y. Use case: 2 spindles front-back (e.g., reljef/relief carving on 2 boards).',
+                'clone-z':    'Rare. A motor mirrors Z motion. Use case: heavy gantry with dual Z support.'
+            };
+            const bHints = {
+                'y2-tandem':   'Y2 tandem with auto-square homing. Two motors drive the same Y axis, homing aligns both ends of the gantry.',
+                'rotational':  'True 5-axis machining. B rotates the spindle head around Y axis. For trunnion or rotating-head setups.',
+                'clone-x':     'Triple-head: A clones X, B also clones X. Very advanced, requires custom mechanics.',
+                'clone-z':     'Heavy-duty Z support. B mirrors Z motion for massive gantries.'
+            };
+
+            if (aSelect && aHint) aSelect.addEventListener('change', () => { aHint.textContent = aHints[aSelect.value] || ''; });
+            if (bSelect && bHint) bSelect.addEventListener('change', () => { bHint.textContent = bHints[bSelect.value] || ''; });
+        }
+        setupAxisFunctionHints();
+
+        function nextStep(from) {
+            if (from === 4) {
+                generateConfig();
+            }
+            goToStep(from + 1);
+        }
+
+        function prevStep(from) {
+            goToStep(from - 1);
+        }
+
+        function goToStep(n) {
+            // Hide all
+            document.querySelectorAll('.step-content').forEach(s => s.classList.remove('active'));
+            // Show target
+            document.getElementById(`step-${n}`).classList.add('active');
+            currentStep = n;
+
+            // Update indicators
+            for (let i = 1; i <= 5; i++) {
+                const ind = document.getElementById(`indicator-${i}`);
+                ind.classList.remove('active', 'pending', 'completed');
+                if (i < n) ind.classList.add('completed');
+                else if (i === n) ind.classList.add('active');
+                else ind.classList.add('pending');
+            }
+            // Update bars
+            for (let i = 1; i < 5; i++) {
+                const bar = document.getElementById(`bar-${i}-${i+1}`);
+                if (bar) bar.style.width = (i < n) ? '100%' : '0%';
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function restart() {
+            Object.keys(config).forEach(k => config[k] = null);
+            document.querySelectorAll('.option-card.selected').forEach(c => c.classList.remove('selected'));
+            document.getElementById('next-1').disabled = true;
+            goToStep(1);
+        }
+
+        // Mechanical → Steps/mm calculation
+        function getStepsPerMm(mech, motorSteps, microstep) {
+            const totalPulses = motorSteps * microstep;
+            const mechMap = {
+                'ballscrew-2':  totalPulses / 2,
+                'ballscrew-4':  totalPulses / 4,
+                'ballscrew-5':  totalPulses / 5,
+                'ballscrew-10': totalPulses / 10,
+                'leadscrew-8':  totalPulses / 8,
+                'belt-gt2-20':  totalPulses / (2 * 20),  // pitch × teeth
+                'belt-gt2-16':  totalPulses / (2 * 16),
+                'rack-pinion':  totalPulses / 10  // placeholder
+            };
+            return mechMap[mech] || 320;
+        }
+
+        function calcSteps() {
+            const motorSteps = parseInt(document.getElementById('motor-steps').value);
+            const microstep = parseInt(document.getElementById('microstep').value);
+            const xyMech = document.getElementById('xy-mech').value;
+            const zMech = document.getElementById('z-mech').value;
+
+            const xyStepsPerMm = getStepsPerMm(xyMech, motorSteps, microstep);
+            const zStepsPerMm = getStepsPerMm(zMech, motorSteps, microstep);
+
+            document.getElementById('xy-steps').innerHTML = `Steps/mm: <span class="text-cyan-400 font-bold">${xyStepsPerMm.toFixed(2)}</span>`;
+            document.getElementById('z-steps').innerHTML = `Steps/mm: <span class="text-cyan-400 font-bold">${zStepsPerMm.toFixed(2)}</span>`;
+
+            updatePreview();
+        }
+
+        function updateDriver() {
+            // Future: adjust step pulse timing based on driver
+        }
+
+        function updatePreview() {
+            // Update working area display in Step 2
+            const xTravel = parseFloat(document.getElementById('xy-travel')?.value || 300);
+            const yTravel = parseFloat(document.getElementById('y-travel')?.value || 200);
+            const zTravel = parseFloat(document.getElementById('z-travel')?.value || 100);
+            const wa = document.getElementById('working-area-display');
+            if (wa) {
+                wa.innerHTML = `<span class="font-mono text-cyan-400">${xTravel} × ${yTravel} × ${zTravel} mm</span> (X × Y × Z)`;
+            }
+        }
+
+        function generateConfig() {
+            const motorSteps = parseInt(document.getElementById('motor-steps').value || 200);
+            const microstep = parseInt(document.getElementById('microstep').value || 8);
+            const xyMech = document.getElementById('xy-mech').value || 'ballscrew-5';
+            const zMech = document.getElementById('z-mech').value || 'ballscrew-4';
+            const xyTravel = parseFloat(document.getElementById('xy-travel').value || 300);
+            const yTravel = parseFloat(document.getElementById('y-travel')?.value || 200);
+            const zTravel = parseFloat(document.getElementById('z-travel').value || 100);
+            const xyStepsPerMm = getStepsPerMm(xyMech, motorSteps, microstep);
+            const zStepsPerMm = getStepsPerMm(zMech, motorSteps, microstep);
+
+            const machine = config.machine || 'router';
+            const axes = parseInt(config.axes || 3);
+            const spindle = config.spindle || 'vfd';
+            const vfdif = config.vfdif || 'analog';
+            const limit = config.limit || 'npn';
+            const doorfunc = config.doorfunc || 'max-chain';
+
+            // Axis functions (clone or rotational)
+            const aFunc = document.getElementById('a-function')?.value || 'rotational';
+            const bFunc = document.getElementById('b-function')?.value || 'y2-tandem';
+
+            const maxRpm = parseInt(document.getElementById('max-rpm')?.value || 24000);
+            const vfdModel = document.getElementById('vfd-model')?.value || 'huanyang-hy02';
+            const hardLimits = document.getElementById('hard-limits').checked ? 1 : 0;
+            const softLimits = document.getElementById('soft-limits').checked ? 1 : 0;
+            const homeXyNeg = document.getElementById('home-xy-neg').checked;
+            const homeZPos = document.getElementById('home-z-pos').checked;
+
+            // Machine-type defaults
+            const presets = {
+                router: { maxRate: 3000, accel: 200, junction: 0.010 },
+                mill:   { maxRate: 1500, accel: 100, junction: 0.005 },
+                laser:  { maxRate: 10000, accel: 500, junction: 0.020 }
+            };
+            const p = presets[machine];
+
+            // Homing mask: X(1) Y(2) Z(4) A(8) B(16). MIN = bit set.
+            let homingMask = 0;
+            if (homeXyNeg) homingMask |= 1 | 2;
+            if (!homeZPos) homingMask |= 4;
+            if (axes >= 4 && aFunc === 'rotational') homingMask |= 8;
+            if (axes >= 5 && bFunc === 'y2-tandem') homingMask |= 16;
+
+            // Spindle defaults
+            const spindleConfig = {
+                vfd:   { maxRpm: maxRpm, laserMode: 0 },
+                laser: { maxRpm: 1000,   laserMode: 1 },
+                pwm:   { maxRpm: 10000,  laserMode: 0 },
+                none:  { maxRpm: 1000,   laserMode: 0 }
+            };
+            const sp = spindleConfig[spindle];
+
+            // VFD Modbus model → grblHAL spindle type ($395)
+            const modbusTypeMap = {
+                'huanyang-hy01': 'SPINDLE_HUANYANG1',
+                'huanyang-hy02': 'SPINDLE_HUANYANG2',
+                'lapond-svdem':  'SPINDLE_MODBUS',
+                'delta-vfdm':    'SPINDLE_DELTA_VFD',
+                'delta-c2000':   'SPINDLE_DELTA_VFD',
+                'atto-h100':     'SPINDLE_MODBUS',
+                'hitachi-wj200': 'SPINDLE_MODBUS',
+                'generic-modbus':'SPINDLE_MODBUS'
+            };
+
+            // Detect non-default firmware needs
+            const nonDefaultAxis = (axes >= 4 && aFunc !== 'rotational') || (axes >= 5 && bFunc !== 'y2-tandem');
+
+            // Limit invert (NPN = active LOW = no invert for grblHAL with pull-up)
+            const limitInvert = limit === 'mechanical' ? 0 : 0;
+
+            // Build config
+            const lines = [];
+            lines.push('; ==========================================================');
+            lines.push('; RectaBot v1.0 -- Generated grblHAL Configuration');
+            lines.push('; Generated: ' + new Date().toISOString().slice(0, 19).replace('T', ' '));
+            lines.push('; ==========================================================');
+            lines.push('; Machine:    ' + machine);
+            lines.push('; Axes:       ' + axes + ' (X/Y/Z' + (axes>=4?'/A':'') + (axes>=5?'/B':'') + ')');
+            if (axes >= 4) lines.push('; A axis:     ' + aFunc);
+            if (axes >= 5) lines.push('; B axis:     ' + bFunc);
+            lines.push('; Motor:      ' + motorSteps + ' steps/rev, ' + microstep + 'x microstep');
+            lines.push('; XY mech:    ' + xyMech + ' -> ' + xyStepsPerMm.toFixed(2) + ' steps/mm');
+            lines.push('; Z mech:     ' + zMech + ' -> ' + zStepsPerMm.toFixed(2) + ' steps/mm');
+            lines.push('; Spindle:    ' + spindle + ' (' + sp.maxRpm + ' RPM max)');
+            if (spindle === 'vfd') {
+                lines.push('; VFD ifc:    ' + vfdif + (vfdif !== 'analog' ? ' (' + vfdModel + ')' : ''));
+            }
+            lines.push('; Limits:     ' + limit);
+            lines.push('; DOOR pin:   ' + (doorfunc === 'max-chain' ? 'MAX switches chain (X/Y/Z_MAX in series)' : 'Safety door sensor'));
+            lines.push('; ==========================================================');
+
+            // Warning for non-default axis config
+            if (nonDefaultAxis) {
+                lines.push('');
+                lines.push('; !!! IMPORTANT: NON-DEFAULT AXIS CONFIGURATION !!!');
+                lines.push('; You selected a clone/mirror axis function (not Y2-tandem or rotational).');
+                lines.push('; This requires a CUSTOM FIRMWARE BUILD with appropriate flags in');
+                lines.push('; my_machine.h (e.g., X_GANGED for A-clone-X).');
+                lines.push('; Default RectaBot firmware uses Y_GANGED + Y_AUTO_SQUARE.');
+                lines.push('; Contact support or rebuild with custom flags before applying.');
+                lines.push('');
+            }
+
+            lines.push('');
+            lines.push('; --- Step / direction / enable (CRITICAL for 74HC14D) ---');
+            lines.push('$0=10');
+            lines.push('$1=25');
+            lines.push('$2=' + ((1 << axes) - 1) + '    ; STEP INVERT (74HC14D inverter)');
+            lines.push('$3=' + ((1 << axes) - 1) + '    ; DIR INVERT');
+            lines.push('$4=1     ; ENABLE INVERT');
+            lines.push('');
+            lines.push('; --- Limits & probe ---');
+            lines.push('$5=' + limitInvert);
+            lines.push('$6=0');
+            lines.push('$7=2');
+            lines.push('');
+            lines.push('; --- Reporting ---');
+            lines.push('$10=895');
+            lines.push('$11=' + p.junction.toFixed(3));
+            lines.push('$12=0.002');
+            lines.push('');
+            lines.push('; --- Working area / soft limits ---');
+            lines.push('; Soft limits use $130/$131/$132 (X/Y/Z travel) as max boundary.');
+            if (softLimits) lines.push('; Requires homing ($H) before motion is allowed.');
+            lines.push('$20=' + softLimits + '     ; soft limits ' + (softLimits ? 'ON (recommended)' : 'OFF (no MAX protection!)'));
+            lines.push('$21=' + hardLimits + '     ; hard limits ' + (hardLimits ? 'ON' : 'OFF'));
+            lines.push('');
+            lines.push('; --- DOOR input (CN32) function ---');
+            if (doorfunc === 'max-chain') {
+                lines.push('; DOOR wired as MAX limit chain (X/Y/Z_MAX mechanical NC switches in series).');
+                lines.push('; If any axis hits its MAX end, the chain opens -> grblHAL alarm.');
+                lines.push('; Firmware: SAFETY_DOOR_ENABLE must be 0 in my_machine.h (default).');
+                lines.push('; Wiring: connect NC switches in series to CN32 between +24V_ISO and IN.');
+            } else {
+                lines.push('; DOOR wired as safety door sensor (cabinet/enclosure interlock).');
+                lines.push('; Firmware: SAFETY_DOOR_ENABLE must be 1 in my_machine.h (custom build).');
+                lines.push('; Behavior: opening door pauses motion (feed hold), closing resumes.');
+            }
+            lines.push('$22=1');
+            lines.push('$23=' + homingMask);
+            lines.push('$24=25.000');
+            lines.push('$25=500.000');
+            lines.push('$26=250');
+            lines.push('$27=1.000');
+            lines.push('');
+            lines.push('; --- Spindle ---');
+            lines.push('$30=' + sp.maxRpm);
+            lines.push('$31=0');
+            lines.push('$32=' + sp.laserMode);
+            lines.push('$33=5000');
+
+            // Modbus VFD specific settings
+            if (spindle === 'vfd' && (vfdif === 'modbus' || vfdif === 'both')) {
+                lines.push('');
+                lines.push('; --- VFD Modbus interface (RS-485 on CN22) ---');
+                lines.push('; Spindle type for $395 (requires firmware rebuild to enable)');
+                lines.push('; ' + modbusTypeMap[vfdModel]);
+                lines.push('$374=9600  ; Modbus baud rate');
+                lines.push('$375=1     ; Modbus device address');
+                if (vfdif === 'both') {
+                    lines.push('; Note: With "Both" interface, analog 0-10V drives speed,');
+                    lines.push(';       Modbus reads status (RPM feedback, error codes).');
+                }
+            }
+
+            lines.push('');
+            lines.push('; --- X axis ---');
+            lines.push('$100=' + xyStepsPerMm.toFixed(3));
+            lines.push('$110=' + p.maxRate.toFixed(3));
+            lines.push('$120=' + p.accel.toFixed(3));
+            lines.push('$130=' + xyTravel.toFixed(3));
+            lines.push('');
+            lines.push('; --- Y axis ---');
+            lines.push('$101=' + xyStepsPerMm.toFixed(3));
+            lines.push('$111=' + p.maxRate.toFixed(3));
+            lines.push('$121=' + p.accel.toFixed(3));
+            lines.push('$131=' + yTravel.toFixed(3));
+            lines.push('');
+            lines.push('; --- Z axis ---');
+            lines.push('$102=' + zStepsPerMm.toFixed(3));
+            lines.push('$112=' + (p.maxRate / 2).toFixed(3));
+            lines.push('$122=' + (p.accel * 0.75).toFixed(3));
+            lines.push('$132=' + zTravel.toFixed(3));
+
+            // A axis config based on function
+            if (axes >= 4) {
+                lines.push('');
+                if (aFunc === 'rotational') {
+                    lines.push('; --- A axis (rotational, degrees) ---');
+                    lines.push('$103=88.888    ; degrees/step (200x8 / 18 deg/rev gearbox)');
+                    lines.push('$113=3600.000');
+                    lines.push('$123=500.000');
+                    lines.push('$133=360.000');
+                } else {
+                    const cloneSource = aFunc.replace('clone-', '').toUpperCase();
+                    const cloneSteps = (cloneSource === 'Z') ? zStepsPerMm : xyStepsPerMm;
+                    const cloneRate = (cloneSource === 'Z') ? p.maxRate / 2 : p.maxRate;
+                    const cloneAccel = (cloneSource === 'Z') ? p.accel * 0.75 : p.accel;
+                    const cloneTravel = (cloneSource === 'Z') ? zTravel : xyTravel;
+                    lines.push('; --- A axis (CLONE of ' + cloneSource + ' axis) ---');
+                    lines.push('; Same parameters as ' + cloneSource + ' for synchronized motion');
+                    lines.push('$103=' + cloneSteps.toFixed(3));
+                    lines.push('$113=' + cloneRate.toFixed(3));
+                    lines.push('$123=' + cloneAccel.toFixed(3));
+                    lines.push('$133=' + cloneTravel.toFixed(3));
+                }
+            }
+
+            // B axis config based on function
+            if (axes >= 5) {
+                lines.push('');
+                if (bFunc === 'y2-tandem') {
+                    lines.push('; --- B axis (Y2 tandem, auto-square gantry) ---');
+                    lines.push('$104=' + xyStepsPerMm.toFixed(3));
+                    lines.push('$114=' + p.maxRate.toFixed(3));
+                    lines.push('$124=' + p.accel.toFixed(3));
+                    lines.push('$134=' + xyTravel.toFixed(3));
+                } else if (bFunc === 'rotational') {
+                    lines.push('; --- B axis (rotational, true 5-axis) ---');
+                    lines.push('$104=88.888    ; degrees/step');
+                    lines.push('$114=3600.000');
+                    lines.push('$124=500.000');
+                    lines.push('$134=360.000');
+                } else {
+                    const cloneSource = bFunc.replace('clone-', '').toUpperCase();
+                    const cloneSteps = (cloneSource === 'Z') ? zStepsPerMm : xyStepsPerMm;
+                    const cloneRate = (cloneSource === 'Z') ? p.maxRate / 2 : p.maxRate;
+                    const cloneAccel = (cloneSource === 'Z') ? p.accel * 0.75 : p.accel;
+                    const cloneTravel = (cloneSource === 'Z') ? zTravel : xyTravel;
+                    lines.push('; --- B axis (CLONE of ' + cloneSource + ' axis) ---');
+                    lines.push('$104=' + cloneSteps.toFixed(3));
+                    lines.push('$114=' + cloneRate.toFixed(3));
+                    lines.push('$124=' + cloneAccel.toFixed(3));
+                    lines.push('$134=' + cloneTravel.toFixed(3));
+                }
+            }
+
+            const configText = lines.join('\n');
+            const preview = document.getElementById('config-preview');
+            preview.innerHTML = configText
+                .replace(/(;[^\n]*)/g, '<span class="comment">$1</span>')
+                .replace(/(\$\d+)/g, '<span class="cmd">$1</span>')
+                .replace(/(=)([^\n;]*)/g, '$1<span class="val">$2</span>');
+
+            const cmds = configText.split('\n').filter(l => l.startsWith('$')).length;
+            const kb = (configText.length / 1024).toFixed(1);
+            document.getElementById('config-summary').textContent = cmds + ' commands  ' + kb + ' KB';
+
+            // Store raw for download
+            window.generatedConfig = configText;
+        }
+
+        function downloadConfig() {
+            // UTF-8 BOM for proper encoding in all text editors (Notepad, etc.)
+            const BOM = '﻿';
+            const blob = new Blob([BOM + window.generatedConfig], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'rectabot_config.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function copyConfig() {
+            navigator.clipboard.writeText(window.generatedConfig).then(() => {
+                const btn = document.getElementById('copy-text');
+                const original = btn.textContent;
+                btn.textContent = '✓ Copied!';
+                setTimeout(() => { btn.textContent = original; }, 2000);
+            });
+        }
+
+        // Initial steps calculation
+        calcSteps();
+
+        // =====================================================
+        // WebSerial API — Direct flash to RectaBot
+        // =====================================================
+
+        let serialPort = null;
+        let serialReader = null;
+        let serialWriter = null;
+        let cancelFlashing = false;
+
+        // Check browser support
+        function checkWebSerialSupport() {
+            if (!('serial' in navigator)) {
+                document.getElementById('webserial-unsupported').classList.remove('hidden');
+                document.getElementById('webserial-default').classList.add('hidden');
+                document.getElementById('webserial-badge').textContent = 'NOT SUPPORTED';
+                document.getElementById('webserial-badge').className = 'text-xs font-mono bg-red-500/20 text-red-300 px-2 py-1 rounded';
+            }
+        }
+        checkWebSerialSupport();
+
+        // Append line to log
+        function appendLog(text, type = 'info') {
+            const log = document.getElementById('webserial-log');
+            const colors = {
+                info: 'text-slate-400',
+                send: 'text-cyan-400',
+                ok: 'text-emerald-400',
+                error: 'text-red-400',
+                warn: 'text-amber-300'
+            };
+            const div = document.createElement('div');
+            div.className = colors[type] || colors.info;
+            div.textContent = text;
+            log.appendChild(div);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        // Wait for "ok" or "error" response with timeout
+        async function readUntilResponse(timeoutMs = 3000) {
+            const decoder = new TextDecoder();
+            let buffer = '';
+            const deadline = Date.now() + timeoutMs;
+
+            while (Date.now() < deadline) {
+                if (cancelFlashing) throw new Error('Cancelled by user');
+
+                const remaining = deadline - Date.now();
+                if (remaining <= 0) break;
+
+                try {
+                    const { value, done } = await Promise.race([
+                        serialReader.read(),
+                        new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), remaining))
+                    ]);
+                    if (done) break;
+                    buffer += decoder.decode(value, { stream: true });
+
+                    // Check for ok/error/alarm in any line
+                    const lines = buffer.split(/[\r\n]+/);
+                    for (const line of lines) {
+                        const lower = line.trim().toLowerCase();
+                        if (lower === 'ok') return { success: true, message: 'ok' };
+                        if (lower.startsWith('error')) return { success: false, message: line.trim() };
+                        if (lower.startsWith('alarm')) return { success: false, message: line.trim() };
+                    }
+                } catch (e) {
+                    if (e.message === 'timeout') break;
+                    throw e;
+                }
+            }
+            return { success: false, message: 'No response (timeout)' };
+        }
+
+        // Connect to RectaBot and flash config
+        async function connectAndFlash() {
+            if (!('serial' in navigator)) {
+                checkWebSerialSupport();
+                return;
+            }
+
+            cancelFlashing = false;
+
+            // Switch UI to active state
+            document.getElementById('webserial-default').classList.add('hidden');
+            document.getElementById('webserial-active').classList.remove('hidden');
+            document.getElementById('webserial-success').classList.add('hidden');
+
+            const log = document.getElementById('webserial-log');
+            log.innerHTML = '';
+            const status = document.getElementById('webserial-status');
+            const progressBar = document.getElementById('webserial-progress-bar');
+            const progressText = document.getElementById('webserial-progress');
+
+            try {
+                // Request port
+                status.textContent = 'Requesting USB port...';
+                appendLog('> Requesting USB port...', 'info');
+                serialPort = await navigator.serial.requestPort();
+                appendLog('  Port selected.', 'ok');
+
+                // Open at 115200
+                status.textContent = 'Opening connection (115200 8N1)...';
+                appendLog('> Opening port at 115200 baud...', 'info');
+                await serialPort.open({
+                    baudRate: 115200,
+                    dataBits: 8,
+                    parity: 'none',
+                    stopBits: 1,
+                    flowControl: 'none'
+                });
+                appendLog('  Connected to RectaBot.', 'ok');
+
+                serialReader = serialPort.readable.getReader();
+                serialWriter = serialPort.writable.getWriter();
+                const encoder = new TextEncoder();
+
+                // Drain any boot banner
+                status.textContent = 'Initializing...';
+                await new Promise(r => setTimeout(r, 500));
+                try {
+                    await Promise.race([
+                        serialReader.read(),
+                        new Promise(r => setTimeout(r, 800))
+                    ]);
+                } catch (e) {}
+
+                // Extract executable commands ($-lines and ; for context comments)
+                const allLines = window.generatedConfig.split('\n');
+                const commands = allLines
+                    .map(l => l.trim())
+                    .filter(l => l.length > 0 && l.startsWith('$'));
+
+                progressText.textContent = `0 / ${commands.length}`;
+                status.textContent = 'Sending configuration...';
+
+                let okCount = 0;
+                let errCount = 0;
+
+                for (let i = 0; i < commands.length; i++) {
+                    if (cancelFlashing) {
+                        appendLog('> Cancelled by user.', 'warn');
+                        break;
+                    }
+
+                    const cmd = commands[i];
+                    appendLog('< ' + cmd, 'send');
+
+                    await serialWriter.write(encoder.encode(cmd + '\n'));
+                    const resp = await readUntilResponse(3000);
+
+                    if (resp.success) {
+                        appendLog('  ' + resp.message, 'ok');
+                        okCount++;
+                    } else {
+                        appendLog('  ' + resp.message, 'error');
+                        errCount++;
+                    }
+
+                    const done = i + 1;
+                    const pct = Math.round((done / commands.length) * 100);
+                    progressBar.style.width = pct + '%';
+                    progressText.textContent = `${done} / ${commands.length}`;
+                }
+
+                // Cleanup
+                serialReader.releaseLock();
+                serialWriter.releaseLock();
+                await serialPort.close();
+                serialPort = null;
+                serialReader = null;
+                serialWriter = null;
+
+                // Show success
+                if (!cancelFlashing) {
+                    document.getElementById('webserial-active').classList.add('hidden');
+                    document.getElementById('webserial-success').classList.remove('hidden');
+                    const detail = document.getElementById('webserial-success-detail');
+                    if (errCount === 0) {
+                        detail.textContent = `All ${okCount} commands accepted by grblHAL.`;
+                    } else {
+                        detail.innerHTML = `<span class="text-amber-300">${okCount} accepted, ${errCount} errors</span> — check log for details.`;
+                    }
+                } else {
+                    resetWebSerial();
+                }
+
+            } catch (err) {
+                appendLog('> ERROR: ' + err.message, 'error');
+                status.textContent = 'Failed';
+
+                // Cleanup on error
+                try {
+                    if (serialReader) { serialReader.releaseLock(); serialReader = null; }
+                    if (serialWriter) { serialWriter.releaseLock(); serialWriter = null; }
+                    if (serialPort) { await serialPort.close(); serialPort = null; }
+                } catch (e) {}
+
+                setTimeout(() => {
+                    if (confirm('Connection failed: ' + err.message + '\n\nReturn to start?')) {
+                        resetWebSerial();
+                    }
+                }, 500);
+            }
+        }
+
+        // Cancel ongoing flash
+        async function cancelFlash() {
+            cancelFlashing = true;
+            try {
+                if (serialReader) { serialReader.releaseLock(); serialReader = null; }
+                if (serialWriter) { serialWriter.releaseLock(); serialWriter = null; }
+                if (serialPort) { await serialPort.close(); serialPort = null; }
+            } catch (e) {}
+            resetWebSerial();
+        }
+
+        // Reset to default UI
+        function resetWebSerial() {
+            document.getElementById('webserial-default').classList.remove('hidden');
+            document.getElementById('webserial-active').classList.add('hidden');
+            document.getElementById('webserial-success').classList.add('hidden');
+            cancelFlashing = false;
+        }
+    </script>
+</body>
+</html>

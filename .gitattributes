@@ -1,0 +1,36 @@
+# Auto-detect text files and normalize line endings to LF in repo
+* text=auto eol=lf
+
+# Force binary handling for these
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.zip binary
+*.uf2 binary
+*.bin binary
+*.elf binary
+*.hex binary
+
+# Gerber files are text but preserve formatting
+*.GBL text eol=lf
+*.GBO text eol=lf
+*.GBP text eol=lf
+*.GBS text eol=lf
+*.GDD text eol=lf
+*.GDL text eol=lf
+*.GKO text eol=lf
+*.GTL text eol=lf
+*.GTO text eol=lf
+*.GTP text eol=lf
+*.GTS text eol=lf
+*.G1  text eol=lf
+*.G2  text eol=lf
+*.DRL text eol=lf
+
+# CSVs preserve as-is
+*.csv text eol=lf
+
+# Markdown standard LF
+*.md text eol=lf

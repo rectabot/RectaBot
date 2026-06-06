@@ -1,0 +1,45 @@
+RectaBot Hardware Design Files
+==============================
+
+Copyright (c) 2026 Filip Perić, RectaBot
+
+The hardware design files in this repository, including but not limited to:
+- All Gerber files (Docs/Gerber_RectaBot_1.0/)
+- Bill of Materials (Docs/BOM_v1.0_final.csv)
+- Component Placement List (Docs/CPL_RectaBot_V1.0.csv)
+- Schematic references and design documentation
+- Pinout, layout, and PCB design specifications
+
+are licensed under the **CERN Open Hardware Licence Version 2 - Strongly Reciprocal (CERN-OHL-S v2)**.
+
+You may redistribute and modify this hardware design under the terms of the
+CERN-OHL-S v2. This hardware is distributed WITHOUT ANY EXPRESS OR IMPLIED
+WARRANTY, INCLUDING OF MERCHANTABILITY, SATISFACTORY QUALITY AND FITNESS FOR
+A PARTICULAR PURPOSE.
+
+Please see the CERN-OHL-S v2 for applicable conditions.
+
+Source location: https://github.com/rectabot/RectaBot
+License text: https://ohwr.org/cern_ohl_s_v2.txt
+
+---
+
+## Summary of CERN-OHL-S v2 obligations (informal)
+
+If you make and distribute a product based on this hardware design (or a
+modified version), you MUST:
+
+1. **Share modifications**: Publish your modified design files under the
+   same CERN-OHL-S v2 license
+2. **Provide source**: Make the complete design source files available to
+   recipients (Gerbers, schematics, BOM, CPL)
+3. **License notice**: Include this license file with distributions
+4. **Patent notice**: If you hold relevant patents, grant a patent license
+
+You MAY:
+- Build the hardware for personal use without obligations
+- Sell finished products without obligations on the buyer
+- Modify the design for your own use
+- Use the design for commercial purposes (with the above obligations)
+
+For full legal terms, see: https://ohwr.org/cern_ohl_s_v2.txt
