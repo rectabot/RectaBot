@@ -1,309 +1,309 @@
 # RectaBot v1.0 — First Power-On Procedure
 
-**Bezbedno uključivanje ploče prvi put — sa multimetrom u ruci.**
+**Safely powering up the board for the first time — with a multimeter in hand.**
 
-Procenjeno vreme: **15-30 min** (pažljivo, bez žurbe).
+Estimated time: **15-30 min** (carefully, no rush).
 
-> ⚠️ **UPOZORENJE:** Ovo je najrizičniji trenutak ceo proces. Greška ovde može uništiti $77 ploču. Idi **lagano**, prati svaki korak.
-
----
-
-## 🎯 Cilj ovog dokumenta
-
-1. **Detektovati kritične greške** (short circuits, pogrešne polaritete) PRE nego što struja pređe preko PCB-a
-2. **Verifikovati sve napone** posle uključenja
-3. **Postaviti baseline** za buduće troubleshooting
+> ⚠️ **WARNING:** This is the riskiest moment of the entire process. A mistake here can destroy a $77 board. Go **slowly** and follow every step.
 
 ---
 
-## 🛡️ Korak 1: Pre-Power Continuity Tests
+## 🎯 Purpose of this document
 
-**Multimeter u Continuity mode (sa zujalicom).**
+1. **Detect critical mistakes** (short circuits, wrong polarities) BEFORE current flows through the PCB
+2. **Verify all voltages** after power-on
+3. **Establish a baseline** for future troubleshooting
 
-### 1a. Power rail short circuit testovi
+---
 
-Postavi multimeter sonde između sledećih tačaka i proveri **nema continuity** (multimeter ne pišti):
+## 🛡️ Step 1: Pre-power continuity tests
 
-| Test tačka 1 | Test tačka 2 | Očekivano | Šta znači ako pišti |
+**Multimeter in Continuity mode (with the buzzer).**
+
+### 1a. Power rail short-circuit tests
+
+Place the multimeter probes between the following points and verify that there is **NO continuity** (no beep):
+
+| Test point 1 | Test point 2 | Expected | What a beep means |
 |---|---|---|---|
-| **CN42 pin 1** (+24V) | **CN42 pin 2** (GND) | NO continuity | 24V short → ne uključuj! |
+| **CN42 pin 1** (+24V) | **CN42 pin 2** (GND) | NO continuity | 24V short → do not power on! |
 | **+5V rail** (USB-C VBUS pin) | **GND** (USB-C shell) | NO continuity | 5V short → TPS5430 problem |
-| **+3.3V rail** (RP2350 pin 3) | **GND** | NO continuity | 3.3V short → AMS1117 ili MCU pad bridge |
+| **+3.3V rail** (RP2350 pin 3) | **GND** | NO continuity | 3.3V short → AMS1117 or MCU pad bridge |
 | **24V_ISO** (U3 pin 3) | **GND_ISO** (U3 pin 4) | NO continuity | ISO short → opto LED rail problem |
 | **CN39 pin 1** (VFD_10V) | **GND** | NO continuity | Spindle output short |
 
-**Šta uraditi ako bilo koji test pišti:**
-1. **NE UKLJUČUJ** napajanje
-2. Inspektuj PCB pod lupom — traži solder bridge na power pinovima
-3. Ako je bridge na QFN-80 (RP2350) → reword sa flux + braid + hot air
-4. Ako je bridge ispod TH komponente → demontiraj, čistiti, vrati
+**What to do if any test beeps:**
+1. **DO NOT POWER ON**
+2. Inspect the PCB under a loupe — look for solder bridges on power pins
+3. If the bridge is on the QFN-80 (RP2350) → rework with flux + braid + hot air
+4. If the bridge is under a TH component → desolder, clean, resolder
 
-### 1b. Polariteti TH komponenti (vizuelna provera)
+### 1b. TH component polarities (visual check)
 
-Pre power-on-a, **još jednom** vizuelno proveri:
+Before power-on, visually verify **one more time**:
 
-- ✅ **D7 Zener** — katoda (crna traka na telu) ide ka **SPIN_10V** net-u (silkscreen označava katodu)
-- ✅ **C7 100µF elektrolit** — pozitivna noga (duža) na **+5V** strani (silkscreen: + simbol)
-  - **Negativna noga** ima belu traku na kućištu (cilindrični deo)
-- ✅ **U3 B2424S** — pin 1 marker (tačka ili broj 1) usklađen sa PCB silkscreen-om
+- ✅ **D7 Zener** — the cathode (black band on the body) faces the **SPIN_10V** net (the silkscreen marks the cathode)
+- ✅ **C7 100µF electrolytic** — positive lead (longer) on the **+5V** side (silkscreen: + symbol)
+  - The **negative lead** has a white band on the can (cylindrical body)
+- ✅ **U3 B2424S** — pin 1 marker (dot or "1") aligned with the PCB silkscreen
 
-**Greška na C7 polaritetu = eksplozija pri power-on-u.** Proveri DVAPUT.
+**A C7 polarity mistake = explosion at power-on.** Check TWICE.
 
 ### 1c. Connector seating
-- ✅ Svi KEFA konektori (CN22-CN42) čvrsto sede, nema labavih pinova
-- ✅ RJ1 RJ45 pravilno orijentisan, LED-ice spolja
-- ✅ MicroSD slot (CARD1) klikne push-push mehanikom
+- ✅ All KEFA connectors (CN22-CN42) sit firmly with no loose pins
+- ✅ RJ1 RJ45 correctly oriented, LEDs facing outward
+- ✅ MicroSD slot (CARD1) clicks via the push-push mechanism
 
 ---
 
-## ⚡ Korak 2: First Power-On (sa current-limited napajanjem)
+## ⚡ Step 2: First power-on (with a current-limited supply)
 
-> 💡 **Pro tip:** Ako imaš laboratorijsko napajanje sa **current limit** funkcijom, postavi limit na **500mA** prvi put. Ako ploča vuče više od toga → nešto je short i power supply će se "fold-back-ovati" pre nego što išta uništiš.
+> 💡 **Pro tip:** if you have a lab power supply with a **current limit** feature, set the limit to **500mA** on the first try. If the board draws more than that → something is shorted, and the PSU will fold back before anything is destroyed.
 
-### 2a. Pripremi napajanje
-- **24V DC, 2A min** (Mean Well RS-50-24, ili slično)
-- **Polaritet:** crveni žica = **+24V**, crni = **GND** (ili plavi/braon u industrijskim)
-- Priključi na **CN42**:
+### 2a. Prepare the power supply
+- **24V DC, 2A min** (Mean Well RS-50-24 or similar)
+- **Polarity:** red wire = **+24V**, black = **GND** (or blue/brown on industrial ones)
+- Connect to **CN42**:
   - **Pin 1 = +24V**
   - **Pin 2 = GND**
 
 ### 2b. Power ON
 
-1. Drži ploču dalje od metalnih površina (ESD bezbednost)
-2. **Uključi napajanje** (prebaci switch ili ukoči kabl)
-3. **Posmatraj LED-ice** u sledećih 2 sekunde:
+1. Keep the board away from metal surfaces (ESD safety)
+2. **Turn on the power supply** (flip the switch or plug in the cable)
+3. **Watch the LEDs** in the next 2 seconds:
 
-### 2c. LED indikator sekvenca (očekivano)
+### 2c. LED indicator sequence (expected)
 
-| LED | Lokacija | Kad svetli | Šta indicira |
+| LED | Location | When it lights | What it indicates |
 |---|---|---|---|
-| **D1 - 24V power** | Blizu CN42 | Odmah pri power-on | +24V rail OK |
-| **D2 - 5V power** | Blizu TPS5430 | ~10ms posle | +5V buck radi |
-| **D3 - 3V3 power** | Blizu AMS1117 | ~50ms posle | +3.3V LDO radi, MCU napaja |
-| **D4 - 24V_ISO** | Blizu U3 | ~100ms posle | ISO rail aktivan (opto napajanje) |
-| **D5 - USB activity** | Blizu USB-C | OFF (bez USB kabla) | Off je OK kad nema PC veze |
+| **D1 - 24V power** | Near CN42 | Immediately at power-on | +24V rail OK |
+| **D2 - 5V power** | Near TPS5430 | ~10ms later | +5V buck working |
+| **D3 - 3V3 power** | Near AMS1117 | ~50ms later | +3.3V LDO working, MCU powered |
+| **D4 - 24V_ISO** | Near U3 | ~100ms later | ISO rail active (opto supply) |
+| **D5 - USB activity** | Near USB-C | OFF (no USB cable) | Off is OK with no PC connection |
 
-**Ako bilo koja od D1-D4 ne svetli:**
-- **Odmah isključi napajanje** (cut power)
-- Vidi Troubleshooting sekciju ispod
+**If any of D1-D4 does not light up:**
+- **Power off immediately** (cut power)
+- See the Troubleshooting section below
 
-### 2d. Senzorni provera (njuh + dodir)
+### 2d. Sensory check (smell + touch)
 
-U prvih 30 sekundi:
-- ❌ **NEMA zaspaljenja** ili dima iz bilo koje komponente
-- ❌ **NEMA "spuckling" zvukova** (znak kratkog spoja koji vibrira)
-- ✅ **Komponente su HLADNE** ili maksimalno blago tople:
-  - TPS5430 (U1) i AMS1117 (U2) mogu biti **prijatno tople** (~40°C) pod normalnim load-om
-  - RP2350B (U4) treba biti **hladan** (idle ~32°C)
-  - LM358 (U23) treba biti **hladan**
+In the first 30 seconds:
+- ❌ **NO burning smell** or smoke from any component
+- ❌ **NO "spuckling" sounds** (sign of a short that arcs)
+- ✅ **Components are COLD** or at most mildly warm:
+  - TPS5430 (U1) and AMS1117 (U2) can be **pleasantly warm** (~40°C) under normal load
+  - RP2350B (U4) should be **cold** (idle ~32°C)
+  - LM358 (U23) should be **cold**
 
-**Ako ijedna komponenta postaje vruća za dodir (>60°C) u 30 sekundi:**
-- **CUT POWER ODMAH**
-- Verovatno postoji short circuit ili pogrešno lemljena komponenta
+**If any component becomes too hot to touch (>60°C) within 30 seconds:**
+- **CUT POWER IMMEDIATELY**
+- A short circuit or misplaced component is the likely cause
 
 ---
 
-## 🔬 Korak 3: Verifikacija napona (multimeter)
+## 🔬 Step 3: Voltage verification (multimeter)
 
-**Multimeter u DC Voltage mode (0-50V range).**
+**Multimeter in DC Voltage mode (0-50V range).**
 
-### 3a. Power rails measurements
+### 3a. Power rail measurements
 
-Sa **napajanjem uključenim**, izmeri sledeće (crna sonda na GND, crvena na test tačku):
+With **power on**, measure the following (black probe on GND, red on the test point):
 
-| Test tačka | Očekivano | Tolerancija | Akcija ako out of spec |
+| Test point | Expected | Tolerance | Action if out of spec |
 |---|---|---|---|
-| **CN42 pin 1 (24V_IN)** | 24.00V | 23.5 - 24.5V | Proveri napajanje |
+| **CN42 pin 1 (24V_IN)** | 24.00V | 23.5 - 24.5V | Check the power supply |
 | **+5V rail (LM358 pin 8)** | 5.00V | 4.95 - 5.05V | TPS5430 buck problem |
 | **+3.3V rail (RP2350 pin 50)** | 3.30V | 3.25 - 3.35V | AMS1117 LDO problem |
-| **+24V_ISO (U3 pin 3)** | 24.00V | 23.0 - 25.0V | B2424S izolovani DC/DC problem |
-| **CN39 pin 1 (VFD_10V)** | 0.00V | 0 - 0.1V | LM358 output stuck — sa 0% PWM treba biti 0V |
+| **+24V_ISO (U3 pin 3)** | 24.00V | 23.0 - 25.0V | B2424S isolated DC/DC problem |
+| **CN39 pin 1 (VFD_10V)** | 0.00V | 0 - 0.1V | LM358 output stuck — at 0% PWM it should be 0V |
 
 ### 3b. Ground reference verification (input-side isolation)
 
-**v1 koristi optičku izolaciju SAMO na ulazima** (CN23-CN32). Stepper outputs, VFD, AUX (SSR) i komunikacija dele MCU ground. Test proverava input-side barijeru:
+**v1 uses optical isolation ONLY on the inputs** (CN23-CN32). Stepper outputs, VFD, AUX (SSR), and communication share the MCU ground. The test verifies the input-side barrier:
 
-| Test tačka 1 | Test tačka 2 | Očekivano | Šta znači |
+| Test point 1 | Test point 2 | Expected | What it means |
 |---|---|---|---|
-| **GND (USB shell)** | **GND_ISO (CN23 pin 3, isolated input strana)** | **NEMA continuity** u DC | Input-side barijera radi ✓ |
-| **CGND (RJ45 shell)** | **GND** | ~0V kroz 1Mohm + 1nF/2kV | Bob Smith termination radi |
-| **GND (USB shell)** | **GND (CN34 pin 4, stepper)** | **IMA continuity** (≈0Ω) | Stepper deli MCU GND (po dizajnu) ✓ |
+| **GND (USB shell)** | **GND_ISO (CN23 pin 3, isolated input side)** | **NO continuity** in DC | Input-side barrier works ✓ |
+| **CGND (RJ45 shell)** | **GND** | ~0V through 1MΩ + 1nF/2kV | Bob Smith termination works |
+| **GND (USB shell)** | **GND (CN34 pin 4, stepper)** | **HAS continuity** (≈0Ω) | Stepper shares MCU GND (by design) ✓ |
 
-**Ako GND i GND_ISO imaju continuity (zujalica pišti):**
-- Input-side izolaciona barijera je probijena
-- Verovatno solder bridge preko 2mm void barijere
-- Vidi Troubleshooting
+**If GND and GND_ISO have continuity (the buzzer beeps):**
+- The input-side isolation barrier is breached
+- Probably a solder bridge across the 2mm void barrier
+- See Troubleshooting
 
-**Napomena za v2:** Stepper, VFD, i AUX strane planirane su za full izolaciju u v2 (zasebni 24V_ISO_OUT rail).
+**Note for v2:** the stepper, VFD, and AUX sides are planned for full isolation in v2 (a separate 24V_ISO_OUT rail).
 
 ---
 
-## 💾 Korak 4: USB Enumeration Test
+## 💾 Step 4: USB enumeration test
 
-### 4a. Priključi USB-C kabl
-- PC stranu USB-C kabla u kompjuter
-- RectaBot stranu u USB-C port na ploči
+### 4a. Connect the USB-C cable
+- PC side of the USB-C cable into the computer
+- RectaBot side into the USB-C port on the board
 
-### 4b. Posmatraj
-- **D5 (USB activity LED)** treba da svetli
-- Windows/macOS treba da prepoznati **novi USB uređaj**:
-  - **Bez firmware-a:** "USB Device" sa nepoznatim VID/PID (normalno)
-  - **Sa BOOTSEL aktivnim:** "RPI-RP2" Mass Storage Device
+### 4b. Observe
+- **D5 (USB activity LED)** should light up
+- Windows/macOS should recognize a **new USB device**:
+  - **Without firmware:** "USB Device" with unknown VID/PID (normal)
+  - **With BOOTSEL active:** "RPI-RP2" Mass Storage Device
 
 ### 4c. BOOTSEL test
-1. Pritisni i drži **BOOT taster** (oznaka B na PCB-u)
-2. Pritisni i pusti **RESET taster** (oznaka R na PCB-u)
-3. Pusti BOOT taster
-4. **Očekivano:** Windows pravi "USB connected" zvuk, otvara se `RPI-RP2` drive
+1. Press and hold the **BOOT button** (marked B on the PCB)
+2. Press and release the **RESET button** (marked R on the PCB)
+3. Release the BOOT button
+4. **Expected:** Windows plays a "USB connected" sound, the `RPI-RP2` drive opens
 
-**Ako BOOTSEL ne radi:**
-- BOOT taster nije dobro lemljen — proveri konektivnost
-- RESET taster ne pravi clean kontakt — proveri continuity multimetrom
+**If BOOTSEL doesn't work:**
+- The BOOT button is poorly soldered — check connectivity
+- The RESET button does not make a clean contact — check continuity with the multimeter
 
 ---
 
-## 🌐 Korak 5: Ethernet PHY Test (opciono)
+## 🌐 Step 5: Ethernet PHY test (optional)
 
-### 5a. Vizuelni check
-1. Priključi **RJ45 patch kabl** (Cat5e ili Cat6) između RJ1 i router-a
-2. **LINK LED na RJ1** treba da svetli (zelena)
-3. **ACT LED na RJ1** treba da trepće (žuta)
+### 5a. Visual check
+1. Connect an **RJ45 patch cable** (Cat5e or Cat6) between RJ1 and your router
+2. **LINK LED on RJ1** should light up (green)
+3. **ACT LED on RJ1** should blink (yellow)
 
-### 5b. Bez firmware-a
-Ako nema firmware-a, W5500 se ne inicijalizuje, ali RJ45 magnetics rade na fizičkom nivou — LINK LED bi trebao da svetli ako je hardver OK.
+### 5b. Without firmware
+Without firmware, the W5500 doesn't initialize, but the RJ45 magnetics work at the physical level — the LINK LED should light up if the hardware is OK.
 
-### 5c. Sa firmware-om (kasnije)
-Posle flash-a grblHAL-a, W5500 dobija IP preko DHCP, možeš pingovati:
+### 5c. With firmware (later)
+After flashing grblHAL, the W5500 acquires an IP via DHCP, and you can ping:
 ```
-ping rectabot.local       # mDNS (ako podržano)
-ping <ip-from-router>     # direktno
+ping rectabot.local       # mDNS (if supported)
+ping <ip-from-router>     # direct
 ```
 
 ---
 
 ## 🆘 Troubleshooting
 
-### Problem: 24V LED ne svetli
-**Uzroci:**
-- Pogrešan polaritet napajanja (CN42 pin 1 i 2 zamenjeni)
-- SS54 Schottky dioda (D1) je probijena ili lemljena obrnuto
-- Prekid trace-a između CN42 i power tree-a
+### Problem: 24V LED does not light up
+**Causes:**
+- Wrong power-supply polarity (CN42 pin 1 and 2 swapped)
+- SS54 Schottky diode (D1) is fried or soldered reversed
+- Trace broken between CN42 and the power tree
 
-**Rešenje:**
-1. Multimeter na CN42 pinovima — verifikuj 24V sa pravim polaritetom
-2. Multimeter na D1 (SS54) — voltage drop ~0.4V u smeru napajanja
-3. Inspektuj solder joints CN42
-
----
-
-### Problem: 24V LED svetli, ali 5V LED ne
-**Uzroci:**
-- TPS5430 buck konverter (U1) ima problem
-- Induktor L1 (22µH) cold joint ili pogrešno lemljen
-- VSENSE divider (R-ovi) pogrešan → buck ne uključuje switching
-
-**Rešenje:**
-1. Multimeter na U1 pin 7 (VIN) — treba 24V ✅
-2. Multimeter na U1 pin 8 (PH) — treba switching ~50% duty na ~500kHz
-3. Multimeter na L1 izlaz — treba 5V DC
-4. Ako je L1 hladan i nema napona → reflow L1 sa hot air
+**Solution:**
+1. Multimeter on the CN42 pins — verify 24V with correct polarity
+2. Multimeter on D1 (SS54) — voltage drop ~0.4V in the forward direction
+3. Inspect the CN42 solder joints
 
 ---
 
-### Problem: 5V svetli, 3.3V ne
-**Uzroci:**
+### Problem: 24V LED is lit, but 5V LED is not
+**Causes:**
+- TPS5430 buck converter (U1) has a problem
+- Inductor L1 (22µH) cold joint or soldered incorrectly
+- VSENSE divider (resistors) wrong → buck does not enter switching mode
+
+**Solution:**
+1. Multimeter on U1 pin 7 (VIN) — should be 24V ✅
+2. Multimeter on U1 pin 8 (PH) — should show switching ~50% duty at ~500kHz
+3. Multimeter on the L1 output — should be 5V DC
+4. If L1 is cold and there is no voltage → reflow L1 with hot air
+
+---
+
+### Problem: 5V lights up, 3.3V does not
+**Causes:**
 - AMS1117 LDO (U2) cold joint
-- Output kondenzator (C19 ili sl.) je short na GND
-- RP2350B power pinovi vuku previše struje (short na chip-u)
+- Output capacitor (C19 or similar) is shorted to GND
+- RP2350B power pins draw too much current (short on the chip)
 
-**Rešenje:**
-1. Multimeter na U2 pin 3 (VIN) — treba 5V
-2. Multimeter na U2 pin 2 (VOUT) — treba 3.3V
-3. Ako VIN=5V a VOUT=0V → AMS1117 je oštećen ili output short
-4. Cut power, multimeter continuity između 3.3V i GND — ako pišti, traži short na MCU stranu
-
----
-
-### Problem: 24V_ISO LED ne svetli
-**Uzroci:**
-- B2424S-2WR3 (U3) cold joint na 4 pina
-- VCC strana (24V_IN) nema napon na pin 1
-- Output strana short na GND_ISO
-
-**Rešenje:**
-1. Multimeter na U3 pin 1 (VIN+) — treba 24V
-2. Multimeter na U3 pin 2 (VIN-) — treba GND
-3. Multimeter na U3 pin 3 (VOUT+) — treba 24V (no load) ili 23V (sa LED load)
-4. Ako pin 3 = 0V → U3 je defektan ili lemljen pogrešno
+**Solution:**
+1. Multimeter on U2 pin 3 (VIN) — should be 5V
+2. Multimeter on U2 pin 2 (VOUT) — should be 3.3V
+3. If VIN=5V and VOUT=0V → AMS1117 is damaged or the output is shorted
+4. Cut power and run a continuity test between 3.3V and GND — if it beeps, look for a short on the MCU side
 
 ---
 
-### Problem: Komponenta postaje vruća
-**Najčešći uzroci:**
-- **RP2350B vruć** → short na 3.3V VDD pinu, ili pad bridge na QFN-80
-- **TPS5430 vruć (>60°C)** → 5V rail je preopterećen (short na 5V → GND)
-- **AMS1117 vruć** → 3.3V rail je preopterećen
-- **B2424S vruć** → 24V_ISO short
+### Problem: 24V_ISO LED does not light up
+**Causes:**
+- B2424S-2WR3 (U3) cold joint on its 4 pins
+- VCC side (24V_IN) has no voltage on pin 1
+- Output side shorted to GND_ISO
 
-**Rešenje:**
-1. **Cut power ODMAH**
-2. Sačekaj 1-2 min da se ohladi
-3. Multimeter continuity test svih power rails (vidi Korak 1a)
-4. Vizuelno traži solder bridge na pregrejavajući chip
-5. Ako ne nađeš short → chip je verovatno oštećen (replace)
+**Solution:**
+1. Multimeter on U3 pin 1 (VIN+) — should be 24V
+2. Multimeter on U3 pin 2 (VIN-) — should be GND
+3. Multimeter on U3 pin 3 (VOUT+) — should be 24V (no load) or 23V (with LED load)
+4. If pin 3 = 0V → U3 is defective or soldered incorrectly
 
 ---
 
-### Problem: BOOT/RESET ne radi BOOTSEL
-**Uzroci:**
-- Pull-up otpornici na BOOT/RESET pinovima
-- Tasteri su Side-Tactile i mehanika ne klikne dobro
-- 100nF debounce kapica fali
+### Problem: Component gets hot
+**Most common causes:**
+- **RP2350B hot** → short on a 3.3V VDD pin, or a pad bridge on the QFN-80
+- **TPS5430 hot (>60°C)** → 5V rail is overloaded (5V → GND short)
+- **AMS1117 hot** → 3.3V rail is overloaded
+- **B2424S hot** → 24V_ISO short
 
-**Rešenje:**
-1. Multimeter continuity na BOOT taster — pritisni i otpusti, čuj klik
-2. Verifikuj 10kΩ pull-up na BOOT pinu
-3. Ako BOOTSEL ne radi → flashuj preko **SWD interfejsa** (H1 header) koristeći **picoprobe** ili **J-Link**
+**Solution:**
+1. **Cut power IMMEDIATELY**
+2. Wait 1-2 minutes to let it cool down
+3. Multimeter continuity test for all power rails (see Step 1a)
+4. Visually look for solder bridges on the overheating chip
+5. If you find no short → the chip is probably damaged (replace)
 
 ---
 
-## ✅ Power-On Checklist (potpisni kad završiš)
+### Problem: BOOT/RESET doesn't enter BOOTSEL
+**Causes:**
+- Pull-up resistors missing on BOOT/RESET pins
+- Side-tactile buttons whose mechanism doesn't click reliably
+- 100nF debounce cap missing
 
-- [ ] Pre-power continuity tests prošli — nema short circuit-a
-- [ ] D7 katoda orijentacija verifikovana
-- [ ] C7 polaritet verifikovan
-- [ ] 24V power-on bez varnica, dima, ili dela koji greje
-- [ ] D1-D4 LED-ice sve aktivne
+**Solution:**
+1. Multimeter continuity on the BOOT button — press and release, listen for the click
+2. Verify the 10kΩ pull-up on the BOOT pin
+3. If BOOTSEL doesn't work → flash via the **SWD interface** (H1 header) using **picoprobe** or **J-Link**
+
+---
+
+## ✅ Power-On Checklist (sign off when done)
+
+- [ ] Pre-power continuity tests passed — no short circuits
+- [ ] D7 cathode orientation verified
+- [ ] C7 polarity verified
+- [ ] 24V power-on with no sparks, smoke, or hot components
+- [ ] D1-D4 LEDs are all active
 - [ ] +5V rail = 5.00 ± 0.05V
 - [ ] +3.3V rail = 3.30 ± 0.05V
 - [ ] +24V_ISO rail = 24.0 ± 1.0V
-- [ ] Input-side isolation OK (GND ≠ GND_ISO continuity-wise)
-- [ ] USB enumeration OK (PC vidi uređaj)
-- [ ] BOOTSEL ulazi u Mass Storage mode (`RPI-RP2`)
+- [ ] Input-side isolation OK (GND ≠ GND_ISO, no continuity)
+- [ ] USB enumeration OK (PC sees the device)
+- [ ] BOOTSEL enters Mass Storage mode (`RPI-RP2`)
 
-**Ako svih 10 box-ova ✅** → Ploča je spremna za firmware flash i konfigurisanje.
+**If all 10 boxes are ✅** → the board is ready for firmware flash and configuration.
 
-Sledeći korak: [Quick_Start_Guide.md](Quick_Start_Guide.md) Korak 5 (Firmware Flash).
+Next step: [Quick_Start_Guide.md](Quick_Start_Guide.md) Step 5 (Firmware Flash).
 
 ---
 
 ## 📝 Bring-up Log Template
 
-Predlažem da ti ovo popuniš za svaku od 5 ploča kao bring-up dokumentaciju:
+I suggest you fill this in for each of the 5 boards as bring-up documentation:
 
 ```
 RectaBot v1.0 — Bring-Up Log
 ============================
-Datum: ___________
-Broj ploče: 1 / 5
-Inspektor: ___________
+Date: ___________
+Board #: 1 / 5
+Inspector: ___________
 
 Pre-power tests:
   [ ] 24V-GND short test: PASS / FAIL
   [ ] 5V-GND short test: PASS / FAIL
   [ ] 3.3V-GND short test: PASS / FAIL
-  [ ] D7 polaritet: VERIFIED
-  [ ] C7 polaritet: VERIFIED
+  [ ] D7 polarity: VERIFIED
+  [ ] C7 polarity: VERIFIED
 
 Power-On:
   D1 (24V):   ON / OFF
@@ -327,4 +327,4 @@ ________________________________
 
 ---
 
-*Ostani pažljiv. Ne žuri. Multimeter je tvoj najbolji prijatelj.* 🔬⚡
+*Stay careful. Don't rush. The multimeter is your best friend.* 🔬⚡

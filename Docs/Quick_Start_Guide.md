@@ -1,155 +1,155 @@
 # RectaBot v1.0 — Quick Start Guide
 
-**Od neraspakovane ploče do prvog kretanja motora — korak po korak.**
+**From an unboxed board to the first motor movement — step by step.**
 
-Procenjen vreme: **2-3 sata** (uključujući soldering 28 TH komponenti).
+Estimated time: **2-3 hours** (including soldering 28 TH components).
 
 ---
 
-## 📦 Šta dobijaš u paketu
+## 📦 What's in the box
 
-### Iz JLCPCB paketa (DHL Express DDP)
-- ✅ **5× RectaBot v1.0 PCB** sa SMT montiranim komponentama
-- ✅ ENIG zlatni finish (dugotrajan, dobro za lemljenje)
-- ❌ **BEZ Through-Hole komponenti** (carinski razlozi)
-- 📄 JLCPCB pakovanje + invoice
+### From the JLCPCB package (DHL Express DDP)
+- ✅ **5× RectaBot v1.0 PCB** with SMT-mounted components
+- ✅ ENIG gold finish (durable, great for soldering)
+- ❌ **NO Through-Hole components** (customs reasons)
+- 📄 JLCPCB packaging + invoice
 
-### Iz LCSC paketa (FedEx International Priority)
-- ✅ **28 TH komponenti × 5 setova** + MOQ viškovi
-  - Detaljna lista: [Hand_Solder_Components.md](Hand_Solder_Components.md)
-- ✅ **Muški KEFA konektori** (KF2EDGK serija) za screw terminals
-- 📄 LCSC invoice (čuvati za srpsku carinu!)
+### From the LCSC package (FedEx International Priority)
+- ✅ **28 TH components × 5 sets** + MOQ extras
+  - Detailed list: [Hand_Solder_Components.md](Hand_Solder_Components.md)
+- ✅ **Male KEFA connectors** (KF2EDGK series) for screw terminals
+- 📄 LCSC invoice (keep for customs!)
 
-### Šta TI treba da imaš (ne dolazi u paketu)
+### What YOU need to provide (not in the package)
 
-| Alat / Materijal | Detalji |
+| Tool / Material | Details |
 |---|---|
-| **Lemilica** | TS100 / Pinecil / Hakko FX-888D, podešena na 320-350°C |
-| **Lemilo** | 60/40 Sn/Pb 0.6-0.8mm sa kalafonijumom (rosin core) |
-| **Multimeter** | Bilo koji digitalni, sa continuity i voltage modom |
-| **Pinceta** | ESD-safe, za držanje TH komponenti tokom lemljenja |
-| **Lupa / mikroskop** | Korisno za QFN-80 RP2350B vizuelnu proveru pre power-on |
-| **24V DC napajanje** | 24V / 2A min, npr. Mean Well RS-50-24 ili adapter sa screw terminal |
-| **USB-C kabl** | Data + power, za firmware flash i debug |
-| **Tester pinovi / Dupont kablovi** | Za probe testiranje rails-a |
+| **Soldering iron** | TS100 / Pinecil / Hakko FX-888D, set to 320-350°C |
+| **Solder** | 60/40 Sn/Pb 0.6-0.8mm with rosin core |
+| **Multimeter** | Any digital one with continuity and voltage modes |
+| **Tweezers** | ESD-safe, for holding TH components during soldering |
+| **Loupe / microscope** | Useful for visual QFN-80 RP2350B inspection before power-on |
+| **24V DC power supply** | 24V / 2A min, e.g. Mean Well RS-50-24 or screw-terminal adapter |
+| **USB-C cable** | Data + power, for firmware flash and debug |
+| **Test pins / Dupont cables** | For probing rails |
 
 ---
 
-## 🔍 Korak 1: Vizuelna inspekcija (10 min)
+## 🔍 Step 1: Visual inspection (10 min)
 
-**Pre nego što počneš išta da lemiš:**
+**Before you solder anything:**
 
 ### 1a. Top side check
-Stavi PCB pod lupu/mikroskop i proveri:
+Place the PCB under a loupe/microscope and verify:
 
-- ✅ Svi QFN-80 (RP2350B) padovi su čistog ENIG finish-a (nema oxidacije)
-- ✅ W5500 QFN i SP3485 SOIC-8 paketi pravilno orijentisani (pin 1 marker = donji-levi)
-- ✅ Nema **solder bridge-ova** između susednih pinova RP2350B (najveći rizik)
-- ✅ LM358 (U23), 2N7002 (Q1/Q2) na svom mestu
-- ✅ Sve LED-ice (D1-D6) su na svom mestu i pravilno orijentisane
-- ✅ Konektor za TF (microSD) je dobro lemljen, push-push mehanika klikne
+- ✅ All QFN-80 (RP2350B) pads have a clean ENIG finish (no oxidation)
+- ✅ The W5500 QFN and SP3485 SOIC-8 packages are correctly oriented (pin 1 marker = bottom-left)
+- ✅ No **solder bridges** between adjacent RP2350B pins (the biggest risk)
+- ✅ LM358 (U23), 2N7002 (Q1/Q2) are in place
+- ✅ All LEDs (D1-D6) are present and correctly oriented
+- ✅ The TF (microSD) connector is well soldered and clicks via its push-push mechanism
 
 ### 1b. Bottom side check
-- ✅ R36 i C33 su DNP (Do Not Populate) i NEMA ih na donjoj strani — to je očekivano
-- ✅ Nema vidnih oštećenja PCB-a (scratches, exposed traces)
+- ✅ R36 and C33 are DNP (Do Not Populate) and are NOT present on the bottom — that's expected
+- ✅ No visible PCB damage (scratches, exposed traces)
 
-### 1c. Šta uraditi ako nađeš problem
-- **Solder bridge** → reword sa flux + braid
-- **Cold joint** (mat, kvrgava površina) → ponovi lemljenje sa novim flux-om
-- **Pomereni IC** → reflow toplim vazduhom (300°C, 30s)
-- **Tear / damage na PCB-u** → kontaktiraj JLCPCB support sa fotografijama
+### 1c. What to do if you find a problem
+- **Solder bridge** → rework with flux + braid
+- **Cold joint** (matte, lumpy surface) → resolder with fresh flux
+- **Misaligned IC** → reflow with hot air (300°C, 30s)
+- **PCB damage / tear** → contact JLCPCB support with photos
 
 ---
 
-## 🔧 Korak 2: Hand-Soldering TH komponenti (60-90 min)
+## 🔧 Step 2: Hand-soldering TH components (60-90 min)
 
-**Slijedi redosled iz [Hand_Solder_Components.md](Hand_Solder_Components.md):**
+**Follow the order from [Hand_Solder_Components.md](Hand_Solder_Components.md):**
 
-### Faza A: Najniže komponente prvo
-1. **D7** Zener 1N4742A — `pazi katoda (traka) ide ka SPIN_10V net-u`
-2. **R128** trim pot PV37W — orijentacija nije bitna
+### Phase A: Lowest-profile components first
+1. **D7** Zener 1N4742A — `cathode (band) must face the SPIN_10V net`
+2. **R128** PV37W trim pot — orientation doesn't matter
 3. **H1** SWD header — straight, 4-pin
 
-### Faza B: Srednje visine
-4. **C7** elektrolit 100µF — **POLARITET KRITIČAN** — pozitivna noga (duža) ka +5V
-5. **C61** ceramic chassis cap 1nF/2kV — Bob Smith capacitor
+### Phase B: Medium-height components
+4. **C7** 100µF electrolytic — **POLARITY CRITICAL** — positive lead (longer) to +5V
+5. **C61** 1nF/2kV ceramic chassis cap — Bob Smith capacitor
 
-### Faza C: Više komponente
-6. **U3** B2424S-2WR3 — izolovani DC/DC, 4-pin SIP
-7. **RJ1** RJ45 J1B1211CCD — pazi shield pinove (chassis ground)
+### Phase C: Taller components
+6. **U3** B2424S-2WR3 — isolated DC/DC, 4-pin SIP
+7. **RJ1** RJ45 J1B1211CCD — watch the shield pins (chassis ground)
 
-### Faza D: Konektori (najviši, na kraju)
+### Phase D: Connectors (tallest, last)
 8. **CN22-CN42** screw terminals (KEFA KF2EDGR)
-   - Pin 1 svakog konektora **na PCB silkscreen markeru** (debelja crta ili kvadrat)
-   - Kratko ali snažno lemljenje — TH connectors trpe mehaničku silu
+   - Pin 1 of each connector aligns with the **PCB silkscreen marker** (a thicker line or square)
+   - Short but strong solder joints — TH connectors take mechanical stress
 
-### ⚠️ Polariteti koje TI MORAŠ pamtiti
-| Komponenta | Polaritet info |
+### ⚠️ Polarities you MUST remember
+| Component | Polarity info |
 |---|---|
-| **D7 1N4742A** | Katoda (crna traka) ide ka **SPIN_10V net-u**. Obrnuto = nema zaštite od overvoltage. |
-| **C7 100µF** | Pozitivna noga (duža) ka **+5V** strani. Obrnuto = **eksplozija pri prvom power-on-u!** |
-| **U3 B2424S** | Pin 1 ima silkscreen tačku — orijentiši po PCB silkscreen-u |
-| **RJ1 RJ45** | Pravilno orijentisan = LED-ice gledaju ka ivici PCB-a (spolja) |
+| **D7 1N4742A** | The cathode (black band) goes to **SPIN_10V**. Reversed = no overvoltage protection. |
+| **C7 100µF** | Positive lead (longer) to the **+5V** side. Reversed = **explosion on first power-on!** |
+| **U3 B2424S** | Pin 1 has a silkscreen dot — orient it to match the PCB silkscreen |
+| **RJ1 RJ45** | Correctly oriented = LEDs face the PCB edge (outward) |
 
 ---
 
-## 🧪 Korak 3: Pre-Power-On Provera (15 min)
+## 🧪 Step 3: Pre-power-on check (15 min)
 
-**OBAVEZNO uradi PRE nego što priključiš 24V napajanje!**
+**MANDATORY — do this BEFORE you connect 24V power!**
 
-Vidi [First_Power_On_Procedure.md](First_Power_On_Procedure.md) za detaljnu proceduru.
+See [First_Power_On_Procedure.md](First_Power_On_Procedure.md) for the detailed procedure.
 
-**Skraćeno:**
-1. Multimeter na continuity mode
-2. Proveri da NEMA short:
-   - 24V → GND (sondiraj CN42 pin 1 i 2)
+**Summary:**
+1. Multimeter on continuity mode
+2. Verify there are NO shorts:
+   - 24V → GND (probe CN42 pin 1 and 2)
    - +5V → GND
    - +3.3V → GND
    - 24V_ISO → GND_ISO
-3. Proveri polaritete elektrolita (C7) još jednom vizuelno
+3. Visually re-check the electrolytic polarity (C7) one more time
 
 ---
 
-## ⚡ Korak 4: Prvi Power-On (10 min)
+## ⚡ Step 4: First power-on (10 min)
 
-**Detaljna procedura sa očekivanim merama:** [First_Power_On_Procedure.md](First_Power_On_Procedure.md)
+**Detailed procedure with expected measurements:** [First_Power_On_Procedure.md](First_Power_On_Procedure.md)
 
-**Skraćeno:**
+**Summary:**
 
-1. **Priključi 24V** na CN42 (pin 1 = +24V, pin 2 = GND)
-2. **Posmatraj LED-ice:**
-   - 24V power LED → svetli ✅
-   - 5V power LED → svetli ✅
-   - 3V3 power LED → svetli ✅
-   - 24V_ISO power LED → svetli ✅
-3. **Multimeter measure:**
+1. **Connect 24V** to CN42 (pin 1 = +24V, pin 2 = GND)
+2. **Watch the LEDs:**
+   - 24V power LED → lit ✅
+   - 5V power LED → lit ✅
+   - 3V3 power LED → lit ✅
+   - 24V_ISO power LED → lit ✅
+3. **Measure with the multimeter:**
    - +5V rail = 4.95 - 5.05V ✅
    - +3.3V rail = 3.25 - 3.35V ✅
    - +24V_ISO rail = 23.5 - 24.5V ✅
-4. **NEMA DIM**, NEMA pucketanja, NEMA pregrevanja komponenti
+4. **NO SMOKE**, no crackling sounds, no overheating components
 
-**Ako bilo šta nije OK** → odmah isključi i konsultuj First_Power_On_Procedure.md troubleshooting sekciju.
+**If anything is off** → power down immediately and check the troubleshooting section in First_Power_On_Procedure.md.
 
 ---
 
-## 💾 Korak 5: Firmware Flash (15 min)
+## 💾 Step 5: Firmware flash (15 min)
 
-### 5a. Pripremi BOOTSEL mod
-1. Pritisni i drži **BOOT taster** na PCB-u
-2. Dok držiš BOOT, pritisni i otpusti **RESET taster**
-3. Otpusti BOOT taster
-4. RP2350B će se enumirovati kao **USB Mass Storage** (drive `RPI-RP2`)
+### 5a. Enter BOOTSEL mode
+1. Press and hold the **BOOT button** on the PCB
+2. While holding BOOT, press and release the **RESET button**
+3. Release the BOOT button
+4. The RP2350B will enumerate as a **USB Mass Storage** device (drive `RPI-RP2`)
 
 ### 5b. Flash grblHAL firmware
-1. Priključi USB-C kabl PC ↔ RectaBot
-2. Otvori `RPI-RP2` u Explorer-u
-3. Drag-and-drop **`grblHAL_RectaBot_v1.0.uf2`** fajl u taj drive
-4. Drive nestaje, RP2350B se reboot-uje sa grblHAL-om
+1. Connect a USB-C cable PC ↔ RectaBot
+2. Open `RPI-RP2` in Explorer
+3. Drag-and-drop **`grblHAL_RectaBot_v1.0.uf2`** into the drive
+4. The drive disappears and the RP2350B reboots into grblHAL
 
-### 5c. Verifikuj firmware
-1. Otvori serial monitor (PuTTY / Arduino IDE Serial Monitor / minicom)
-2. Connect na COM port (115200 baud, 8N1)
-3. Trebao bi videti:
+### 5c. Verify the firmware
+1. Open a serial monitor (PuTTY / Arduino IDE Serial Monitor / minicom)
+2. Connect to the COM port (115200 baud, 8N1)
+3. You should see:
    ```
    GrblHAL 1.1f ['$' for help]
    [VER:1.1f.20260101:RectaBot v1.0]
@@ -158,16 +158,16 @@ Vidi [First_Power_On_Procedure.md](First_Power_On_Procedure.md) za detaljnu proc
 
 ---
 
-## ⚙️ Korak 6: grblHAL konfiguracija (20 min)
+## ⚙️ Step 6: grblHAL configuration (20 min)
 
-**Kritični parametri za RectaBot v1.0:**
+**Critical parameters for RectaBot v1.0:**
 
 ```
 $0=10        ; Step pulse, microseconds
 $1=25        ; Step idle delay, milliseconds
-$2=31        ; Step pulse invert, mask (KRITIČNO za 74HC14D)
-$3=31        ; Step direction invert, mask (KRITIČNO za 74HC14D)
-$4=1         ; Invert step enable pin (KRITIČNO za 74HC14D)
+$2=31        ; Step pulse invert, mask (CRITICAL for 74HC14D)
+$3=31        ; Step direction invert, mask (CRITICAL for 74HC14D)
+$4=1         ; Invert step enable pin (CRITICAL for 74HC14D)
 $5=0         ; Invert limit pins, boolean
 $6=0         ; Invert probe pin
 $10=1        ; Status report options, mask
@@ -182,14 +182,14 @@ $24=25.000   ; Homing locate feed rate, mm/min
 $25=500.000  ; Homing search seek rate, mm/min
 $26=250      ; Homing switch debounce delay, milliseconds
 $27=1.000    ; Homing switch pull-off distance, millimeters
-$30=24000    ; Maximum spindle speed, RPM (za 24kRPM VFD)
+$30=24000    ; Maximum spindle speed, RPM (for a 24kRPM VFD)
 $31=0        ; Minimum spindle speed, RPM
-$32=0        ; Laser-mode enable, boolean (ostavi 0 za spindle)
+$32=0        ; Laser-mode enable, boolean (leave 0 for spindle)
 ```
 
-**Per-axis konfiguracija** (X osa primer, isto za Y/Z/A/B):
+**Per-axis configuration** (X axis shown, same for Y/Z/A/B):
 ```
-$100=80.000  ; X-axis steps per millimeter (zavisi od driver-a)
+$100=80.000  ; X-axis steps per millimeter (depends on the driver)
 $110=2000.000 ; X-axis maximum rate, mm/min
 $120=200.000  ; X-axis acceleration, mm/sec²
 $130=300.000  ; X-axis maximum travel, millimeters
@@ -197,75 +197,75 @@ $130=300.000  ; X-axis maximum travel, millimeters
 
 ---
 
-## 🎮 Korak 7: Prvi Axis Test (10 min)
+## 🎮 Step 7: First axis test (10 min)
 
-### 7a. Priključi DM556 driver na CN34 (X osa)
+### 7a. Connect a DM556 driver to CN34 (X axis)
 - Pin 1 = STEP_X_5V → DM556 PUL+
 - Pin 2 = DIR_X_5V → DM556 DIR+
 - Pin 3 = EN_X_5V → DM556 ENA+
-- Pin 4 = GND → DM556 PUL-, DIR-, ENA- (common cathode, sve na GND)
+- Pin 4 = GND → DM556 PUL-, DIR-, ENA- (common cathode, all to GND)
 
-**Napomena:** DM556 +5V (zajedničko PUL+, DIR+, ENA+) ide na **+5V rail**, NE na pin 4 GND!
+**Note:** the DM556 +5V (common PUL+, DIR+, ENA+) goes to the **+5V rail**, NOT to pin 4 GND!
 
-### 7b. Priključi motor na DM556 izlaze
-- A+, A-, B+, B- (4 žice NEMA17/23 motor)
-- Postavi DM556 micro-step DIP switches (npr. 1600 steps/rev za 8 microsteps)
+### 7b. Connect a motor to the DM556 outputs
+- A+, A-, B+, B- (4-wire NEMA17/23 motor)
+- Set the DM556 microstep DIP switches (e.g. 1600 steps/rev for 8 microsteps)
 
-### 7c. Probaj jog komanda u serial monitoru
+### 7c. Try a jog command in the serial monitor
 ```
-$J=G91 X10 F500    ; Pomeri 10mm udesno @ 500mm/min
-$J=G91 X-10 F500   ; Pomeri 10mm ulevo
+$J=G91 X10 F500    ; Move 10mm to the right @ 500mm/min
+$J=G91 X-10 F500   ; Move 10mm to the left
 ```
 
-**Šta očekivati:**
-- ✅ Motor se okreće glatko, bez "skipping"
-- ✅ Smer prati DIR komandu
-- ✅ Zaustavlja se na poziciji
-- ❌ Ako trza ili ne kreće → vidi troubleshooting
+**What to expect:**
+- ✅ The motor turns smoothly, without "skipping"
+- ✅ Direction follows the DIR command
+- ✅ It stops at the position
+- ❌ If it jitters or doesn't move → see troubleshooting
 
 ---
 
-## 🎯 Sledeći koraci
+## 🎯 Next steps
 
-Kad ti X osa radi pouzdano:
-1. **Ponovi za Y, Z, A, B** (CN35-CN38)
-2. **Priključi limit switch-eve** (CN27-CN31)
-3. **Konfiguriši homing** (`$H` komanda)
-4. **Priključi VFD** — vidi [VFD_Wiring_Guide.md](VFD_Wiring_Guide.md)
-5. **Test G-code execution** sa sender-om (UGS, CNCjs, IO sender)
+Once the X axis runs reliably:
+1. **Repeat for Y, Z, A, B** (CN35-CN38)
+2. **Connect limit switches** (CN27-CN31)
+3. **Configure homing** (`$H` command)
+4. **Connect the VFD** — see [VFD_Wiring_Guide.md](VFD_Wiring_Guide.md)
+5. **Test G-code execution** with a sender (UGS, CNCjs, IO Sender)
 
 ---
 
 ## 🆘 Troubleshooting
 
 ### Power rails out of spec
-- **+5V < 4.9V** → TPS5430 buck može imati cold joint na L1 ili VSENSE divider
-- **+3.3V < 3.2V** → AMS1117 LDO opterećen ili nije dobro lemljen
-- **+24V_ISO < 23V** → B2424S DC/DC ne radi ili 24V_IN prenisko
+- **+5V < 4.9V** → TPS5430 buck may have a cold joint on L1 or the VSENSE divider
+- **+3.3V < 3.2V** → AMS1117 LDO overloaded or poorly soldered
+- **+24V_ISO < 23V** → B2424S DC/DC not working or 24V_IN too low
 
-### LED-ice ne svetle
-- **Sve LED-ice off** → 24V uopšte ne stiže (proveri polaritet CN42!)
-- **Samo 24V LED svetli** → TPS5430 problem
-- **24V + 5V LED svetle, 3V3 off** → AMS1117 problem
+### LEDs don't light up
+- **All LEDs off** → 24V isn't reaching the board (check CN42 polarity!)
+- **Only the 24V LED is lit** → TPS5430 problem
+- **24V + 5V LEDs lit, 3V3 off** → AMS1117 problem
 
-### USB enumeration ne radi
-- **Drive ne nastaje** → BOOT/RESET sekvenca pogrešna, ponovi
-- **Drive nastaje pa odmah nestane** → firmware fajl je korumpiran ili pogrešan UF2
+### USB enumeration doesn't work
+- **Drive does not appear** → wrong BOOT/RESET sequence, repeat it
+- **Drive appears, then immediately disappears** → firmware file corrupted or wrong UF2
 
-### Motor ne kreće
-- **0 puls na STEP pin** → grblHAL $2 nije postavljen na 31 (INVERT_MASK)
-- **Konstantan HIGH na STEP** → 74HC14D nije dobro lemljen
-- **Motor "skipping"** → mikrostep DIP switches ne odgovaraju $100 parametru
-
----
-
-## 📚 Dalje čitanje
-
-- [Pinout.md](Pinout.md) — kompletna GPIO mapa
-- [Hardware_Design_Guidelines.md](Hardware_Design_Guidelines.md) — električni i mehanički dizajn
-- [VFD_Wiring_Guide.md](VFD_Wiring_Guide.md) — kako spojiti različite VFD-ove
-- [Product_Specification_v1.0.md](Product_Specification_v1.0.md) — kompletan datasheet
+### Motor doesn't move
+- **0 pulses on STEP pin** → grblHAL $2 isn't set to 31 (INVERT_MASK)
+- **Constant HIGH on STEP** → 74HC14D not soldered properly
+- **Motor "skips"** → microstep DIP switches don't match the $100 parameter
 
 ---
 
-*Treba ti pomoć? Otvori issue na GitHub-u ili kontaktiraj kingort@gmail.com*
+## 📚 Further reading
+
+- [Pinout.md](Pinout.md) — complete GPIO map
+- [Hardware_Design_Guidelines.md](Hardware_Design_Guidelines.md) — electrical and mechanical design
+- [VFD_Wiring_Guide.md](VFD_Wiring_Guide.md) — how to wire various VFDs
+- [Product_Specification_v1.0.md](Product_Specification_v1.0.md) — complete datasheet
+
+---
+
+*Need help? Open an issue on GitHub or email hello@rectabot.org*

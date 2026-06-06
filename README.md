@@ -1,72 +1,72 @@
 # RectaBot — Industrial 5-Axis CNC Controller
 
-**Industrial-grade open-source CNC controller za hobi i mali workshop. Bazirano na Raspberry Pi RP2350B mikrokontroleru sa grblHAL firmware-om.**
+**Industrial-grade open-source CNC controller for hobby and small workshop use. Based on the Raspberry Pi RP2350B microcontroller running grblHAL firmware.**
 
 ---
 
-## 📊 Status projekta
+## 📊 Project Status
 
 | | |
 |---|---|
-| **Trenutna verzija** | v1.0 |
-| **Status** | 🔵 Hardware u proizvodnji (JLCPCB) — bring-up sredinom juna 2026. |
-| **Prva production batch** | 5 ploča (JLCPCB Economic PCBA + ENIG finish) |
-| **Firmware** | grblHAL fork za RP2350B |
+| **Current version** | v1.0 |
+| **Status** | 🔵 Hardware in production (JLCPCB) — bring-up mid-June 2026. |
+| **First production batch** | 5 boards (JLCPCB Economic PCBA + ENIG finish) |
+| **Firmware** | grblHAL fork for RP2350B |
 | **Form factor** | 150 × 100 mm, 4-layer PCB, 1.6mm |
 
 ---
 
-## 🎯 Šta je RectaBot?
+## 🎯 What is RectaBot?
 
-5-axis CNC kontroler dizajniran za hobi-pro i workshop primene, sa industry-grade galvanskom izolacijom i bogatom konektivnošću. Direktna alternativa skupim proprietary kontrolerima poput Centroid Acorn, Mach3 hardvera, ili LinuxCNC sa skupim Mesa karticama.
+A 5-axis CNC controller designed for hobby-pro and workshop applications, featuring industry-grade galvanic isolation and rich connectivity. A direct alternative to expensive proprietary controllers like Centroid Acorn, Mach3 hardware, or LinuxCNC with costly Mesa cards.
 
-### Glavne karakteristike
+### Key features
 
-- ⚙️ **5-axis stepper kontrola** (X, Y, Z, A, B) — PIO-based step generation do **300kHz po osi**
-- 🔌 **Spindle 0-10V interface** sa overvoltage zaštitom — kompatibilno sa Huanyang/Lapond/Delta/Hitachi VFD-ovima
-- 🛡️ **Optička izolacija ulaza** — svih 10 field ulaza ide preko LTV-217-B-G optokaplera na zasebnom 24V_ISO rail-u (full I/O izolacija planirana za v2)
-- 🌐 **Ethernet 10/100 Mbps** preko W5500 sa Bob Smith terminacijom
-- 💾 **MicroSD slot** za G-code fajlove i konfiguraciju
-- 🔋 **24V napajanje** sa reverznom polaritetnom zaštitom (SS54 Schottky)
-- 📡 **RS-485 Modbus + RS-422 Pendant** interfejsi
-- 🚦 **10 izolovanih ulaza** + **3 SSR izlaza** (Mist/Flood/Vac)
+- ⚙️ **5-axis stepper control** (X, Y, Z, A, B) — PIO-based step generation up to **300kHz per axis**
+- 🔌 **Spindle 0-10V interface** with overvoltage protection — compatible with Huanyang/Lapond/Delta/Hitachi VFDs
+- 🛡️ **Optically isolated inputs** — all 10 field inputs through LTV-217-B-G optocouplers on a dedicated 24V_ISO rail (full I/O isolation planned for v2)
+- 🌐 **Ethernet 10/100 Mbps** via W5500 with Bob Smith termination
+- 💾 **MicroSD slot** for G-code files and configuration
+- 🔋 **24V power input** with reverse polarity protection (SS54 Schottky)
+- 📡 **RS-485 Modbus + RS-422 Pendant** interfaces
+- 🚦 **10 isolated inputs** + **3 SSR outputs** (Mist/Flood/Vac)
 
-**Detaljna specifikacija:** [Docs/Product_Specification_v1.0.md](Docs/Product_Specification_v1.0.md)
+**Detailed specification:** [Docs/Product_Specification_v1.0.md](Docs/Product_Specification_v1.0.md)
 
 ---
 
-## 📂 Struktura repozitorijuma
+## 📂 Repository structure
 
 ```
 RectaBot/
-├── Docs/                        # 📚 Sva dokumentacija (čitati prvo!)
-│   ├── Product_Specification_v1.0.md   # Kompletan datasheet/spec
-│   ├── Quick_Start_Guide.md            # 🆕 Od neraspakovanog do prvog motora (2-3h)
-│   ├── First_Power_On_Procedure.md     # 🆕 Bezbedan first power-on sa multimetrom
+├── Docs/                        # 📚 All documentation (read first!)
+│   ├── Product_Specification_v1.0.md   # Complete datasheet/spec
+│   ├── Quick_Start_Guide.md            # 🆕 From unboxing to first motor (2-3h)
+│   ├── First_Power_On_Procedure.md     # 🆕 Safe first power-on with a multimeter
 │   ├── Pinout.md                       # RP2350B pinmap (GP0-GP47)
-│   ├── Schematic_References.md         # Referentne šeme za sve IC-eve
-│   ├── Hardware_Design_Guidelines.md   # PCB layout smernice
-│   ├── VFD_Wiring_Guide.md             # Povezivanje sa VFD-ovima
-│   ├── Hand_Solder_Components.md       # 28 TH komponenti za ručno lemljenje
-│   ├── Silkscreen_Layout_Guide.md      # Smernice za silkscreen markings
-│   ├── BOM_v1.0_final.csv              # Bill of Materials (~80 komponenti)
-│   ├── CPL_RectaBot_V1.0.csv           # Component Placement List za JLCPCB
-│   └── LCSC_Additional_Order.csv       # TH parts za zasebnu LCSC porudžbinu
+│   ├── Schematic_References.md         # Reference schematics for all ICs
+│   ├── Hardware_Design_Guidelines.md   # PCB layout guidelines
+│   ├── VFD_Wiring_Guide.md             # VFD connection guide
+│   ├── Hand_Solder_Components.md       # 28 TH components for hand-soldering
+│   ├── Silkscreen_Layout_Guide.md      # Silkscreen marking guidelines
+│   ├── BOM_v1.0_final.csv              # Bill of Materials (~80 components)
+│   ├── CPL_RectaBot_V1.0.csv           # Component Placement List for JLCPCB
+│   └── LCSC_Additional_Order.csv       # TH parts for a separate LCSC order
 │
-└── (Submoduli su u zasebnim repo-ima — vidi ispod)
+└── (Submodules live in separate repos — see below)
 ```
 
-## 🔗 Povezani repozitorijumi
+## 🔗 Related repositories
 
-RectaBot je podeljen u 3 odvojena GitHub repo-a za bolju modularnost:
+RectaBot is split across 3 separate GitHub repos for better modularity:
 
-| Repo | Sadržaj | Veličina |
+| Repo | Contents | Size |
 |---|---|---|
-| **[rectabot/RectaBot](https://github.com/rectabot/RectaBot)** (ovaj) | Hardware design (Gerber), docs, web tools, BOM | ~5MB |
-| **[rectabot/RectaBot-firmware](https://github.com/rectabot/RectaBot-firmware)** | grblHAL fork sa RectaBot board map + pre-built UF2 | ~49MB |
-| **[rectabot/RectaBot-pendant](https://github.com/rectabot/RectaBot-pendant)** | SmartPendant firmware (LVGL na RP2350) | ~148MB |
+| **[rectabot/RectaBot](https://github.com/rectabot/RectaBot)** (this one) | Hardware design (Gerber), docs, web tools, BOM | ~5MB |
+| **[rectabot/RectaBot-firmware](https://github.com/rectabot/RectaBot-firmware)** | grblHAL fork with RectaBot board map + pre-built UF2 | ~49MB |
+| **[rectabot/RectaBot-pendant](https://github.com/rectabot/RectaBot-pendant)** | SmartPendant firmware (LVGL on RP2350) | ~148MB |
 
-**Clone sve odjednom:**
+**Clone everything at once:**
 ```powershell
 git clone https://github.com/rectabot/RectaBot.git
 git clone https://github.com/rectabot/RectaBot-firmware.git
@@ -75,20 +75,20 @@ git clone https://github.com/rectabot/RectaBot-pendant.git
 
 ---
 
-## 🔧 Hardver
+## 🔧 Hardware
 
-### Centralne komponente
+### Core components
 
-| Komponenta | Uloga |
+| Component | Role |
 |---|---|
 | **Raspberry Pi RP2350B** (QFN-80) | Dual ARM Cortex-M33 @ 150MHz, 48 GPIO, 12 PIO state machines |
-| **WIZnet W5500** | Hardver TCP/IP stack, 10/100 Ethernet |
-| **74HC14D ×3** | Schmitt-trigger inverteri za 3.3V→5V level shift (svi step/dir/en signali) |
-| **LTV-217-B-G ×10** | Optoizolatori za sve ulazne signale (limit switches, ESTOP, probe, controls) |
-| **LM358DR2G** | Op-amp za PWM→0-10V spindle interface |
-| **2N7002 ×2** | Open-drain MOSFET-i za VFD EN/DIR signale |
-| **SP3485EN-L/TR ×3** | 3.3V native RS-485/RS-422 transceiver-i (1 Modbus + 2 Pendant) |
-| **B2424S-2WR3** | Izolovani 24V→24V DC/DC za opto LED napajanje |
+| **WIZnet W5500** | Hardware TCP/IP stack, 10/100 Ethernet |
+| **74HC14D ×3** | Schmitt-trigger inverters for 3.3V→5V level shift (all step/dir/en signals) |
+| **LTV-217-B-G ×10** | Optocouplers for all input signals (limit switches, ESTOP, probe, controls) |
+| **LM358DR2G** | Op-amp for PWM→0-10V spindle interface |
+| **2N7002 ×2** | Open-drain MOSFETs for VFD EN/DIR signals |
+| **SP3485EN-L/TR ×3** | 3.3V native RS-485/RS-422 transceivers (1 Modbus + 2 Pendant) |
+| **B2424S-2WR3** | Isolated 24V→24V DC/DC for opto LED supply |
 
 ### Power Tree
 
@@ -153,45 +153,47 @@ Note: v1 isolates input side only. Full I/O galvanic isolation is planned for v2
 
 ## 🚀 Quick Start
 
-> **📦 Status:** Hardware tek treba da stigne (~14-16. jun 2026). Dokumentacija je spremna i čeka prvi bring-up za finaliziranje screenshot-ova i edge case-ova.
+> **📦 Status:** Hardware is yet to arrive (~14-16 June 2026). Documentation is ready and awaits the first bring-up to finalize screenshots and edge cases.
 
-**Glavni vodiči:**
-- **[Quick_Start_Guide.md](Docs/Quick_Start_Guide.md)** — Kompletan vodič od neraspakovanog do prvog motora (procena: 2-3h)
-- **[First_Power_On_Procedure.md](Docs/First_Power_On_Procedure.md)** — Bezbednosna procedura za prvo uključivanje sa multimetrom
+**Main guides:**
+- **[Quick_Start_Guide.md](Docs/Quick_Start_Guide.md)** — Complete walkthrough from unboxing to first motor (estimated: 2-3h)
+- **[First_Power_On_Procedure.md](Docs/First_Power_On_Procedure.md)** — Safety procedure for the first power-on with a multimeter
 
-**Glavni koraci (skraćeno):**
-1. Vizuelna inspekcija ploče (10 min)
-2. Hand-soldering 28 TH komponenti ([lista](Docs/Hand_Solder_Components.md), 60-90 min)
-3. Pre-Power-On continuity testovi (15 min)
-4. Prvi Power-On + LED + voltage verifikacija (10 min)
-5. Firmware flash preko BOOTSEL+USB (15 min)
-6. grblHAL konfiguracija (`$$` parametri za RectaBot, 20 min)
-7. Prvi axis test sa DM556 driver-om (10 min)
-8. VFD povezivanje — vidi [VFD Wiring Guide](Docs/VFD_Wiring_Guide.md)
+**Main steps (summary):**
+1. Visual inspection of the board (10 min)
+2. Hand-soldering 28 TH components ([list](Docs/Hand_Solder_Components.md), 60-90 min)
+3. Pre-Power-On continuity tests (15 min)
+4. First Power-On + LED + voltage verification (10 min)
+5. Firmware flash via BOOTSEL+USB (15 min)
+6. grblHAL configuration (`$$` parameters for RectaBot, 20 min)
+7. First axis test with a DM556 driver (10 min)
+8. VFD wiring — see [VFD Wiring Guide](Docs/VFD_Wiring_Guide.md)
 
 ---
 
 ## 🤝 Acknowledgments
 
-- **[grblHAL](https://github.com/grblHAL)** zajednica — za neverovatan open-source firmware
-- **Raspberry Pi Foundation** — za RP2350 chip i pristupačnu cenu
-- **JLCPCB & LCSC** — za pristupačnu prototype manufacturing
-- **EasyEDA** — za CAD alat koji je omogućio ovaj projekat solo developeru
+- **[grblHAL](https://github.com/grblHAL)** community — for the incredible open-source firmware
+- **Raspberry Pi Foundation** — for the RP2350 chip and accessible pricing
+- **JLCPCB & LCSC** — for accessible prototype manufacturing
+- **EasyEDA** — for the CAD tool that made this project possible for a solo developer
 
 ---
 
 ## 📜 License
 
-License will be added before public release. Hardware design files (KiCad/EasyEDA) and firmware konfiguracija planiraju se kao **open hardware/open source**.
+- **Code, web, documentation:** MIT (see [LICENSE](LICENSE))
+- **Hardware design files** (Gerber, BOM, CPL): CERN-OHL-S v2 (see [LICENSE.hardware](LICENSE.hardware))
+- **grblHAL firmware fork:** GPL-3.0 (inherits from upstream, in the separate [RectaBot-firmware](https://github.com/rectabot/RectaBot-firmware) repo)
 
 ---
 
 ## 📬 Contact
 
 **Project lead:** Filip Perić
-**Email:** kingort@gmail.com
-**Location:** Kragujevac, Srbija
+**Email:** hello@rectabot.org
+**Location:** Kragujevac, Serbia
 
 ---
 
-*🤖 Ovaj README je deo solo-founder projekta. Više informacija o pojedinim aspektima dizajna naći ćeš u [Docs/](Docs/) folderu.*
+*🤖 This README is part of a solo-founder project. For more information on specific design aspects, see the [Docs/](Docs/) folder.*

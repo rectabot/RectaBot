@@ -1,20 +1,20 @@
 # RectaBot v1.0 — Hand-Soldered Components Reference
 
-**Komponente koje TI ručno lemiš nakon prijema ploče od JLCPCB-a.**
+**Components YOU solder by hand after receiving the board from JLCPCB.**
 
-⚠️ **VAŽNO:** JLCPCB **NE ŠALJE** ove komponente — sve TH parts moraš zasebno naručiti sa LCSC-a.
-Potvrđeno preko JLCPCB chata (Desmond, 04.06.2026):
+⚠️ **IMPORTANT:** JLCPCB **DOES NOT SHIP** these components — all TH parts must be ordered separately from LCSC.
+Confirmed via JLCPCB chat (Desmond, 04.06.2026):
 > "If you didn't select them to be assembled at the ordering page, we will not charge them and hence we will not send them to you."
 
-Vidi: [LCSC_Additional_Order.csv](LCSC_Additional_Order.csv) za kompletnu listu sa LCSC kodovima.
+See: [LCSC_Additional_Order.csv](LCSC_Additional_Order.csv) for the full list with LCSC codes.
 
 ---
 
-## 📦 Lista komponenti (po designator-u)
+## 📦 Component list (by designator)
 
-| # | Designator | Vrednost | Footprint | LCSC | Mounting |
+| # | Designator | Value | Footprint | LCSC | Mounting |
 |---|---|---|---|---|---|
-| 1 | **C7** | 100µF elektrolit | TH BD6.0-P2.50 | C2873969 | Vertikalan, pazi polaritet (-/+ na silkscreen-u) |
+| 1 | **C7** | 100µF electrolytic | TH BD6.0-P2.50 | C2873969 | Vertical, watch polarity (-/+ on silkscreen) |
 | 2 | **C61** | 1nF / 2kV ceramic | TH L6.8-W2.6-P5.08 | C2976624 | Bob Smith chassis coupling |
 | 3 | **CN22** | KF2EDGR-3.5-3P | TH 3-pin | C441172 | RS485 Modbus |
 | 4 | **CN23** | KF2EDGR-3.5-3P | TH 3-pin | C441172 | FEED HOLD input |
@@ -37,66 +37,66 @@ Vidi: [LCSC_Additional_Order.csv](LCSC_Additional_Order.csv) za kompletnu listu 
 | 21 | **CN39** | KF2EDGR-3.5-4P | TH 4-pin | C441173 | Spindle VFD (10V/EN/DIR/GND) |
 | 22 | **CN40** | KF2EDGR-3.5-5P | TH 5-pin | C441174 | AUX (5V/VAC/FLOOD/MIST/GND) |
 | 23 | **CN41** | KF2EDGR-3.5-6P | TH 6-pin | C441175 | RS422 Pendant (24V/TX+/TX-/RX+/RX-/GND) |
-| 24 | **D7** | 1N4742A Zener 12V | TH DO-41 | C140853 | Pazi katoda (traka) ide ka SPIN_10V net-u |
+| 24 | **D7** | 1N4742A Zener 12V | TH DO-41 | C140853 | Watch the cathode (band) — it faces the SPIN_10V net |
 | 25 | **H1** | PZ254V-11-04P | TH 4-pin 2.54mm | C2691448 | SWD debug header |
 | 26 | **R128** | PV37W103C01B00 trim pot 10k | TH PV37W | C6630214 | Spindle 0-10V gain calibration |
-| 27 | **RJ1** | J1B1211CCD | TH RJ45 | C910371 | Ethernet sa integrisanim magnetics |
-| 28 | **U3** | B2424S-2WR3 | TH 4-pin DC/DC | C5369487 | Isolated 24V→24V_ISO za opto LEDs |
+| 27 | **RJ1** | J1B1211CCD | TH RJ45 | C910371 | Ethernet with integrated magnetics |
+| 28 | **U3** | B2424S-2WR3 | TH 4-pin DC/DC | C5369487 | Isolated 24V→24V_ISO for opto LEDs |
 
-**Ukupno: 28 komponenti za ručno lemljenje (sve dolaze sa JLCPCB ploče)**
+**Total: 28 components for hand-soldering (all come with the JLCPCB board)**
 
 ---
 
-## 🛠️ Redosled lemljenja (preporuka)
+## 🛠️ Soldering order (recommended)
 
-### Faza 1: Najniže komponente prvo
-1. **D7** Zener (savij noge u "P" oblik za stress relief)
+### Phase 1: Lowest-profile components first
+1. **D7** Zener (bend the leads into a "P" shape for stress relief)
 2. **R128** trim pot
 3. **H1** SWD header
 
-### Faza 2: Srednje visine
-4. **C7** elektrolit (polaritet! kraća noga = minus)
+### Phase 2: Medium height
+4. **C7** electrolytic (polarity! shorter lead = minus)
 5. **C61** ceramic chassis cap
 
-### Faza 3: Više komponente
-6. **U3** B2424S DC/DC modul
-7. **RJ1** RJ45 konektor (oprezno sa shield pinovima)
+### Phase 3: Taller components
+6. **U3** B2424S DC/DC module
+7. **RJ1** RJ45 connector (careful with the shield pins)
 
-### Faza 4: Konektori (najviši)
-8. Sve **CN22-CN42** screw terminals (KEFA)
+### Phase 4: Connectors (tallest)
+8. All **CN22-CN42** screw terminals (KEFA)
 
-### Faza 5: Provera
-- Vizuelno pregled lemljenja
-- Kontinuitet test multimetrom (GND ka glavnim pinovima)
-- Power-on test bez glavnih komponenti spojenih
-
----
-
-## ⚠️ Specifične napomene
-
-### **D7 1N4742A Zener — polaritet KRITIČAN**
-- Katoda (traka na telu) ide ka **SPIN_10V** (izlazni signal)
-- Anoda (bez trake) ide ka **GND**
-- Ako obrnuto → Zener nikad ne provodi → nema zaštite za VFD
-
-### **C7 100µF elektrolit — polaritet KRITIČAN**
-- Pozitivna noga (duža) ide ka **+5V** strani
-- Negativna noga (kraća, sa belom trakom na kućištu) ide ka **GND**
-- Ako obrnuto → eksplozija pri prvom power-on-u!
-
-### **RJ1 RJ45 — pazi shield pinove**
-- Ima 2 dodatna pina za chassis ground/shield
-- Mora biti zalemljeno za EMI performance
-- Bob Smith termination radi samo ako je shield povezan
-
-### **R128 trim pot — kalibracija**
-- Posle lemljenja: priključi VFD i podesi tako da na max PWM dobiješ tačno 10.0V
-- Vidi [VFD_Wiring_Guide.md](VFD_Wiring_Guide.md) za detalje
+### Phase 5: Verification
+- Visual inspection of solder joints
+- Continuity test with the multimeter (GND to main pins)
+- Power-on test without main components connected
 
 ---
 
-## 📋 Šta TI moraš da kupiš zasebno (NIJE u JLCPCB paketu)
+## ⚠️ Specific notes
 
-**SVE komponente sa ove liste (28 TH parts) + muški KEFA konektori za mate.**
+### **D7 1N4742A Zener — polarity CRITICAL**
+- The cathode (band on the body) faces **SPIN_10V** (output signal)
+- The anode (no band) goes to **GND**
+- If reversed → the Zener never conducts → no VFD protection
 
-Vidi: [LCSC_Additional_Order.csv](LCSC_Additional_Order.csv) — kompletan BOM za 5 ploča (~$50 sa muškim konektorima).
+### **C7 100µF electrolytic — polarity CRITICAL**
+- The positive lead (longer) faces the **+5V** side
+- The negative lead (shorter, white band on the can) faces **GND**
+- If reversed → explosion on first power-on!
+
+### **RJ1 RJ45 — watch the shield pins**
+- It has 2 extra pins for chassis ground/shield
+- They must be soldered for EMI performance
+- Bob Smith termination works only if the shield is connected
+
+### **R128 trim pot — calibration**
+- After soldering: connect the VFD and tune so that at max PWM you get exactly 10.0V
+- See [VFD_Wiring_Guide.md](VFD_Wiring_Guide.md) for details
+
+---
+
+## 📋 What YOU must purchase separately (NOT in the JLCPCB package)
+
+**ALL components on this list (28 TH parts) + male KEFA mating connectors.**
+
+See: [LCSC_Additional_Order.csv](LCSC_Additional_Order.csv) — full BOM for 5 boards (~$50 with male connectors).
