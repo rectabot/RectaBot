@@ -53,20 +53,24 @@ RectaBot/
 │   ├── CPL_RectaBot_V1.0.csv           # Component Placement List za JLCPCB
 │   └── LCSC_Additional_Order.csv       # TH parts za zasebnu LCSC porudžbinu
 │
-├── Firmware/                    # 🔧 grblHAL fork za RP2350B
-│   ├── boards/my_machine_map.h         # Mapiranje pinova za RectaBot v1
-│   ├── release/                        # 🆕 Build + Flash + Config dokumentacija
-│   │   ├── README.md                   #   - Overview release-a
-│   │   ├── BUILD.md                    #   - Kako kompajlovati firmware
-│   │   ├── FLASH.md                    #   - Procedure za flashovanje preko USB
-│   │   ├── CONFIG.md                   #   - grblHAL $$ parametri (sva 5 osa)
-│   │   └── sample_config.txt           #   - Plain text za copy-paste u serial
-│   └── ...                             # Standard grblHAL struktura
-│
-├── SmartPendant/                # 🎮 Sledeći projekat: ručni pendant
-│   └── ...                             # RP2350 + LCD + enkoderi (u razvoju)
-│
-└── Hardware/                    # 🛠️ KiCad/EasyEDA fajlovi (planirano za open-source)
+└── (Submoduli su u zasebnim repo-ima — vidi ispod)
+```
+
+## 🔗 Povezani repozitorijumi
+
+RectaBot je podeljen u 3 odvojena GitHub repo-a za bolju modularnost:
+
+| Repo | Sadržaj | Veličina |
+|---|---|---|
+| **[rectabot/RectaBot](https://github.com/rectabot/RectaBot)** (ovaj) | Hardware design (Gerber), docs, web tools, BOM | ~5MB |
+| **[rectabot/RectaBot-firmware](https://github.com/rectabot/RectaBot-firmware)** | grblHAL fork sa RectaBot board map + pre-built UF2 | ~49MB |
+| **[rectabot/RectaBot-pendant](https://github.com/rectabot/RectaBot-pendant)** | SmartPendant firmware (LVGL na RP2350) | ~148MB |
+
+**Clone sve odjednom:**
+```powershell
+git clone https://github.com/rectabot/RectaBot.git
+git clone https://github.com/rectabot/RectaBot-firmware.git
+git clone https://github.com/rectabot/RectaBot-pendant.git
 ```
 
 ---
