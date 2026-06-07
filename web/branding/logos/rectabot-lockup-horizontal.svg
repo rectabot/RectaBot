@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" width="800" height="200">
+  <!-- RectaBot Horizontal Lockup — icon + wordmark for landing hero -->
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&amp;display=swap');
+      .rb-text { font-family: 'Orbitron', 'Bahnschrift', 'Eurostile', sans-serif; font-weight: 900; }
+    </style>
+  </defs>
+
+  <!-- LEFT: Icon -->
+  <g transform="translate(40, 40)">
+    <rect width="120" height="120" rx="16" ry="16" fill="#22d3ee"/>
+    <text x="60" y="98" text-anchor="middle" class="rb-text"
+          font-size="100" fill="#020617">r</text>
+  </g>
+
+  <!-- RIGHT: Wordmark -->
+  <text x="200" y="125" class="rb-text"
+        font-size="78" letter-spacing="0.06em" fill="#22d3ee">rectabot</text>
+</svg>

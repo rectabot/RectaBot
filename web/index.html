@@ -11,6 +11,9 @@
     <meta property="og:description" content="Open-source CNC controller. RP2350B + grblHAL. Industrial-grade isolation. Coming Q3 2026.">
     <meta property="og:type" content="website">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -29,7 +32,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
         body { background-color: #020617; color: #f1f5f9; }
@@ -193,9 +196,12 @@
     <!-- Navigation -->
     <nav class="sticky top-0 z-50 backdrop-blur-lg bg-slate-950/80 border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <a href="#" class="flex items-center gap-2 font-bold text-xl">
-                <span class="text-cyan-400 font-mono">▣</span>
-                <span>RectaBot</span>
+            <a href="#" class="flex items-center gap-3">
+                <!-- RectaBot Logo Icon (Orbitron "r" in cyan rounded square) -->
+                <div class="w-9 h-9 bg-cyan-400 rounded-lg flex items-center justify-center">
+                    <span class="text-slate-950 text-2xl font-black leading-none" style="font-family: 'Orbitron', sans-serif;">r</span>
+                </div>
+                <span style="font-family: 'Orbitron', sans-serif;" class="text-xl font-black tracking-wider text-cyan-400">rectabot</span>
                 <span class="text-slate-500 text-sm font-mono">v1.0</span>
             </a>
             <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
@@ -822,9 +828,11 @@
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid md:grid-cols-4 gap-8 mb-8">
                 <div>
-                    <div class="flex items-center gap-2 font-bold text-xl mb-4">
-                        <span class="text-cyan-400 font-mono">▣</span>
-                        <span>RectaBot</span>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-9 h-9 bg-cyan-400 rounded-lg flex items-center justify-center">
+                            <span class="text-slate-950 text-2xl font-black leading-none" style="font-family: 'Orbitron', sans-serif;">r</span>
+                        </div>
+                        <span style="font-family: 'Orbitron', sans-serif;" class="text-xl font-black tracking-wider text-cyan-400">rectabot</span>
                     </div>
                     <p class="text-sm text-slate-400">
                         Industrial-grade open-source CNC controller. Designed in Kragujevac, Serbia.
@@ -859,7 +867,7 @@
 
             <div class="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
                 <p>© 2026 RectaBot Project. Open hardware, open firmware.</p>
-                <p class="font-mono">Made with ▣ in Kragujevac, Serbia</p>
+                <p class="font-mono">Made with <span style="font-family: 'Orbitron', sans-serif; color: #22d3ee;" class="font-black">r</span> in Kragujevac, Serbia</p>
             </div>
         </div>
     </footer>

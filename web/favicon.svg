@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- RectaBot Favicon — simplified for 16px-64px sizes -->
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&amp;display=swap');
+    </style>
+  </defs>
+  <rect width="64" height="64" rx="8" ry="8" fill="#020617"/>
+  <text x="32" y="50" text-anchor="middle"
+        font-family="Orbitron, sans-serif" font-weight="900"
+        font-size="52" fill="#22d3ee">r</text>
+</svg>

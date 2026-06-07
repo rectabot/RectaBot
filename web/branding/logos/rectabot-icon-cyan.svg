@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- RectaBot Icon — for favicon, GitHub avatar, app icon -->
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&amp;display=swap');
+      .rb-icon { font-family: 'Orbitron', 'Bahnschrift', 'Eurostile', sans-serif; font-weight: 900; }
+    </style>
+  </defs>
+
+  <!-- Dark rounded square background -->
+  <rect width="256" height="256" rx="32" ry="32" fill="#020617"/>
+
+  <!-- Inner subtle frame -->
+  <rect x="16" y="16" width="224" height="224" rx="24" ry="24"
+        fill="none" stroke="#22d3ee" stroke-width="2" opacity="0.2"/>
+
+  <!-- Lowercase "r" centered, big -->
+  <text x="128" y="200" text-anchor="middle" class="rb-icon"
+        font-size="220" fill="#22d3ee">r</text>
+</svg>

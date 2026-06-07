@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" width="600" height="200">
+  <!-- Concept 11: Quattro Minimal — pure wordmark, no decoration -->
+  <rect width="600" height="200" fill="#020617"/>
+
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&amp;display=swap');
+      .quattro-min {
+        font-family: 'Orbitron', 'Bahnschrift', 'Eurostile', sans-serif;
+        font-weight: 900;
+      }
+    </style>
+  </defs>
+
+  <!-- Just "rectabot" - clean, minimal, no decoration -->
+  <text x="300" y="125" text-anchor="middle"
+        class="quattro-min"
+        font-size="82"
+        letter-spacing="0.06em"
+        fill="#22d3ee">rectabot</text>
+</svg>
