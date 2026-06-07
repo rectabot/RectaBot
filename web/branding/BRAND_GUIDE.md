@@ -1,18 +1,8 @@
 # RectaBot Brand Guide
 
-**Version 1.0 — Locked 07.06.2026**
+**Version 1.0**
 
-This is the definitive guide for using the RectaBot brand mark. Read before placing the logo anywhere.
-
----
-
-## 🎯 Brand identity
-
-| | |
-|---|---|
-| **Wordmark** | `rectabot` (always lowercase) |
-| **Reference** | Audi Quattro-inspired geometric typography |
-| **Personality** | Industrial · Approachable · Tech-forward · Honest |
+Technical reference for using the RectaBot brand mark. This document covers logo files, typography, color tokens, and usage rules so anyone modifying, redistributing, or building on RectaBot hardware can identify their version correctly.
 
 ---
 
@@ -22,12 +12,11 @@ This is the definitive guide for using the RectaBot brand mark. Read before plac
 
 - **Source:** Google Fonts (https://fonts.google.com/specimen/Orbitron)
 - **License:** SIL Open Font License (free for any use)
-- **Weights used:** 400 (rare), 700 (rarely), **900 (always for wordmark)**
-- **Why:** Geometric, rounded sans-serif with a tech feel. Echoes the Audi Quattro vibe Filip identified as the right brand reference.
+- **Weights used:** 400, 700, **900 (always for wordmark)**
 
-### Supporting fonts:
-- **Inter** — body text in marketing/web
-- **JetBrains Mono** — technical contexts (code, specs, terminal)
+### Supporting fonts (web/docs)
+- **Inter** — body text
+- **JetBrains Mono** — code, specs, terminal
 
 ---
 
@@ -50,7 +39,7 @@ This is the definitive guide for using the RectaBot brand mark. Read before plac
 
 ## 📐 Logo lockups
 
-### 1. Wordmark only (most-used)
+### 1. Wordmark only
 
 ```
        rectabot
@@ -59,11 +48,10 @@ This is the definitive guide for using the RectaBot brand mark. Read before plac
 - Font: **Orbitron** weight 900
 - Letter-spacing: `0.06em`
 - Cyan-400 on dark, slate-950 on light, white on PCB
-- **Use for:** landing nav, documents, signature, business cards
 
 **SVG files:**
-- `logos/rectabot-wordmark-cyan.svg` (primary)
-- `logos/rectabot-wordmark-white.svg` (PCB silkscreen, dark backgrounds)
+- `logos/rectabot-wordmark-cyan.svg` (primary, dark backgrounds)
+- `logos/rectabot-wordmark-white.svg` (PCB silkscreen)
 - `logos/rectabot-wordmark-dark.svg` (light backgrounds, print)
 
 ### 2. Icon only (square)
@@ -75,7 +63,7 @@ This is the definitive guide for using the RectaBot brand mark. Read before plac
 ```
 
 - Lowercase `r` in cyan-400 rounded square
-- **Use for:** favicons, GitHub avatar, app icon, small badges
+- For favicons, small badges, app icons
 
 **SVG files:**
 - `logos/rectabot-icon-cyan.svg` (dark background)
@@ -89,52 +77,50 @@ This is the definitive guide for using the RectaBot brand mark. Read before plac
   └───┘
 ```
 
-- **Use for:** landing page nav, large headers, promotional banners
+For headers, banners, page tops.
 
-**SVG files:**
-- `logos/rectabot-lockup-horizontal.svg`
+**SVG file:** `logos/rectabot-lockup-horizontal.svg`
 
 ---
 
 ## ✅ Do's
 
-- ✅ Always use lowercase `rectabot` in the wordmark
-- ✅ Maintain letter-spacing `0.06em` for the wordmark
-- ✅ Keep generous whitespace around the logo (minimum: 0.5× character height)
-- ✅ Use white wordmark on PCB silkscreen
-- ✅ Use cyan-400 (`#22d3ee`) as the only brand accent color
-- ✅ Use the icon (square with `r`) when space is tight or you need a recognizable mark
+- Use lowercase `rectabot` in the wordmark
+- Maintain letter-spacing `0.06em`
+- Keep generous whitespace around the logo (min: 0.5× character height)
+- Use white wordmark on PCB silkscreen
+- Use cyan-400 (`#22d3ee`) as the brand accent color
+- Use the icon (square with `r`) when space is tight
 
 ---
 
 ## ❌ Don'ts
 
-- ❌ Don't capitalize `RECTABOT` or write `Rectabot` (in marks; in body text "RectaBot" is OK)
-- ❌ Don't use other fonts (Helvetica, Arial, Comic Sans, etc.)
-- ❌ Don't rotate, skew, or distort the logo
-- ❌ Don't change the color to red, green, purple, etc.
-- ❌ Don't stretch or compress the wordmark horizontally
-- ❌ Don't use the ▣ unicode character anymore (replaced by Orbitron `r` icon)
-- ❌ Don't apply drop shadows, gradients, or 3D effects
+- Don't capitalize `RECTABOT` or write `Rectabot` in marks (in body text, "RectaBot" is fine)
+- Don't substitute other fonts
+- Don't rotate, skew, or distort the logo
+- Don't recolor to red/green/purple/etc.
+- Don't stretch or compress horizontally
+- Don't apply drop shadows, gradients, or 3D effects
 
 ---
 
 ## 📏 Sizing & clear space
 
-### Minimum sizes:
+### Minimum sizes
 - **Wordmark:** 80px wide minimum (readable)
 - **Icon:** 16px × 16px minimum (favicon size)
 - **Lockup:** 200px wide minimum
 
-### Clear space:
-- Minimum padding around the wordmark = 0.5× the height of the `r` glyph
-- For the icon, minimum padding = 0.25× the icon side
+### Clear space
+- Around the wordmark: 0.5× the height of the `r` glyph
+- Around the icon: 0.25× the icon side
 
 ---
 
 ## 🖥️ Web implementation
 
-### HTML for navigation:
+### HTML for navigation
 
 ```html
 <a href="#" class="flex items-center gap-3">
@@ -147,7 +133,7 @@ This is the definitive guide for using the RectaBot brand mark. Read before plac
 </a>
 ```
 
-### Font loading:
+### Font loading
 
 ```html
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -156,7 +142,7 @@ This is the definitive guide for using the RectaBot brand mark. Read before plac
       rel="stylesheet">
 ```
 
-### Favicon:
+### Favicon
 
 ```html
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -164,42 +150,11 @@ This is the definitive guide for using the RectaBot brand mark. Read before plac
 
 ---
 
-## 🏷️ Brand applications
-
-### Where the logo appears:
-
-| Context | Variant | File |
-|---|---|---|
-| Website nav | Lockup (small) | inline HTML |
-| Website footer | Lockup (small) | inline HTML |
-| Favicon | Icon | `favicon.svg` |
-| GitHub org avatar | Icon (256×256) | `rectabot-icon-cyan.svg` (export to PNG) |
-| GitHub social card | Lockup | `rectabot-lockup-horizontal.svg` |
-| Business card | Wordmark | `rectabot-wordmark-dark.svg` for white card |
-| PCB silkscreen | Wordmark white | `rectabot-wordmark-white.svg` (v2 onwards) |
-| Email signature | Lockup small | inline embedded SVG |
-| Invoice header | Wordmark dark | `rectabot-wordmark-dark.svg` |
-
----
-
-## 🎬 Verbal brand voice
-
-When writing about RectaBot:
-- ✅ "rectabot" in the mark, "RectaBot" or "rectabot" in body text (both fine)
-- ✅ Honest, technical, no-marketing-bs tone
-- ✅ Use phrases like "open-source", "industrial-grade", "no vendor lock-in"
-- ❌ Never claim features that aren't shipped yet (see `feedback-marketing-honesty` memory)
-
----
-
 ## 🛠️ Source files
-
-All branding assets live in:
 
 ```
 web/branding/
-├── BRAND_GUIDE.md        ← This document
-├── index.html            ← Logo concepts preview (will be cleaned up post-launch)
+├── BRAND_GUIDE.md          ← This document
 └── logos/
     ├── rectabot-wordmark-cyan.svg
     ├── rectabot-wordmark-white.svg
@@ -210,16 +165,12 @@ web/branding/
     └── rectabot-orbitron.svg          ← Original final pick
 ```
 
-**Favicon:** `web/favicon.svg` (root for HTML `<link>` reference)
+**Favicon:** `web/favicon.svg`
 
 ---
 
-## 📝 Change log
+## 📜 License
 
-| Date | Change |
-|---|---|
-| 2026-06-07 | Initial brand identity locked. Orbitron font (lowercase wordmark) chosen over Michroma. Replaces previous ▣ unicode mark. |
+These brand assets are part of the RectaBot project, licensed under **CERN-OHL-S v2** (Strong reciprocal open hardware). You may use, modify, and redistribute the logo files when including, modifying, or redistributing the RectaBot hardware design, provided you comply with the CERN-OHL-S terms.
 
----
-
-*Questions? See landing/preview at `web/branding/index.html` or contact Filip.*
+For derivative works, change the wordmark to your own to avoid confusion with the upstream RectaBot project.
