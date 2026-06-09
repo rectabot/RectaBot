@@ -1,0 +1,42 @@
+RectaBot — Authors and Contributors
+====================================
+
+This file lists the people and entities who have contributed to the
+RectaBot project.
+
+
+## Project Lead
+
+**Filip Perić** <hello@rectabot.org>
+- Hardware design (schematic, PCB layout, BOM selection)
+- Project vision and direction
+- All final engineering decisions
+- Business and brand decisions
+- Kragujevac, Serbia
+
+
+## Engineering Assistance
+
+**Claude (Anthropic)** — AI engineering partner
+- Research, documentation drafting, code review, project planning
+- Used throughout development as a collaborative tool
+- See NOTICE for the full description of the human–AI workflow
+
+
+## Contributors
+
+(No external contributors yet — RectaBot v1.0 is a solo founder project
+with AI assistance. This file will grow as the community contributes.)
+
+
+---
+
+## How to be added
+
+If you contribute code, documentation, hardware modifications, translations,
+or other meaningful improvements via pull request, you will be listed here
+in your preferred form (name, GitHub handle, email — your choice).
+
+By contributing, you agree to license your contribution under the same
+terms as the relevant part of the project (MIT for code/docs, CERN-OHL-S
+for hardware, GPL-3.0 for firmware fork).

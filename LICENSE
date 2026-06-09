@@ -25,20 +25,23 @@ SOFTWARE.
 ## Scope of this license
 
 This MIT License covers:
-- Documentation in Docs/
-- Web Configurator in web/configurator/
-- Landing page in web/
-- All Markdown documentation
 
-## Future content not covered by this LICENSE
+- Markdown documentation in `Docs/`
+- The web-based grblHAL configurator tool in `Docs/configurator/`
+- The main `README.md`
+- Any helper scripts and tooling in this repository
 
-When PCB hardware design files (KiCad / EasyEDA / Gerber) are added to this
-repository, they will be licensed separately under **CERN-OHL-S v2** (open
-hardware share-alike). A `LICENSE.hardware` file will be added at that time.
+## Other licenses in this project
 
-The grblHAL firmware fork is maintained in a separate repository
-(RectaBot-firmware) and inherits the GPL-3.0 license from the upstream grblHAL
-project (https://github.com/grblHAL).
+Different portions of the RectaBot project are released under different licenses
+to match the nature of the content:
 
-The SmartPendant firmware is maintained in a separate repository
-(RectaBot-pendant) and is licensed under MIT.
+| Content | License | Location |
+|---|---|---|
+| Hardware design files (Gerber, BOM, CPL, schematic) | CERN-OHL-S v2 | See `LICENSE.hardware` |
+| Brand assets (logo SVG files) | CERN-OHL-S v2 | See `Docs/Brand_Assets/README.md` |
+| grblHAL firmware fork | GPL-3.0 | Separate repo: [RectaBot-firmware](https://github.com/rectabot/RectaBot-firmware) |
+| RectaPad pendant firmware | MIT | Separate repo: [RectaPad](https://github.com/rectabot/RectaPad) |
+| Orbitron font (used in brand assets) | SIL Open Font License 1.1 | https://fonts.google.com/specimen/Orbitron |
+
+For third-party attribution and acknowledgments, see `NOTICE`.

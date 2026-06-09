@@ -1,0 +1,122 @@
+RectaBot — Third-party attributions and acknowledgments
+========================================================
+
+This file documents third-party components, fonts, references, and tools
+used in the RectaBot project, along with their respective licenses.
+
+
+## Third-party components
+
+### grblHAL
+- Upstream: https://github.com/grblHAL
+- License: GPL-3.0
+- Used by: RectaBot-firmware (separate repository)
+- The RectaBot firmware is a fork of grblHAL with a board map for the RP2350B.
+  All firmware modifications inherit the GPL-3.0 license from upstream.
+
+### Raspberry Pi Pico SDK
+- Upstream: https://github.com/raspberrypi/pico-sdk
+- License: BSD-3-Clause
+- Used by: RectaPad pendant firmware (separate repository)
+- Provides hardware abstraction for the RP2350B microcontroller.
+
+### LVGL (Light and Versatile Graphics Library)
+- Upstream: https://github.com/lvgl/lvgl
+- License: MIT
+- Used by: RectaPad pendant firmware (separate repository)
+- Provides the touch GUI framework on the pendant.
+
+### WIZnet ioLibrary
+- Upstream: https://github.com/Wiznet/ioLibrary_Driver
+- License: BSD-3-Clause
+- Used by: RectaBot-firmware (Ethernet driver for W5500)
+
+### Tailwind CSS (loaded via CDN)
+- Upstream: https://tailwindcss.com
+- License: MIT
+- Used by: Web configurator in `Docs/configurator/`
+
+
+## Fonts
+
+### Orbitron
+- Source: https://fonts.google.com/specimen/Orbitron
+- License: SIL Open Font License 1.1
+- Used as: Primary brand wordmark font
+
+### Inter
+- Source: https://fonts.google.com/specimen/Inter
+- License: SIL Open Font License 1.1
+- Used as: Body text font in web tools
+
+### JetBrains Mono
+- Source: https://www.jetbrains.com/lp/mono/
+- License: SIL Open Font License 1.1
+- Used as: Monospace font for code and specifications
+
+
+## Hardware reference designs
+
+The following reference designs influenced the RectaBot v1.0 hardware
+and are credited here for transparency:
+
+- Raspberry Pi Foundation RP2350 reference design (TPS5430 buck topology,
+  USB-C device mode)
+- WIZnet W5500 reference application notes (Bob Smith termination,
+  magnetics integration)
+- Bart Dring (Buildlog) — pioneer grblHAL board designer; inspiration
+  for input isolation topology
+- Phil Barrett (phil-barrett/grblHAL) — Teensy/STM32 board ecosystem
+  reference for the keypad/MPG plugin interface
+
+
+## Development tools and services
+
+- **EasyEDA** — PCB design tool used for schematic and layout
+- **JLCPCB** — PCB fabrication and SMT assembly service
+- **LCSC** — Component sourcing for TH parts
+- **GitHub** — Source control and project hosting
+
+
+## Engineering assistance — Claude AI (Anthropic)
+
+Significant portions of this project were developed in collaboration with
+**Claude** (Anthropic's AI assistant), used as an engineering partner
+throughout the design, documentation, and research phases.
+
+Specifically, Claude was used to:
+
+- Research components, suppliers, and alternative parts
+- Generate first drafts of technical documentation (datasheets, guides,
+  pinout references, bring-up procedures)
+- Review schematics and identify potential issues
+- Plan project structure and file organization
+- Draft commit messages and pull request descriptions
+- Help organize the configurator's grblHAL settings generator logic
+- Maintain a persistent memory of project context across development sessions
+
+**All final design decisions, hardware choices, component selections,
+business decisions, and architectural choices were made by Filip Perić.**
+
+Claude served as a fast research, drafting, and review partner — not as
+a decision-maker. The judgment, hands-on experience, and ownership of
+the project remain entirely with the human author.
+
+This acknowledgment is intentionally transparent. Open hardware deserves
+open process disclosure.
+
+
+## Acknowledgments
+
+- The **grblHAL community** for the foundation that makes this controller
+  possible
+- The **Raspberry Pi Foundation** for the RP2350 microcontroller and its
+  open documentation
+- Everyone who has shared CNC controller designs, schematics, and lessons
+  learned publicly — open hardware progresses through shared knowledge
+
+
+---
+
+For questions about attributions or licensing, contact:
+hello@rectabot.org
