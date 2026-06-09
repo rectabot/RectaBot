@@ -1,6 +1,6 @@
-# RectaBot — Industrial 5-Axis CNC Controller
+# RectaBot — 5-Axis CNC Controller
 
-**Industrial-grade open-source CNC controller for hobby and small workshop use. Based on the Raspberry Pi RP2350B microcontroller running grblHAL firmware.**
+Open-source 5-axis CNC controller based on the Raspberry Pi RP2350B microcontroller running grblHAL firmware. Designed for hobby and workshop applications.
 
 ---
 
@@ -18,7 +18,7 @@
 
 ## 🎯 What is RectaBot?
 
-A 5-axis CNC controller designed for hobby-pro and workshop applications, featuring industry-grade galvanic isolation and rich connectivity. A direct alternative to expensive proprietary controllers like Centroid Acorn, Mach3 hardware, or LinuxCNC with costly Mesa cards.
+A 5-axis CNC controller with optical input isolation, integrated Ethernet, and a VFD interface.
 
 ### Key features
 
@@ -39,38 +39,40 @@ A 5-axis CNC controller designed for hobby-pro and workshop applications, featur
 
 ```
 RectaBot/
-├── Docs/                        # 📚 All documentation (read first!)
-│   ├── Product_Specification_v1.0.md   # Complete datasheet/spec
-│   ├── Quick_Start_Guide.md            # 🆕 From unboxing to first motor (2-3h)
-│   ├── First_Power_On_Procedure.md     # 🆕 Safe first power-on with a multimeter
-│   ├── Pinout.md                       # RP2350B pinmap (GP0-GP47)
-│   ├── Schematic_References.md         # Reference schematics for all ICs
-│   ├── Hardware_Design_Guidelines.md   # PCB layout guidelines
-│   ├── VFD_Wiring_Guide.md             # VFD connection guide
-│   ├── Hand_Solder_Components.md       # 28 TH components for hand-soldering
-│   ├── Silkscreen_Layout_Guide.md      # Silkscreen marking guidelines
-│   ├── BOM_v1.0_final.csv              # Bill of Materials (~80 components)
-│   ├── CPL_RectaBot_V1.0.csv           # Component Placement List for JLCPCB
-│   └── LCSC_Additional_Order.csv       # TH parts for a separate LCSC order
+├── Docs/                                # 📚 All documentation (read first!)
+│   ├── Product_Specification_v1.0.md    # Complete datasheet/spec
+│   ├── Quick_Start_Guide.md             # From unboxing to first motor (2-3h)
+│   ├── First_Power_On_Procedure.md      # Safe first power-on with a multimeter
+│   ├── Pinout.md                        # RP2350B pinmap (GP0-GP47)
+│   ├── Schematic_References.md          # Reference schematics for all ICs
+│   ├── Hardware_Design_Guidelines.md    # PCB layout guidelines
+│   ├── VFD_Wiring_Guide.md              # VFD connection guide
+│   ├── Hand_Solder_Components.md        # 28 TH components for hand-soldering
+│   ├── BOM_v1.0_final.csv               # Bill of Materials (~80 components)
+│   ├── CPL_RectaBot_V1.0.csv            # Component Placement List for JLCPCB
+│   ├── LCSC_Additional_Order.csv        # TH parts for a separate LCSC order
+│   ├── Gerber_RectaBot_1.0/             # Production-ready Gerber files
+│   ├── Brand_Assets/                    # Logo files (SVG) under CERN-OHL-S
+│   └── configurator/                    # Web-based grblHAL settings generator
 │
 └── (Submodules live in separate repos — see below)
 ```
 
 ## 🔗 Related repositories
 
-RectaBot is split across 3 separate GitHub repos for better modularity:
+RectaBot is split across separate GitHub repos for better modularity:
 
-| Repo | Contents | Size |
-|---|---|---|
-| **[rectabot/RectaBot](https://github.com/rectabot/RectaBot)** (this one) | Hardware design (Gerber), docs, web tools, BOM | ~5MB |
-| **[rectabot/RectaBot-firmware](https://github.com/rectabot/RectaBot-firmware)** | grblHAL fork with RectaBot board map + pre-built UF2 | ~49MB |
-| **[rectabot/RectaBot-pendant](https://github.com/rectabot/RectaBot-pendant)** | SmartPendant firmware (LVGL on RP2350) | ~148MB |
+| Repo | Contents |
+|---|---|
+| **[rectabot/RectaBot](https://github.com/rectabot/RectaBot)** (this one) | Hardware design (Gerber), docs, BOM, brand assets, configurator tool |
+| **[rectabot/RectaBot-firmware](https://github.com/rectabot/RectaBot-firmware)** | grblHAL fork with RectaBot board map + pre-built UF2 |
+| **[rectabot/RectaPad](https://github.com/rectabot/RectaPad)** | Touchscreen pendant firmware (LVGL on RP2350) |
 
 **Clone everything at once:**
 ```powershell
 git clone https://github.com/rectabot/RectaBot.git
 git clone https://github.com/rectabot/RectaBot-firmware.git
-git clone https://github.com/rectabot/RectaBot-pendant.git
+git clone https://github.com/rectabot/RectaPad.git
 ```
 
 ---
@@ -165,7 +167,7 @@ Note: v1 isolates input side only. Full I/O galvanic isolation is planned for v2
 3. Pre-Power-On continuity tests (15 min)
 4. First Power-On + LED + voltage verification (10 min)
 5. Firmware flash via BOOTSEL+USB (15 min)
-6. grblHAL configuration (`$$` parameters for RectaBot, 20 min)
+6. grblHAL configuration (`$$` parameters for RectaBot, 20 min) — use [Docs/configurator/](Docs/configurator/) to generate
 7. First axis test with a DM556 driver (10 min)
 8. VFD wiring — see [VFD Wiring Guide](Docs/VFD_Wiring_Guide.md)
 
@@ -182,8 +184,9 @@ Note: v1 isolates input side only. Full I/O galvanic isolation is planned for v2
 
 ## 📜 License
 
-- **Code, web, documentation:** MIT (see [LICENSE](LICENSE))
+- **Code, documentation:** MIT (see [LICENSE](LICENSE))
 - **Hardware design files** (Gerber, BOM, CPL): CERN-OHL-S v2 (see [LICENSE.hardware](LICENSE.hardware))
+- **Brand assets** (logo SVGs): CERN-OHL-S v2 (with derivative-work caveat — see [Docs/Brand_Assets/README.md](Docs/Brand_Assets/README.md))
 - **grblHAL firmware fork:** GPL-3.0 (inherits from upstream, in the separate [RectaBot-firmware](https://github.com/rectabot/RectaBot-firmware) repo)
 
 ---
@@ -193,7 +196,3 @@ Note: v1 isolates input side only. Full I/O galvanic isolation is planned for v2
 **Project lead:** Filip Perić
 **Email:** hello@rectabot.org
 **Location:** Kragujevac, Serbia
-
----
-
-*🤖 This README is part of a solo-founder project. For more information on specific design aspects, see the [Docs/](Docs/) folder.*
