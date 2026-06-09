@@ -17,7 +17,7 @@ body:
         - Firmware
         - Web Configurator
         - Documentation
-        - SmartPendant
+        - RectaPad (pendant)
         - Other
     validations:
       required: true

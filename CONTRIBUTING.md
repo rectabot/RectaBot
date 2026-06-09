@@ -32,9 +32,9 @@ This is the **main** RectaBot repository. The project spans 3 repositories:
 
 | Repo | Purpose |
 |---|---|
-| **RectaBot** (this one) | Hardware design, documentation, web tools |
+| **RectaBot** (this one) | Hardware design (Gerber, BOM), documentation, brand assets, configurator tool |
 | **RectaBot-firmware** | grblHAL fork with RectaBot board map |
-| **RectaBot-pendant** | SmartPendant firmware (LVGL on RP2350) |
+| **RectaPad** | Touchscreen pendant firmware (LVGL on RP2350) |
 
 ---
 
@@ -71,7 +71,7 @@ Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
 ## 🧪 Testing
 
 ### Web Configurator
-- Open `web/configurator/index.html` in a browser
+- Open `Docs/configurator/index.html` in a browser
 - Click through wizard steps
 - Verify generated `config.txt` matches expected format
 
@@ -112,9 +112,11 @@ Security topics:
 ## 📜 License
 
 By contributing, you agree your contributions are licensed under:
-- **MIT** for code and documentation (this repository)
-- **CERN-OHL-S v2** for hardware design files (future)
-- **GPL-3.0** for grblHAL firmware contributions (separate repo)
+- **MIT** for code and documentation (this repository) — see `LICENSE`
+- **CERN-OHL-S v2** for hardware design files (Gerber, BOM, CPL) — see `LICENSE.hardware`
+- **CERN-OHL-S v2** for brand assets (logo SVGs) — see `Docs/Brand_Assets/README.md`
+- **GPL-3.0** for grblHAL firmware contributions — separate repo: [RectaBot-firmware](https://github.com/rectabot/RectaBot-firmware)
+- **MIT** for RectaPad pendant contributions — separate repo: [RectaPad](https://github.com/rectabot/RectaPad)
 
 ---
 
