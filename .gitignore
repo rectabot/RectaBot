@@ -4,6 +4,7 @@
 
 # Separate repositories (split out, not tracked in main repo)
 Firmware/
+rectapad/
 rectabot-pendant/
 SmartPendant/
 
