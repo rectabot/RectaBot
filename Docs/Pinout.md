@@ -4,13 +4,13 @@ The RP2350B (QFN-80) has 48 GPIO pins (GP0-GP47).
 
 **Level shift 3.3V → 5V:** Stepper signals (STEP/DIR/EN) and coolant outputs (MIST/FLOOD/VAC) pass through the **74HC14D** (Schmitt-trigger HEX inverter, Basic part on JLCPCB). Three 74HC14D chips (U7, U10, U15) cover 18 signals.
 
-**CRITICAL: the 74HC14D INVERTS the signal.** The following must be set in grblHAL firmware:
-- `$2=31` — STEP_INVERT_MASK (X|Y|Z|A|B)
-- `$3=31` — DIRECTION_INVERT_MASK
-- `$4=1`  — STEPPER_ENABLE_INVERT_MASK
+**The 74HC14D inverts the signal, but in Common Anode mode this is already accounted for** — no firmware STEP invert is needed. Validated on bench (TB6600 + NEMA17, smooth both directions, no missed steps up to F2000):
+- `$2=0` — STEP_INVERT_MASK. With `$2=0` the 74HC14D output idles HIGH (OPT− high → opto OFF) and each step pulse briefly pulls OPT− low (opto ON) — correct for Common Anode. Setting `$2`≠0 would hold the input opto continuously ON at idle and likely cause missed steps at speed.
+- `$3=0` — DIRECTION_INVERT_MASK baseline. Set per-axis on the actual machine so X+/Y+/Z+ move in the correct direction.
+- `$4` — STEPPER_ENABLE_INVERT_MASK: **not yet validated** (ENA left unconnected during bench test, driver always enabled). Verify once ENA is wired to the drivers.
 - Coolant invert via driver configuration
 
-Stepper drivers (DM556) operate in **Common Anode** mode: +5V on OPT+, the 74HC14D pulls OPT- to GND.
+Stepper drivers operate in **Common Anode** mode: +5V on OPT+, the 74HC14D pulls OPT− to GND. Validated with TB6600; verified-under-load values (and any driver-specific differences, e.g. DM-series) to be confirmed when machining.
 
 **Input galvanic isolation:** 10 isolated inputs via **LTV-217-B-G** optocouplers (U8-U20), powered from **+24V_ISO** (B2424S-2WR3 isolated DC/DC). GND_ISO is separated from GND by a 2mm copper void barrier.
 

@@ -79,3 +79,9 @@ DRAFT_*.md
 
 # Private planning / R&D documents (v2, future ideas, internal strategy)
 .private/
+
+# Local Claude Code session settings (not for publication)
+.claude/
+
+# Vendor datasheets (third-party copyright — keep local only)
+Docs/Datasheet/
