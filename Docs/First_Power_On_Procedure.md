@@ -63,6 +63,7 @@ Before power-on, visually verify **one more time**:
 ### 2a. Prepare the power supply
 - **24V DC, 2A min** (Mean Well RS-50-24 or similar)
 - **Polarity:** red wire = **+24V**, black = **GND** (or blue/brown on industrial ones)
+- 🔴 **WARNING: the 24V input has NO reverse-polarity protection.** Swapping +24V and GND on CN42 **will damage the board**. Triple-check polarity with a multimeter before every power-on.
 - Connect to **CN42**:
   - **Pin 1 = +24V**
   - **Pin 2 = GND**
@@ -76,11 +77,11 @@ Before power-on, visually verify **one more time**:
 ### 2c. LED indicator sequence (expected)
 
 > **Naming note:** the BOM uses `LED1-LED6` (KT-0805G) for the power LEDs.
-> `D1` is the **SS54 reverse-polarity Schottky diode** (not a LED).
+> `D1` is the **SS54 ORing Schottky on the +5V rail** (TPS5430 buck → L3 → D1 → +5V; it blocks the USB-C 5V from back-feeding the buck). It is **not** a 24V reverse-polarity diode, and not a LED.
 
 | LED | Location | When it lights | What it indicates |
 |---|---|---|---|
-| **LED1 - 24V power** | Near CN42 | Immediately at power-on | +24V rail OK (after SS54 D1) |
+| **LED1 - 24V power** | Near CN42 | Immediately at power-on | +24V rail OK |
 | **LED2 - 5V power** | Near TPS5430 | ~10ms later | +5V buck working |
 | **LED3 - 3V3 power** | Near AMS1117 | ~50ms later | +3.3V LDO working, MCU powered |
 | **LED4 - 24V_ISO** | Near U3 | ~100ms later | ISO rail active (opto supply) |
@@ -189,15 +190,14 @@ ping <ip-from-router>     # direct
 
 ### Problem: LED1 (24V power) does not light up
 **Causes:**
-- Wrong power-supply polarity (CN42 pin 1 and 2 swapped) — **but the SS54 D1 blocks the reverse current, so no damage occurs!**
-- SS54 Schottky diode (D1) is damaged or soldered reversed
+- Wrong power-supply polarity (CN42 pin 1 and 2 swapped) — 🔴 **the 24V input has NO reverse-polarity protection; reversing it can damage the board.** Disconnect and check the board before retrying.
 - Trace broken between CN42 and the power tree
+- LED1 or its series resistor damaged
 
 **Solution:**
 1. Multimeter on the CN42 pins — verify 24V with correct polarity (+24V on pin 1, GND on pin 2)
-2. Multimeter on D1 (SS54) — voltage drop ~0.4V in the forward direction (cathode toward the +24V rail)
-3. If you reversed the supply polarity, the SS54 blocks current — just connect it correctly and LED1 will light up
-4. Inspect the CN42 solder joints
+2. ⚠️ If you applied reverse polarity, there is no protection — inspect the board for damage before powering again
+3. Inspect the CN42 solder joints
 
 ---
 
