@@ -2,7 +2,7 @@
 
 The RP2350B (QFN-80) has 48 GPIO pins (GP0-GP47).
 
-**Level shift 3.3V → 5V:** Stepper signals (STEP/DIR/EN) and coolant outputs (MIST/FLOOD/VAC) pass through the **74HC14D** (Schmitt-trigger HEX inverter, Basic part on JLCPCB). Three 74HC14D chips (U7, U10, U15) cover 18 signals.
+**Level shift 3.3V → 5V:** Stepper signals (STEP/DIR/EN) and coolant outputs (VAC/FLOOD/MIST) pass through the **74HC14D** (Schmitt-trigger HEX inverter, Basic part on JLCPCB). Three 74HC14D chips (U7, U10, U15) cover 18 signals.
 
 **The 74HC14D inverts the signal, but in Common Anode mode this is already accounted for** — no firmware STEP invert is needed. Validated on bench (TB6600 + NEMA17, smooth both directions, no missed steps up to F2000):
 - `$2=0` — STEP_INVERT_MASK. With `$2=0` the 74HC14D output idles HIGH (OPT− high → opto OFF) and each step pulse briefly pulls OPT− low (opto ON) — correct for Common Anode. Setting `$2`≠0 would hold the input opto continuously ON at idle and likely cause missed steps at speed.
@@ -17,9 +17,9 @@ Stepper drivers operate in **Common Anode** mode: +5V on OPT+, the 74HC14D pulls
 | Function | RP2350 Pin | Notes |
 | :--- | :--- | :--- |
 | **Auxiliary outputs** | | Through 74HC14D FREE channels → SSR |
-| MIST | `GP0` | Through 74HC14D (inverted) → SSR, grblHAL M7/M9 |
+| VAC | `GP0` | Through 74HC14D (inverted) → SSR, grblHAL M62/M63 |
 | FLOOD | `GP1` | Through 74HC14D (inverted) → SSR, grblHAL M8/M9 |
-| VAC | `GP2` | Through 74HC14D (inverted) → SSR, grblHAL M62/M63 |
+| MIST | `GP2` | Through 74HC14D (inverted) → SSR, grblHAL M7/M9 |
 | SD Card Detect | `GP3` | MicroSD socket CD switch (active LOW when card inserted) |
 | **W5500 Ethernet (SPI0)** | | |
 | MISO | `GP4` | SPI0 RX |
@@ -69,7 +69,7 @@ Stepper drivers operate in **Common Anode** mode: +5V on OPT+, the 74HC14D pulls
 | PROBE | `GP39` | Tool length probe |
 | CYCLE_START | `GP40` | Cycle start |
 | FEED_HOLD | `GP41` | Pause |
-| DOOR | `GP42` | NC serial chain of mechanical MAX switches (X/Y/Z/A/B_MAX) → alarm if an axis loses steps. MIN positions use inductive NPN sensors on individual channels. |
+| DOOR | `GP42` | Safety door input (grblHAL `SAFETY_DOOR`): opening the door holds the machine until closed. Neutral default (no forced invert) — set `$14` DOOR bit to match the switch (NO/NC). |
 | **SD card (SPI1)** | | |
 | SD MOSI | `GP43` | SPI1 TX |
 | SD MISO | `GP44` | SPI1 RX |
