@@ -14,6 +14,13 @@ Stepper drivers operate in **Common Anode** mode: +5V on OPT+, the 74HC14D pulls
 
 **Input galvanic isolation:** 10 isolated inputs via **LTV-217-B-G** optocouplers (U8-U20), powered from **+24V_ISO** (B2424S-2WR3 isolated DC/DC). GND_ISO is separated from GND by a 2mm copper void barrier.
 
+**Input wiring (each connector: `24V · GND · SIG`):** the inputs are **sinking (active LOW)** — same convention as the VFD outputs.
+- **Mechanical switch** (limit / E-stop, NO contact): wire between **GND** and **SIG**. The 24V pin is not needed.
+- **Inductive sensor — NPN (sinking), recommended** (e.g. LJ12A3): use all three pins — **24V** (power) + **GND** + **SIG**. The sensor pulls SIG to GND when triggered.
+- **PNP (sourcing) sensors are not directly compatible** (they drive SIG to 24V) — use an external relay module, as with PNP VFDs.
+
+See the [hardware configurator](configurator/index.html) (Limit input type: NPN vs Mechanical) for the matching grblHAL `$` settings.
+
 | Function | RP2350 Pin | Notes |
 | :--- | :--- | :--- |
 | **Auxiliary outputs** | | Through 74HC14D FREE channels → SSR |
