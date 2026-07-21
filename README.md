@@ -31,7 +31,7 @@ A 5-axis CNC controller with optical input isolation, integrated Ethernet, and a
 - 📡 **RS-485 Modbus + RS-422 Pendant** interfaces
 - 🚦 **10 isolated inputs** + **3 SSR outputs** (Mist/Flood/Vac)
 
-**Detailed specification:** [Docs/Product_Specification_v1.0.md](Docs/Product_Specification_v1.0.md)
+**Detailed specification:** [Docs/Reference/Product_Specification_v1.0.md](Docs/Reference/Product_Specification_v1.0.md)
 
 ---
 
@@ -40,18 +40,21 @@ A 5-axis CNC controller with optical input isolation, integrated Ethernet, and a
 ```
 RectaBot/
 ├── Docs/                                # 📚 All documentation (read first!)
-│   ├── Product_Specification_v1.0.md    # Complete datasheet/spec
-│   ├── Quick_Start_Guide.md             # From unboxing to first motor (2-3h)
-│   ├── First_Power_On_Procedure.md      # Safe first power-on with a multimeter
-│   ├── Pinout.md                        # RP2350B pinmap (GP0-GP47)
-│   ├── Schematic_References.md          # Reference schematics for all ICs
-│   ├── Hardware_Design_Guidelines.md    # PCB layout guidelines
-│   ├── VFD_Wiring_Guide.md              # VFD connection guide
-│   ├── Hand_Solder_Components.md        # 28 TH components for hand-soldering
-│   ├── BOM_v1.0_final.csv               # Bill of Materials (~80 components)
-│   ├── CPL_RectaBot_V1.0.csv            # Component Placement List for JLCPCB
-│   ├── LCSC_Additional_Order.csv        # TH parts for a separate LCSC order
-│   ├── Gerber_RectaBot_1.0/             # Production-ready Gerber files
+│   ├── Assembly/                        # Build & first power-on
+│   │   ├── Quick_Start_Guide.md         # From unboxing to first motor (2-3h)
+│   │   ├── First_Power_On_Procedure.md  # Safe first power-on with a multimeter
+│   │   └── Hand_Solder_Components.md     # 28 TH components for hand-soldering
+│   ├── Reference/                       # Electrical & design reference
+│   │   ├── Product_Specification_v1.0.md # Complete datasheet/spec
+│   │   ├── Pinout.md                    # RP2350B pinmap (GP0-GP47)
+│   │   ├── Schematic_References.md       # Reference schematics for all ICs
+│   │   ├── Hardware_Design_Guidelines.md # PCB layout guidelines
+│   │   └── VFD_Wiring_Guide.md          # VFD connection guide
+│   ├── Manufacturing/                   # Send-to-fab production data
+│   │   ├── BOM_v1.0_final.csv           # Bill of Materials (~80 components)
+│   │   ├── CPL_RectaBot_V1.0.csv        # Component Placement List for JLCPCB
+│   │   ├── LCSC_Additional_Order.csv    # TH parts for a separate LCSC order
+│   │   └── Gerber_RectaBot_1.0/         # Production-ready Gerber files
 │   ├── Brand_Assets/                    # Logo files (SVG) under CERN-OHL-S
 │   └── configurator/                    # Web-based grblHAL settings generator
 │
@@ -158,18 +161,18 @@ Note: v1 isolates input side only. Full I/O galvanic isolation is planned for v2
 > **📦 Status:** Hardware is yet to arrive (~14-16 June 2026). Documentation is ready and awaits the first bring-up to finalize screenshots and edge cases.
 
 **Main guides:**
-- **[Quick_Start_Guide.md](Docs/Quick_Start_Guide.md)** — Complete walkthrough from unboxing to first motor (estimated: 2-3h)
-- **[First_Power_On_Procedure.md](Docs/First_Power_On_Procedure.md)** — Safety procedure for the first power-on with a multimeter
+- **[Quick_Start_Guide.md](Docs/Assembly/Quick_Start_Guide.md)** — Complete walkthrough from unboxing to first motor (estimated: 2-3h)
+- **[First_Power_On_Procedure.md](Docs/Assembly/First_Power_On_Procedure.md)** — Safety procedure for the first power-on with a multimeter
 
 **Main steps (summary):**
 1. Visual inspection of the board (10 min)
-2. Hand-soldering 28 TH components ([list](Docs/Hand_Solder_Components.md), 60-90 min)
+2. Hand-soldering 28 TH components ([list](Docs/Assembly/Hand_Solder_Components.md), 60-90 min)
 3. Pre-Power-On continuity tests (15 min)
 4. First Power-On + LED + voltage verification (10 min)
 5. Firmware flash via BOOTSEL+USB (15 min)
 6. grblHAL configuration (`$$` parameters for RectaBot, 20 min) — use [Docs/configurator/](Docs/configurator/) to generate
 7. First axis test with a DM556 driver (10 min)
-8. VFD wiring — see [VFD Wiring Guide](Docs/VFD_Wiring_Guide.md)
+8. VFD wiring — see [VFD Wiring Guide](Docs/Reference/VFD_Wiring_Guide.md)
 
 ---
 

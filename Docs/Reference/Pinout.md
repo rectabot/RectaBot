@@ -19,7 +19,7 @@ Stepper drivers operate in **Common Anode** mode: +5V on OPT+, the 74HC14D pulls
 - **Inductive sensor — NPN (sinking), recommended** (e.g. LJ12A3): use all three pins — **24V** (power) + **GND** + **SIG**. The sensor pulls SIG to GND when triggered.
 - **PNP (sourcing) sensors are not directly compatible** (they drive SIG to 24V) — use an external relay module, as with PNP VFDs.
 
-See the [hardware configurator](configurator/index.html) (Limit input type: NPN vs Mechanical) for the matching grblHAL `$` settings.
+See the [hardware configurator](../configurator/index.html) (Limit input type: NPN vs Mechanical) for the matching grblHAL `$` settings.
 
 | Function | RP2350 Pin | Notes |
 | :--- | :--- | :--- |

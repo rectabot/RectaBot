@@ -6,7 +6,7 @@
 Confirmed via JLCPCB chat (Desmond, 04.06.2026):
 > "If you didn't select them to be assembled at the ordering page, we will not charge them and hence we will not send them to you."
 
-See: [LCSC_Additional_Order.csv](LCSC_Additional_Order.csv) for the full list with LCSC codes.
+See: [LCSC_Additional_Order.csv](../Manufacturing/LCSC_Additional_Order.csv) for the full list with LCSC codes.
 
 ---
 
@@ -91,7 +91,7 @@ See: [LCSC_Additional_Order.csv](LCSC_Additional_Order.csv) for the full list wi
 
 ### **R128 trim pot — calibration**
 - After soldering: connect the VFD and tune so that at max PWM you get exactly 10.0V
-- See [VFD_Wiring_Guide.md](VFD_Wiring_Guide.md) for details
+- See [VFD_Wiring_Guide.md](../Reference/VFD_Wiring_Guide.md) for details
 
 ---
 
@@ -99,4 +99,4 @@ See: [LCSC_Additional_Order.csv](LCSC_Additional_Order.csv) for the full list wi
 
 **ALL components on this list (28 TH parts) + male KEFA mating connectors.**
 
-See: [LCSC_Additional_Order.csv](LCSC_Additional_Order.csv) — full BOM for 5 boards (~$50 with male connectors).
+See: [LCSC_Additional_Order.csv](../Manufacturing/LCSC_Additional_Order.csv) — full BOM for 5 boards (~$50 with male connectors).
