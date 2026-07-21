@@ -103,7 +103,7 @@ RectaBot is a professional CNC mill controller designed for hobby-pro and small 
 - ✅ **5V → 3.3V LDO** (AMS1117-3.3, 800mA)
 - ✅ **24V_ISO isolated rail** (83mA for opto LED inputs)
 - ✅ **5 power LED indicators** (24V, 5V, 3V3, USB, ISO status)
-- ✅ Reverse polarity protection on 24V input (SS54 Schottky)
+- ✅ **+5V ORing diode** (SS54) — buck 5V and USB-C 5V coexist without back-feed
 
 ### Safety & EMI
 - ✅ **4-layer stackup** with solid GND plane (L2) for return paths
@@ -236,7 +236,7 @@ RectaBot is a professional CNC mill controller designed for hobby-pro and small 
 - Bob Smith termination on Ethernet RJ45 + USB-C shells
 
 ### Protection Features
-- Reverse polarity protection on 24V input (Schottky SS54)
+- ⚠️ Note: the 24V input has **no** reverse-polarity protection in v1 (planned for v2)
 - ESD protection on USB data lines (22Ω series + Bob Smith chassis coupling)
 - TVS arrays on RS-485/422 lines (PSM712-LF)
 - Optical isolation on all field inputs (LTV-217-B-G, 5kV component rating); outputs share MCU ground in v1
@@ -305,7 +305,7 @@ RectaBot is a professional CNC mill controller designed for hobby-pro and small 
 ### Protection & Filtering
 - 3× PSM712-LF-T7 TVS arrays (RS-485, RS-422)
 - 1× 1N4742A Zener (spindle output clamp)
-- 1× SS54 Schottky (reverse polarity)
+- 1× SS54 Schottky (+5V ORing)
 - 2× SS34 Schottky (buck output)
 - 1× 1nF/2kV ceramic (Bob Smith chassis coupling)
 - 2× crystal oscillators (12MHz MCU, 25MHz Ethernet)

@@ -95,7 +95,7 @@ git clone https://github.com/rectabot/RectaPad.git
 ### Power Tree
 
 ```
-24V DC IN ──┬──► SS54 (reverse protection) ──┬──► TPS5430 buck ──► +5V (3A)
+24V DC IN ──┬──► TPS5430 buck ──► +5V (3A)
             │                                 │
             ├──► B2424S-2WR3 isolation ──► +24V_ISO (opto LEDs)
             │
