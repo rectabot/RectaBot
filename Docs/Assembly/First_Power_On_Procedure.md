@@ -292,15 +292,15 @@ Next step: [Quick_Start_Guide.md](Quick_Start_Guide.md) Step 5 (Firmware Flash).
 
 ---
 
-## 📝 Bring-up Log Template
+## 📝 First Power-On Log Template
 
-I suggest you fill this in for each of the 5 boards as bring-up documentation:
+Fill this in as you power on your board for the first time — a handy record of the checks below:
 
 ```
-RectaBot v1.0 — Bring-Up Log
-============================
+RectaBot v1.0 — First Power-On Log
+==================================
 Date: ___________
-Board #: 1 / 5
+Board #: ____
 Inspector: ___________
 
 Pre-power tests:

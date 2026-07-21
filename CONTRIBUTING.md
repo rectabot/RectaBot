@@ -90,7 +90,7 @@ Hardware changes go through these phases:
 2. **PR with schematic change**
 3. **Review by maintainer**
 4. **Prototype order** (if accepted)
-5. **Bring-up validation**
+5. **Prototype validation**
 6. **Merge to main + version bump**
 
 Major hardware changes warrant a new revision number (v1.1, v2.0).

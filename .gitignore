@@ -86,3 +86,6 @@ DRAFT_*.md
 
 # Vendor datasheets (third-party copyright — keep local only)
 Docs/Datasheet/
+
+# Public website — separate repo (rectabot.github.io)
+website/

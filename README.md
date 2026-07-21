@@ -2,6 +2,8 @@
 
 Open-source 5-axis CNC controller based on the Raspberry Pi RP2350B microcontroller running grblHAL firmware. Designed for hobby and workshop applications.
 
+![RectaBot v1.0 — annotated board layout](Docs/images/board.png)
+
 ---
 
 ## 📊 Project Status
@@ -9,7 +11,7 @@ Open-source 5-axis CNC controller based on the Raspberry Pi RP2350B microcontrol
 | | |
 |---|---|
 | **Current version** | v1.0 |
-| **Status** | 🔵 Hardware in production (JLCPCB) — bring-up mid-June 2026. |
+| **Status** | ✅ v1.0 — first 5 boards assembled & bench-tested (RS-422 pendant link pending) |
 | **First production batch** | 5 boards (JLCPCB Economic PCBA + ENIG finish) |
 | **Firmware** | grblHAL fork for RP2350B |
 | **Form factor** | 150 × 100 mm, 4-layer PCB, 1.6mm |
@@ -27,7 +29,7 @@ A 5-axis CNC controller with optical input isolation, integrated Ethernet, and a
 - 🛡️ **Optically isolated inputs** — all 10 field inputs through LTV-217-B-G optocouplers on a dedicated 24V_ISO rail (full I/O isolation planned for v2)
 - 🌐 **Ethernet 10/100 Mbps** via W5500 with Bob Smith termination
 - 💾 **MicroSD slot** for G-code files and configuration
-- 🔋 **24V power input** with reverse polarity protection (SS54 Schottky)
+- 🔋 **24V DC power input** (buck-regulated to 5V) with +5V ORing Schottky that blocks USB-C back-feed
 - 📡 **RS-485 Modbus + RS-422 Pendant** interfaces
 - 🚦 **10 isolated inputs** + **3 SSR outputs** (Mist/Flood/Vac)
 
@@ -69,13 +71,11 @@ RectaBot is split across separate GitHub repos for better modularity:
 |---|---|
 | **[rectabot/RectaBot](https://github.com/rectabot/RectaBot)** (this one) | Hardware design (Gerber), docs, BOM, brand assets, configurator tool |
 | **[rectabot/RectaBot-firmware](https://github.com/rectabot/RectaBot-firmware)** | grblHAL fork with RectaBot board map + pre-built UF2 |
-| **[rectabot/RectaPad](https://github.com/rectabot/RectaPad)** | Touchscreen pendant firmware (LVGL on RP2350) |
 
 **Clone everything at once:**
 ```powershell
 git clone https://github.com/rectabot/RectaBot.git
 git clone https://github.com/rectabot/RectaBot-firmware.git
-git clone https://github.com/rectabot/RectaPad.git
 ```
 
 ---
@@ -158,7 +158,7 @@ Note: v1 isolates input side only. Full I/O galvanic isolation is planned for v2
 
 ## 🚀 Quick Start
 
-> **📦 Status:** Hardware is yet to arrive (~14-16 June 2026). Documentation is ready and awaits the first bring-up to finalize screenshots and edge cases.
+> **📦 Status:** The first batch of five v1.0 boards has been assembled and passed bench testing. The one interface still to be confirmed is the **RS-422 pendant** link — it will be validated in a later phase, together with the upcoming **RectaPad** touchscreen pendant. Everything else is verified; follow the assembly and wiring guides below.
 
 **Main guides:**
 - **[Quick_Start_Guide.md](Docs/Assembly/Quick_Start_Guide.md)** — Complete walkthrough from unboxing to first motor (estimated: 2-3h)

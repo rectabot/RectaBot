@@ -88,7 +88,7 @@ Specifically, Claude was used to:
 
 - Research components, suppliers, and alternative parts
 - Generate first drafts of technical documentation (datasheets, guides,
-  pinout references, bring-up procedures)
+  pinout references, power-on procedures)
 - Review schematics and identify potential issues
 - Plan project structure and file organization
 - Draft commit messages and pull request descriptions
