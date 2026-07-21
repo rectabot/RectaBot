@@ -231,7 +231,7 @@ Once the X axis runs reliably:
 1. **Repeat for Y, Z, A, B** (CN35-CN38)
 2. **Connect limit switches** (CN27-CN31)
 3. **Configure homing** (`$H` command)
-4. **Connect the VFD** — see [VFD_Wiring_Guide.md](VFD_Wiring_Guide.md)
+4. **Connect the VFD** — see [VFD_Wiring_Guide.md](../Reference/VFD_Wiring_Guide.md)
 5. **Test G-code execution** with a sender (UGS, CNCjs, IO Sender)
 
 ---
@@ -261,10 +261,10 @@ Once the X axis runs reliably:
 
 ## 📚 Further reading
 
-- [Pinout.md](Pinout.md) — complete GPIO map
-- [Hardware_Design_Guidelines.md](Hardware_Design_Guidelines.md) — electrical and mechanical design
-- [VFD_Wiring_Guide.md](VFD_Wiring_Guide.md) — how to wire various VFDs
-- [Product_Specification_v1.0.md](Product_Specification_v1.0.md) — complete datasheet
+- [Pinout.md](../Reference/Pinout.md) — complete GPIO map
+- [Hardware_Design_Guidelines.md](../Reference/Hardware_Design_Guidelines.md) — electrical and mechanical design
+- [VFD_Wiring_Guide.md](../Reference/VFD_Wiring_Guide.md) — how to wire various VFDs
+- [Product_Specification_v1.0.md](../Reference/Product_Specification_v1.0.md) — complete datasheet
 
 ---
 

@@ -395,10 +395,7 @@ RectaBot is a professional CNC mill controller designed for hobby-pro and small 
 - [Pinout Reference](Pinout.md)
 - [Hardware Design Guidelines](Hardware_Design_Guidelines.md)
 - [Schematic References](Schematic_References.md)
-- [PCB Routing Rules](../PCB_ROUTING_RULES.md)
 - [VFD Wiring Guide](VFD_Wiring_Guide.md)
-- [Silkscreen Layout Guide](Silkscreen_Layout_Guide.md)
-- [FEDEVEL Design Tips](../FEDEVEL_TIPS.md)
 
 ---
 

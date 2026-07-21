@@ -4,9 +4,9 @@ RectaBot Hardware Design Files
 Copyright (c) 2026 Filip Perić, RectaBot
 
 The hardware design files in this repository, including but not limited to:
-- All Gerber files (Docs/Gerber_RectaBot_1.0/)
-- Bill of Materials (Docs/BOM_v1.0_final.csv)
-- Component Placement List (Docs/CPL_RectaBot_V1.0.csv)
+- All Gerber files (Docs/Manufacturing/Gerber_RectaBot_1.0/)
+- Bill of Materials (Docs/Manufacturing/BOM_v1.0_final.csv)
+- Component Placement List (Docs/Manufacturing/CPL_RectaBot_V1.0.csv)
 - Schematic references and design documentation
 - Pinout, layout, and PCB design specifications
 
