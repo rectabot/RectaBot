@@ -322,7 +322,7 @@ RectaBot is a professional CNC mill controller designed for hobby-pro and small 
 | Surface finish | HASL (lead-free) or ENIG |
 | Solder mask | Green (default), other colors available |
 | Silkscreen | White, with component reference designators |
-| Mounting holes | 4× M3 (3.2mm drill) at corners |
+| Mounting holes | 5× total — 4× M3 (3.2mm drill) at corners + 1× central support hole on the diagonal (3.5mm drill, 7.5mm annular pad) |
 | Mounting hole keepout | 6mm clearance |
 | Connector spacing | All field connectors on board edges |
 

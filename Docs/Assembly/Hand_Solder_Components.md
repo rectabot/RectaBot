@@ -10,6 +10,14 @@ See: [LCSC_Additional_Order.csv](../Manufacturing/LCSC_Additional_Order.csv) for
 
 ---
 
+## 📥 How the board arrives
+
+![RectaBot v1.0 — the board as it arrives from JLCPCB, SMT-assembled with no through-hole parts](../images/board-bare.webp)
+
+This is exactly how the board ships from JLCPCB: **all SMT parts pre-assembled**, but **none of the through-hole components** — no screw terminals, no RJ45, no DC/DC module, no SWD header, and none of the electrolytic / trim-pot / Zener. You add the 28 TH parts listed below by hand.
+
+---
+
 ## 📦 Component list (by designator)
 
 | # | Designator | Value | Footprint | LCSC | Mounting |
