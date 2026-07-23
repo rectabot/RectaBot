@@ -94,5 +94,5 @@ Docs/images/*
 !Docs/images/board-photo.webp
 !Docs/images/board-bare.webp
 
-# Public website — separate repo (rectabot.github.io)
-website/
+# Public website (website/) is tracked in this repo and deployed to GitHub Pages
+# from that folder via .github/workflows/deploy-pages.yml.
