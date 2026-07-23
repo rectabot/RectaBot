@@ -2,6 +2,8 @@
 
 Open-source 5-axis CNC controller based on the Raspberry Pi RP2350B microcontroller running grblHAL firmware. Designed for hobby and workshop applications.
 
+🌐 **[rectabot.org](https://rectabot.org)** — product, documentation and firmware configurator.
+
 ![RectaBot v1.0 — assembled board](Docs/images/board-photo.webp)
 
 ---
@@ -200,5 +202,6 @@ Note: v1 isolates input side only. Full I/O galvanic isolation is planned for v2
 ## 📬 Contact
 
 **Project lead:** Filip Perić
+**Website:** [rectabot.org](https://rectabot.org)
 **Email:** hello@rectabot.org
 **Location:** Kragujevac, Serbia
