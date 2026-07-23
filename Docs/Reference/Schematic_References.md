@@ -36,10 +36,11 @@ RectaBot v1.0 uses the **74HC14D** (Schmitt-trigger HEX INVERTER) instead of the
 - **Inputs 1A, 2A, ..., 6A**: connected to MCU GP signals (3.3V TTL). The 74HC14D inputs accept 3.3V as logic 1 because the Schmitt threshold (VT+ ~3V at VCC=5V) can be crossed with 3.3V. **NOTE:** strictly speaking, the 74HC14D wants VIH≥3.5V at VCC=5V; in practice 3.3V works reliably, but for maximum safety the 74**HCT**14D (TTL-compatible, VIH=2V) can be used.
 - **Outputs 1Y, 2Y, ..., 6Y**: INVERTED 5V output → goes to STEP-/DIR-/EN- pins of the DM556 (through a 330Ω series resistor). The DM556 common wire goes to the **+5V** rail (Common Anode topology).
 - **Three 74HC14D chips** (U7, U10, U15) cover 18 signals: 5×STEP + 5×DIR + 5×EN + 3×coolant (MIST, FLOOD, VAC).
-- **CRITICAL for firmware:** the 74HC14D **inverts** all signals. In grblHAL set:
-  - `$2=31` — STEP_INVERT_MASK for all 5 axes (X|Y|Z|A|B)
-  - `$3=31` — DIRECTION_INVERT_MASK
-  - `$4=1` — STEPPER_ENABLE_INVERT_MASK
+- **Firmware settings (validated on the reference board):** the 74HC14D inverts, but with Common Anode drivers the STEP pulse lands correctly with no invert. In grblHAL set:
+  - `$2=0` — STEP invert OFF (Common Anode already accounts for the inversion; `$2`≠0 holds the opto on at idle → missed steps)
+  - `$4=15` — ENABLE invert on all axes (7 = 3-axis, 15 = 4-axis, 31 = 5-axis)
+  - `$5=0` — LIMIT invert OFF · `$6=1` — PROBE invert ON
+  - `$3` — DIRECTION invert is **per-machine** (set from how each axis actually moves), not a fixed value
   - Coolant invert is controlled via `MIST_INVERT` and `FLOOD_INVERT` in the driver configuration
 
 ## 4. Ethernet controller: WIZnet W5500

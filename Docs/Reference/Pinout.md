@@ -6,8 +6,9 @@ The RP2350B (QFN-80) has 48 GPIO pins (GP0-GP47).
 
 **The 74HC14D inverts the signal, but in Common Anode mode this is already accounted for** — no firmware STEP invert is needed. Validated on bench (TB6600 + NEMA17, smooth both directions, no missed steps up to F2000):
 - `$2=0` — STEP_INVERT_MASK. With `$2=0` the 74HC14D output idles HIGH (OPT− high → opto OFF) and each step pulse briefly pulls OPT− low (opto ON) — correct for Common Anode. Setting `$2`≠0 would hold the input opto continuously ON at idle and likely cause missed steps at speed.
-- `$3=0` — DIRECTION_INVERT_MASK baseline. Set per-axis on the actual machine so X+/Y+/Z+ move in the correct direction.
-- `$4` — STEPPER_ENABLE_INVERT_MASK: **not yet validated** (ENA left unconnected during bench test, driver always enabled). Verify once ENA is wired to the drivers.
+- `$3` — DIRECTION_INVERT_MASK is **per-machine** (depends on wiring/mechanics). Jog each axis and flip its bit so X+/Y+/Z+ move the right way — do not treat it as a fixed value.
+- `$4=15` — STEPPER_ENABLE_INVERT_MASK. The 74HC14D inverts EN, so enable is inverted on every axis: **7 = 3-axis, 15 = 4-axis, 31 = 5-axis** (reference board is 4-axis → 15).
+- `$5=0` — LIMIT invert OFF (the LTV-217 opto inputs already read active-low). `$6=1` — PROBE invert ON.
 - Coolant invert via driver configuration
 
 Stepper drivers operate in **Common Anode** mode: +5V on OPT+, the 74HC14D pulls OPT− to GND. Validated with TB6600; verified-under-load values (and any driver-specific differences, e.g. DM-series) to be confirmed when machining.

@@ -141,7 +141,7 @@ RectaBot is a professional CNC mill controller designed for hobby-pro and small 
 ### Isolated Inputs (24V_ISO domain)
 | Connector | Function |
 |---|---|
-| **CN22** | DOOR (NC chain of MAX limit switches) |
+| **CN22** | DOOR (safety door input, GP42) |
 | **CN23** | FEED HOLD |
 | **CN24** | CYCLE START |
 | **CN25** | PROBE |
@@ -156,7 +156,7 @@ RectaBot is a professional CNC mill controller designed for hobby-pro and small 
 | Connector | Function |
 |---|---|
 | **CN40** | AUX (+5V, VAC, FLOOD, MIST, GND) — 5-pin SSR outputs |
-| **CN41** | Programming / debug (6-pin) |
+| **CN41** | RS-422 Pendant (24V/TX+/TX−/RX+/RX−/GND) — 6-pin |
 | **CN32** | RS-485 Modbus (GND/A+/B-) |
 | **CARD1** | MicroSD socket (SPI mode) |
 
@@ -342,7 +342,7 @@ RectaBot is a professional CNC mill controller designed for hobby-pro and small 
 - **Max rate:** configurable per axis via `$110-$114`
 - **Acceleration:** configurable per axis via `$120-$124`
 - **Max spindle RPM:** `$30` (default 24000)
-- **Invert masks:** `$2=31`, `$3=31`, `$4=1` (for 74HC14D inversion)
+- **Invert masks (validated):** `$2=0` (step — Common Anode needs no invert), `$4` = enable invert on all axes (7/15/31 for 3/4/5-axis), `$5=0` (limit), `$6=1` (probe). `$3` (direction) is per-machine.
 
 ### Supported G-code
 - G0-G3 (rapid, linear, arc moves)

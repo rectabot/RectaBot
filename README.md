@@ -135,7 +135,7 @@ git clone https://github.com/rectabot/RectaBot-firmware.git
        ▼                       ▼                ▼                      ▼
 ┌──────────────┐        ┌──────────────┐ ┌──────────────┐       ┌──────────────┐
 │ CN34-CN38    │        │ CN39 (VFD)   │ │ CN40 (AUX)   │       │ RJ45 + USB-C │
-│ 5× Stepper   │        │ 0-10V analog │ │ Mist/Flood/  │       │ + CN22 RS485 │
+│ 5× Stepper   │        │ 0-10V analog │ │ Mist/Flood/  │       │ + CN32 RS485 │
 │ STEP/DIR/EN  │        │ EN/DIR open- │ │ Vacuum +     │       │ + CN41 RS422 │
 │ (5V CMOS)    │        │ drain MOSFET │ │ 5V/VAC/GND   │       │ + microSD    │
 └──────────────┘        └──────────────┘ └──────────────┘       └──────────────┘
@@ -153,7 +153,7 @@ git clone https://github.com/rectabot/RectaBot-firmware.git
                               │ Limits, ESTOP,      │
                               │ Probe, Controls     │
                               │                     │
-                              │ → CN23-CN32         │
+                              │ → CN22-CN31         │
                               └─────────────────────┘
 
 Note: v1 isolates input side only. Full I/O galvanic isolation is planned for v2.

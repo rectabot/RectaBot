@@ -126,7 +126,7 @@ With **power on**, measure the following (black probe on GND, red on the test po
 
 ### 3b. Ground reference verification (input-side isolation)
 
-**v1 uses optical isolation ONLY on the inputs** (CN23-CN32). Stepper outputs, VFD, AUX (SSR), and communication share the MCU ground. The test verifies the input-side barrier:
+**v1 uses optical isolation ONLY on the inputs** (CN22-CN31). Stepper outputs, VFD, AUX (SSR), and communication share the MCU ground. The test verifies the input-side barrier:
 
 | Test point 1 | Test point 2 | Expected | What it means |
 |---|---|---|---|

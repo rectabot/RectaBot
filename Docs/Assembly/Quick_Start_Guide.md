@@ -11,7 +11,7 @@ Estimated time: **2-3 hours** (including soldering 28 TH components).
 ### From the JLCPCB package (DHL Express DDP)
 - ✅ **5× RectaBot v1.0 PCB** with SMT-mounted components
 - ✅ ENIG gold finish (durable, great for soldering)
-- ❌ **NO Through-Hole components** (customs reasons)
+- ❌ **NO Through-Hole components** — JLCPCB doesn't assemble the TH parts you didn't select at ordering; you hand-solder them (see [Hand_Solder_Components.md](Hand_Solder_Components.md))
 - 📄 JLCPCB packaging + invoice
 
 ### From the LCSC package (FedEx International Priority)
@@ -142,19 +142,22 @@ See [First_Power_On_Procedure.md](First_Power_On_Procedure.md) for the detailed 
 
 ### 5b. Flash grblHAL firmware
 1. Connect a USB-C cable PC ↔ RectaBot
-2. Open `RPI-RP2` in Explorer
-3. Drag-and-drop **`grblHAL_RectaBot_v1.0.uf2`** into the drive
+2. Pick the `.uf2` that matches your machine's kinematics — use the [firmware configurator](../configurator/index.html) or grab it from the firmware repo's `variants/` folder (e.g. `grblHAL_RectaBot_3axis_v1.0.uf2`, `..._4axis-a-ganged-y_v1.0.uf2`). RectaControl's Firmware panel can also flash it for you.
+3. Open `RPI-RP2` in Explorer and drag-and-drop the `.uf2` into the drive
 4. The drive disappears and the RP2350B reboots into grblHAL
 
 ### 5c. Verify the firmware
 1. Open a serial monitor (PuTTY / Arduino IDE Serial Monitor / minicom)
 2. Connect to the COM port (115200 baud, 8N1)
-3. You should see:
+3. Send `$I` — you should see something like (a 4-axis build):
    ```
-   GrblHAL 1.1f ['$' for help]
-   [VER:1.1f.20260101:RectaBot v1.0]
-   [OPT:VNMSL,35,1024,16,7]
+   [VER:1.1f.20260331:]
+   [OPT:VNMPZTSL+2,100,1024,4,0]
+   [AXS:4:XYZA]
+   [BOARD:RectaBot v1.0]
+   [DRIVER:RP2350@150MHz]
    ```
+   `[AXS:4:XYZA]` confirms the axis count; the trailing `2` in `[OPT:...+2,...]` means a ganged/auto-square motor is active.
 
 ---
 
@@ -163,13 +166,14 @@ See [First_Power_On_Procedure.md](First_Power_On_Procedure.md) for the detailed 
 **Critical parameters for RectaBot v1.0:**
 
 ```
-$0=10        ; Step pulse, microseconds
+$0=5         ; Step pulse, microseconds
 $1=25        ; Step idle delay, milliseconds
-$2=31        ; Step pulse invert, mask (CRITICAL for 74HC14D)
-$3=31        ; Step direction invert, mask (CRITICAL for 74HC14D)
-$4=1         ; Invert step enable pin (CRITICAL for 74HC14D)
-$5=0         ; Invert limit pins, boolean
-$6=0         ; Invert probe pin
+$2=0         ; Step invert OFF — Common Anode drivers need NO step invert (do NOT set 31)
+$4=15        ; Enable invert — the 74HC14D inverts EN, so invert every axis: 7=3-axis, 15=4-axis, 31=5-axis
+$5=0         ; Limit invert OFF — the opto inputs already read active-low
+$6=1         ; Probe invert ON
+; --- direction is PER MACHINE (depends on your wiring/mechanics), not a fixed value ---
+$3=0         ; Direction invert — jog each axis; if it runs backwards, flip THAT axis's bit
 $10=1        ; Status report options, mask
 $11=0.010    ; Junction deviation, millimeters
 $12=0.002    ; Arc tolerance, millimeters
@@ -200,12 +204,15 @@ $130=300.000  ; X-axis maximum travel, millimeters
 ## 🎮 Step 7: First axis test (10 min)
 
 ### 7a. Connect a DM556 driver to CN34 (X axis)
-- Pin 1 = STEP_X_5V → DM556 PUL+
-- Pin 2 = DIR_X_5V → DM556 DIR+
-- Pin 3 = EN_X_5V → DM556 ENA+
-- Pin 4 = GND → DM556 PUL-, DIR-, ENA- (common cathode, all to GND)
 
-**Note:** the DM556 +5V (common PUL+, DIR+, ENA+) goes to the **+5V rail**, NOT to pin 4 GND!
+CN34 is a 4-pin **common-anode** stepper output. Silkscreen order is **+5V / STEP / DIR / EN** — there is **no GND pin**: the STEP/DIR/EN lines are actively pulled to GND by the on-board 74HC14D, and that is the return path.
+
+- Pin 1 = **+5V** → DM556 **PUL+, DIR+, ENA+** (common all three `+` inputs to +5V)
+- Pin 2 = **STEP** → DM556 **PUL−**
+- Pin 3 = **DIR** → DM556 **DIR−**
+- Pin 4 = **EN** → DM556 **ENA−**  *(optional — leave unconnected to keep the driver always enabled)*
+
+**Common anode:** +5V feeds every `+` input on the driver, and the controller sinks each signal to GND to pulse it. Keep `$2=0` (step-invert off) — the 74HC14D idles HIGH and each step briefly pulls the opto low, which is correct for common anode. Setting `$2`≠0 holds the opto on at idle and can cause missed steps.
 
 ### 7b. Connect a motor to the DM556 outputs
 - A+, A-, B+, B- (4-wire NEMA17/23 motor)
@@ -253,9 +260,10 @@ Once the X axis runs reliably:
 - **Drive appears, then immediately disappears** → firmware file corrupted or wrong UF2
 
 ### Motor doesn't move
-- **0 pulses on STEP pin** → grblHAL $2 isn't set to 31 (INVERT_MASK)
-- **Constant HIGH on STEP** → 74HC14D not soldered properly
+- **No motion / missed steps** → check `$2=0` (step invert must be OFF for the Common Anode drivers; `$2=31` holds the opto on at idle) and `$4` enable-invert matches your axis count (7/15/31)
+- **Constant level on STEP** → 74HC14D not soldered properly
 - **Motor "skips"** → microstep DIP switches don't match the $100 parameter
+- **Axis runs the wrong way** → flip that axis's bit in `$3` (direction is per-machine)
 
 ---
 
