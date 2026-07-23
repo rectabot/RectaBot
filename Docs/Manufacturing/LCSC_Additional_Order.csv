@@ -1,31 +1,30 @@
 LCSC Part Number,Manufacturer Part,Description,Need per 5 boards,Order Qty (MOQ adjusted),Unit Price USD,Total USD,Notes
-,,=== TH KOMPONENTE (verifikovano LCSC 05.06.2026) ===,,,,,
-C2873969,KM1E101M0611,100uF 25V Aluminum electrolytic BD6.0-P2.50,5,50,0.0193,0.97,C7 - MOQ 50 (imaš višak 45 za v2/rezervu)
-C2976624,CC3D102KC2IEB46U31MF,1nF 2kV Ceramic disc L6.8-W2.6-P5.08,5,20,0.0378,0.76,C61 - MOQ 20 (Bob Smith chassis cap)
-C140853,1N4742A,Zener Diode 12V 1W DO-41,5,5,0.1019,0.51,D7 - Spindle overvoltage clamp
-C2691448,PZ254V-11-04P,2.54mm pitch 4-pin straight pin header,5,20,0.0266,0.53,H1 - SWD header MOQ 20
-C6630214,PV37W103C01B00,Bourns 10k trim pot PV37W,5,5,3.00,15.00,R128 - Bourns brand (~$3/kom u 1+ tier)
-C910371,J1B1211CCD,Pulse RJ45 with integrated magnetics,5,5,2.7284,13.64,RJ1 - Ethernet jack (skuplji od procene)
-C5369487,B2424S-2WR3,YLPTEC Isolated DC/DC 24V-24V 2W SIP-4,5,5,1.2593,6.30,U3 - JEFTINIJE od procene! Stock 803
+,,=== TH COMPONENTS ===,,,,,
+C2873969,KM1E101M0611,100uF 25V Aluminum electrolytic BD6.0-P2.50,5,50,0.0193,0.97,C7 - main input electrolytic (MOQ 50; 45 spare)
+C2976624,CC3D102KC2IEB46U31MF,1nF 2kV Ceramic disc L6.8-W2.6-P5.08,5,20,0.0378,0.76,C61 - Bob Smith chassis coupling cap (MOQ 20)
+C140853,1N4742A,Zener Diode 12V 1W DO-41,5,5,0.1019,0.51,D7 - spindle overvoltage clamp
+C2691448,PZ254V-11-04P,2.54mm pitch 4-pin straight pin header,5,20,0.0266,0.53,H1 - SWD debug header (MOQ 20)
+C6630214,PV37W103C01B00,Bourns 10k trim pot PV37W,5,5,3.00,15.00,R128 - spindle 0-10V gain trim (Bourns)
+C910371,J1B1211CCD,Pulse RJ45 with integrated magnetics,5,5,2.7284,13.64,RJ1 - Ethernet jack with integrated magnetics
+C5369487,B2424S-2WR3,YLPTEC Isolated DC/DC 24V-24V 2W SIP-4,5,5,1.2593,6.30,U3 - isolated 24V->24V_ISO supply for opto LEDs
 ,,,SUBTOTAL TH:,,,37.71,
-,,=== ŽENSKI KEFA KONEKTORI (TH PCB strana - verifikovano) ===,,,,,
-C441171,KF2EDGR-3.5-2P,KEFA 2-pin female terminal block 3.5mm,10,10,0.0497,0.50,CN33 + CN42 (MOQ 10 OK)
-C441172,KF2EDGR-3.5-3P,KEFA 3-pin female terminal block 3.5mm,55,55,0.0582,3.20,CN22-CN32 (50+ tier)
-C441173,KF2EDGR-3.5-4P,KEFA 4-pin female terminal block 3.5mm,30,30,0.0875,2.63,CN34-CN39 (cena verovatno blizu 30 tier)
-C441174,KF2EDGR-3.5-5P,KEFA 5-pin female terminal block 3.5mm,5,5,0.1241,0.62,CN40 (5+ tier)
-C441175,KF2EDGR-3.5-6P,KEFA 6-pin female terminal block 3.5mm,5,5,0.1593,0.80,CN41 (5+ tier)
-,,,SUBTOTAL ŽENSKI:,,,7.75,
-,,=== MUŠKI KEFA KONEKTORI (verifikovano LCSC 05.06.2026) ===,,,,,
-C440847,KF2EDGK-3.5-2P,KEFA 2-pin male plug 3.5mm,10,10,0.2122,2.12,Mate za CN33 + CN42 (MOQ 5, stock 10470)
-C440848,KF2EDGK-3.5-3P,KEFA 3-pin male plug 3.5mm,55,55,0.2179,11.98,Mate za CN22-CN32 (MOQ 5, stock 6740)
-C440849,KF2EDGK-3.5-4P,KEFA 4-pin male plug 3.5mm,30,30,0.2871,8.61,Mate za CN34-CN39 (MOQ 1, stock 19918)
-C440850,KF2EDGK-3.5-5P,KEFA 5-pin male plug 3.5mm,5,5,0.3663,1.83,Mate za CN40 (MOQ 1, stock 6142)
-C440851,KF2EDGK-3.5-6P,KEFA 6-pin male plug 3.5mm,5,5,0.5335,2.67,Mate za CN41 (MOQ 1, stock 855)
-,,,SUBTOTAL MUŠKI:,,,27.21,
+,,=== FEMALE KEFA CONNECTORS (TH, PCB side) ===,,,,,
+C441171,KF2EDGR-3.5-2P,KEFA 2-pin female terminal block 3.5mm,10,10,0.0497,0.50,CN33 + CN42
+C441172,KF2EDGR-3.5-3P,KEFA 3-pin female terminal block 3.5mm,55,55,0.0582,3.20,CN22-CN32
+C441173,KF2EDGR-3.5-4P,KEFA 4-pin female terminal block 3.5mm,30,30,0.0875,2.63,CN34-CN39
+C441174,KF2EDGR-3.5-5P,KEFA 5-pin female terminal block 3.5mm,5,5,0.1241,0.62,CN40
+C441175,KF2EDGR-3.5-6P,KEFA 6-pin female terminal block 3.5mm,5,5,0.1593,0.80,CN41
+,,,SUBTOTAL FEMALE:,,,7.75,
+,,=== MALE KEFA CONNECTORS (mating plugs) ===,,,,,
+C440847,KF2EDGK-3.5-2P,KEFA 2-pin male plug 3.5mm,10,10,0.2122,2.12,Mate for CN33 + CN42
+C440848,KF2EDGK-3.5-3P,KEFA 3-pin male plug 3.5mm,55,55,0.2179,11.98,Mate for CN22-CN32
+C440849,KF2EDGK-3.5-4P,KEFA 4-pin male plug 3.5mm,30,30,0.2871,8.61,Mate for CN34-CN39
+C440850,KF2EDGK-3.5-5P,KEFA 5-pin male plug 3.5mm,5,5,0.3663,1.83,Mate for CN40
+C440851,KF2EDGK-3.5-6P,KEFA 6-pin male plug 3.5mm,5,5,0.5335,2.67,Mate for CN41
+,,,SUBTOTAL MALE:,,,27.21,
 ,,=== TOTAL ===,,,,,
-,,,GRAND TOTAL (sve verifikovano):,,,72.67,
-,,,Combined shipping sa JLCPCB W2026060505470719:,,,0.00,FREE!
-,,,=== NAPOMENE ===,,,,,
-,,,R128 ($15 za 5 kom) - Bourns premium ali OK cena,,,,,
-,,,U3 B2424S jeftiniji nego procenjeno (-$7.70),,,,,Pozitivno
-,,,RJ1 J1B1211CCD skuplji nego procenjeno (+$6.64),,,,,Magnetics RJ45 je premium
+,,,GRAND TOTAL:,,,72.67,
+,,,Combined shipping with the JLCPCB PCBA order (LCSC + JLCPCB ship from the same warehouse):,,,0.00,FREE
+,,=== NOTES ===,,,,,
+,,,R128 is a Bourns PV37W (~$3); any 10k TH trim pot of the same footprint works.,,,,,
+,,,All KEFA connectors are 3.5mm pitch; the male plugs mate with the on-board female terminals.,,,,,

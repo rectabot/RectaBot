@@ -108,3 +108,11 @@ This is exactly how the board ships from JLCPCB: **all SMT parts pre-assembled**
 **ALL components on this list (28 TH parts) + male KEFA mating connectors.**
 
 See: [LCSC_Additional_Order.csv](../Manufacturing/LCSC_Additional_Order.csv) — full BOM for 5 boards (~$50 with male connectors).
+
+---
+
+## ✅ The finished board
+
+![RectaBot v1.0 — after hand-soldering the through-hole parts: all screw terminals, RJ45, DC/DC module and headers in place](../images/board-photo.webp)
+
+Once the 28 TH parts are soldered, the board is complete: every screw terminal, the RJ45 jack, the isolated DC/DC module and the SWD header in place — ready to wire up and flash.
