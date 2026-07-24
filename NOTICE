@@ -17,13 +17,13 @@ used in the RectaBot project, along with their respective licenses.
 ### Raspberry Pi Pico SDK
 - Upstream: https://github.com/raspberrypi/pico-sdk
 - License: BSD-3-Clause
-- Used by: RectaPad pendant firmware (separate repository)
+- Used by: the pendant firmware (separate repository)
 - Provides hardware abstraction for the RP2350B microcontroller.
 
 ### LVGL (Light and Versatile Graphics Library)
 - Upstream: https://github.com/lvgl/lvgl
 - License: MIT
-- Used by: RectaPad pendant firmware (separate repository)
+- Used by: the pendant firmware (separate repository)
 - Provides the touch GUI framework on the pendant.
 
 ### WIZnet ioLibrary
