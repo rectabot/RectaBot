@@ -62,7 +62,7 @@ RectaBot/
 │   │   ├── CPL_RectaBot_V1.0.csv        # Component Placement List for JLCPCB
 │   │   ├── LCSC_Additional_Order.csv    # TH parts for a separate LCSC order
 │   │   └── Gerber_RectaBot_1.0/         # Production-ready Gerber files
-│   ├── Brand_Assets/                    # Logo files (SVG) under CERN-OHL-S
+│   ├── Brand_Assets/                    # Logo files (SVG) — brand reserved, not open-licensed
 │   └── configurator/                    # Web-based grblHAL settings generator
 │
 └── (Submodules live in separate repos — see below)
@@ -196,7 +196,7 @@ Note: v1 isolates the input side only.
 
 - **Code, documentation:** MIT (see [LICENSE](LICENSE))
 - **Hardware design files** (Gerber, BOM, CPL): CERN-OHL-S v2 (see [LICENSE.hardware](LICENSE.hardware))
-- **Brand assets** (logo SVGs): CERN-OHL-S v2 (with derivative-work caveat — see [Docs/Brand_Assets/README.md](Docs/Brand_Assets/README.md))
+- **Brand assets** (the name "RectaBot" + logo SVGs): **reserved — all rights reserved**, not open-licensed (see [Docs/Brand_Assets/README.md](Docs/Brand_Assets/README.md))
 - **grblHAL firmware fork:** GPL-3.0 (inherits from upstream, in the separate [RectaBot-firmware](https://github.com/rectabot/RectaBot-firmware) repo)
 
 ---

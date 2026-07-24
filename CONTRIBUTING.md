@@ -113,7 +113,7 @@ Security topics:
 By contributing, you agree your contributions are licensed under:
 - **MIT** for code and documentation (this repository) — see `LICENSE`
 - **CERN-OHL-S v2** for hardware design files (Gerber, BOM, CPL) — see `LICENSE.hardware`
-- **CERN-OHL-S v2** for brand assets (logo SVGs) — see `Docs/Brand_Assets/README.md`
+- Brand assets (the name "RectaBot" + logo SVGs) are **reserved**, not open-licensed, and not accepted as open contributions — see `Docs/Brand_Assets/README.md`
 - **GPL-3.0** for grblHAL firmware contributions — separate repo: [RectaBot-firmware](https://github.com/rectabot/RectaBot-firmware)
 
 ---
