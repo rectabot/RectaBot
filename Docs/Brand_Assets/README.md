@@ -5,11 +5,13 @@ Logo files for the RectaBot CNC controller project.
 ## License & brand usage
 
 The RectaBot **hardware, firmware and documentation are open** (see `LICENSE`,
-`LICENSE.hardware`, and the firmware repo). The **name "RectaBot" and the
-logo/wordmark are NOT open-licensed** — they are the project's brand identity.
+`LICENSE.hardware`, and the firmware repo). The **name "RectaBot", the related
+product names in the same family (the "Recta" marks), and the logo/wordmark are
+NOT open-licensed** — they are the project's brand identity.
 
-**Copyright (c) 2026 Filip Perić. All rights reserved** for the marks in this
-folder (the `rectabot` wordmark, the `r` icon, the lockups, and the favicon).
+**Copyright (c) 2026 Filip Perić. All rights reserved** for the RectaBot name, the
+"Recta" product-family names, and the marks in this folder (the `rectabot` wordmark,
+the `r` icon, the lockups, and the favicon).
 
 ### You MAY (no permission needed)
 - Use the name and logo to **refer to** the genuine RectaBot project — "works with
