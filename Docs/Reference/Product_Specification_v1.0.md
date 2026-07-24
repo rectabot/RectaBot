@@ -95,7 +95,7 @@ RectaBot is a professional CNC mill controller designed for hobby-pro and small 
   - CC1/CC2 5.1kΩ pull-down (device mode)
   - 22Ω series termination on D+/D-
 - ✅ **RS-485 Modbus** for VFD spindle and external I/O expansion (SP3485)
-- ✅ **RS-422 Pendant interface** for RectaPad (full duplex, dual SP3485)
+- ✅ **RS-422 Pendant interface** (CN41, full duplex, dual SP3485)
 - ✅ **MicroSD card** for G-code file storage and configuration
 
 ### Power Distribution
@@ -108,7 +108,7 @@ RectaBot is a professional CNC mill controller designed for hobby-pro and small 
 ### Safety & EMI
 - ✅ **4-layer stackup** with solid GND plane (L2) for return paths
 - ✅ **PSM712 TVS arrays** on RS-485/422 + Bob Smith on RJ45/USB-C shells
-- ✅ **Input-side isolation barrier** (2mm copper void) — separates MCU ground from 24V_ISO input domain. Stepper/Spindle/AUX outputs share MCU ground in v1 (full I/O isolation planned for v2).
+- ✅ **Input-side isolation barrier** (2mm copper void) — separates MCU ground from 24V_ISO input domain. Stepper/Spindle/AUX outputs share MCU ground in v1.
 - ✅ **Failsafe spindle defaults** during MCU reset (open-drain MOSFETs OFF by default)
 - ✅ **12V Zener clamp** on spindle 0-10V output (protects VFD from MCU failure)
 
@@ -236,7 +236,7 @@ RectaBot is a professional CNC mill controller designed for hobby-pro and small 
 - Bob Smith termination on Ethernet RJ45 + USB-C shells
 
 ### Protection Features
-- ⚠️ Note: the 24V input has **no** reverse-polarity protection in v1 (planned for v2)
+- ⚠️ Note: the 24V input has **no** reverse-polarity protection in v1 — double-check polarity before powering on
 - ESD protection on USB data lines (22Ω series + Bob Smith chassis coupling)
 - TVS arrays on RS-485/422 lines (PSM712-LF)
 - Optical isolation on all field inputs (LTV-217-B-G, 5kV component rating); outputs share MCU ground in v1
@@ -383,7 +383,6 @@ RectaBot is a professional CNC mill controller designed for hobby-pro and small 
 - Link to online documentation
 
 ### Optional Accessories (separately sold)
-- RectaPad (handheld controller with LCD + touch)
 - Pre-made wiring harness for common VFDs
 - Power supply 24V/5A
 - Enclosure (DIN rail or panel mount)
@@ -401,10 +400,9 @@ RectaBot is a professional CNC mill controller designed for hobby-pro and small 
 
 ## 🆘 Support
 
-- **GitHub:** github.com/rectabot (TBD)
-- **Documentation:** docs.rectabot.com (TBD)
-- **Community:** Discord "RectaBot Users" (TBD)
-- **Email:** support@rectabot.com (TBD)
+- **Website:** rectabot.org
+- **GitHub:** github.com/rectabot
+- **Email:** support@rectabot.org
 
 ---
 

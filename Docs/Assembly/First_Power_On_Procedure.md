@@ -139,7 +139,7 @@ With **power on**, measure the following (black probe on GND, red on the test po
 - Probably a solder bridge across the 2mm void barrier
 - See Troubleshooting
 
-**Note for v2:** the stepper, VFD, and AUX sides are planned for full isolation in v2 (a separate 24V_ISO_OUT rail).
+**Note:** in v1 the stepper, VFD, and AUX output sides share the MCU ground (only the input side is isolated).
 
 ---
 

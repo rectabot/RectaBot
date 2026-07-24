@@ -28,13 +28,12 @@ to contribute effectively.
 
 ## 🛠️ Repository Structure
 
-This is the **main** RectaBot repository. The project spans 3 repositories:
+This is the **main** RectaBot repository. The project spans these repositories:
 
 | Repo | Purpose |
 |---|---|
 | **RectaBot** (this one) | Hardware design (Gerber, BOM), documentation, brand assets, configurator tool |
 | **RectaBot-firmware** | grblHAL fork with RectaBot board map |
-| **RectaPad** | Touchscreen pendant firmware (LVGL on RP2350) |
 
 ---
 
@@ -116,7 +115,6 @@ By contributing, you agree your contributions are licensed under:
 - **CERN-OHL-S v2** for hardware design files (Gerber, BOM, CPL) — see `LICENSE.hardware`
 - **CERN-OHL-S v2** for brand assets (logo SVGs) — see `Docs/Brand_Assets/README.md`
 - **GPL-3.0** for grblHAL firmware contributions — separate repo: [RectaBot-firmware](https://github.com/rectabot/RectaBot-firmware)
-- **MIT** for RectaPad pendant contributions — separate repo: [RectaPad](https://github.com/rectabot/RectaPad)
 
 ---
 

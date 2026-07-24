@@ -26,10 +26,10 @@ A 5-axis CNC controller with optical input isolation, integrated Ethernet, and a
 
 ### Key features
 
-- 🧩 **Single-board, fully integrated** — no add-on driver boards, breakout modules, or level-shifter add-ons to wire up. Every active part is soldered down (only the field-wiring terminals plug in), so vibration can't work a module loose over time; high-speed step/dir and comms lines are laid out for EMI immunity. The only external hardware you add is **2–3 SSRs for coolant/vacuum** — the board already drives them from isolated outputs (on-board switching planned for v2)
+- 🧩 **Single-board, fully integrated** — no add-on driver boards, breakout modules, or level-shifter add-ons to wire up. Every active part is soldered down (only the field-wiring terminals plug in), so vibration can't work a module loose over time; high-speed step/dir and comms lines are laid out for EMI immunity. The only external hardware you add is **2–3 SSRs for coolant/vacuum** — the board already drives them from isolated outputs
 - ⚙️ **5-axis stepper control** (X, Y, Z, A, B) — PIO-based step generation up to **300kHz per axis**
 - 🔌 **Spindle 0-10V interface** with overvoltage protection — compatible with Huanyang/Lapond/Delta/Hitachi VFDs
-- 🛡️ **Optically isolated inputs** — all 10 field inputs through LTV-217-B-G optocouplers on a dedicated 24V_ISO rail (full I/O isolation planned for v2)
+- 🛡️ **Optically isolated inputs** — all 10 field inputs through LTV-217-B-G optocouplers on a dedicated 24V_ISO rail (input side only)
 - 🌐 **On-board Ethernet 10/100 Mbps** — a **discrete W5500** PHY laid out to WIZnet's reference design and their engineers' recommendations (not a plug-on module), with J1B1211CCD integrated magnetics + Bob Smith termination and controlled 100Ω differential pairs
 - 💾 **MicroSD slot** for G-code files and configuration
 - 🔋 **24V DC power input** (buck-regulated to 5V) — **ORing Schottky diodes** let the 24V supply and USB-C stay connected **at the same time** and hand off the 5V rail automatically; **no VBUS/5V select jumpers** to flip by hand (also blocks USB-C back-feed)
@@ -156,7 +156,7 @@ git clone https://github.com/rectabot/RectaBot-firmware.git
                               │ → CN22-CN31         │
                               └─────────────────────┘
 
-Note: v1 isolates input side only. Full I/O galvanic isolation is planned for v2.
+Note: v1 isolates the input side only.
 ```
 
 ---

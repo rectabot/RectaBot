@@ -306,7 +306,7 @@
                         <span class="text-cyan-400 mt-0.5">▹</span>
                         <span><span class="text-slate-200 font-medium">The only extras you add:</span> 2–3
                         solid-state relays for coolant / vacuum — the board already drives them from isolated
-                        outputs. On-board switching is planned for v2.</span>
+                        outputs.</span>
                     </li>
                 </ul>
                 <div class="flex flex-wrap gap-3 text-sm font-mono">
@@ -331,7 +331,7 @@
                 <h2 class="text-4xl font-bold mb-4">System <span class="text-cyan-400">Architecture</span></h2>
                 <p class="text-slate-400 max-w-2xl mx-auto">
                     Dual-core ARM Cortex-M33 at 150 MHz orchestrates motion, spindle, and I/O, with
-                    all 10 field inputs behind a 1 kV isolation barrier (full I/O isolation planned for v2).
+                    all 10 field inputs behind a 1 kV isolation barrier (input side only).
                 </p>
             </div>
 
@@ -453,7 +453,7 @@
                     <!-- v2 Note -->
                     <div class="mt-6 text-center">
                         <p class="text-xs text-slate-500 font-mono">
-                            v1 isolates input side only. Full I/O isolation planned for v2.
+                            v1 isolates the input side only.
                         </p>
                     </div>
 
@@ -509,7 +509,7 @@
                         </svg>
                     </div>
                     <h3 class="text-xl font-semibold mb-2">Optically Isolated Inputs</h3>
-                    <p class="text-slate-400 text-sm">All 10 field inputs (limits, ESTOP, probe, controls) routed through LTV-217 optocouplers on a dedicated 24V_ISO rail — 1kV input-side isolation. Full galvanic I/O isolation planned for v2.</p>
+                    <p class="text-slate-400 text-sm">All 10 field inputs (limits, ESTOP, probe, controls) routed through LTV-217 optocouplers on a dedicated 24V_ISO rail — 1kV input-side isolation.</p>
                 </div>
 
                 <!-- Feature 3 -->
