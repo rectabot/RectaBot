@@ -4,6 +4,8 @@ Open-source 5-axis CNC controller based on the Raspberry Pi RP2350B microcontrol
 
 🌐 **[rectabot.org](https://rectabot.org)** — product, documentation and firmware configurator.
 
+_RectaBot is the first piece of an open CNC ecosystem we're actively building. New parts are shared here as they're finished and verified — no roadmaps, no dates, just working hardware and software._
+
 ![RectaBot v1.0 — assembled board](Docs/images/board-photo.webp)
 
 ---
