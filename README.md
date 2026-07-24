@@ -163,7 +163,7 @@ Note: v1 isolates input side only. Full I/O galvanic isolation is planned for v2
 
 ## 🚀 Quick Start
 
-> **📦 Status:** The first batch of five v1.0 boards has been assembled and passed bench testing. The one interface still to be confirmed is the **RS-422 pendant** link — it will be validated in a later phase, together with the upcoming **RectaPad** touchscreen pendant. Everything else is verified; follow the assembly and wiring guides below.
+> **📦 Status:** The first batch of five v1.0 boards has been assembled and passed bench testing. Everything documented below is verified. The one interface not yet confirmed is the **RS-422 pendant** link — until it is validated, treat that header as untested. Follow the assembly and wiring guides below.
 
 **Main guides:**
 - **[Quick_Start_Guide.md](Docs/Assembly/Quick_Start_Guide.md)** — Complete walkthrough from unboxing to first motor (estimated: 2-3h)
