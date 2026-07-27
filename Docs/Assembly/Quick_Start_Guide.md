@@ -271,7 +271,8 @@ Once the X axis runs reliably:
 
 - [Pinout.md](../Reference/Pinout.md) — complete GPIO map
 - [Hardware_Design_Guidelines.md](../Reference/Hardware_Design_Guidelines.md) — electrical and mechanical design
-- [VFD_Wiring_Guide.md](../Reference/VFD_Wiring_Guide.md) — how to wire various VFDs
+- [VFD_Wiring_Guide.md](../Reference/VFD_Wiring_Guide.md) — how to wire various VFDs (analog 0-10V)
+- [VFD_Modbus_Setup.md](../Reference/VFD_Modbus_Setup.md) — spindle control over RS-485/Modbus
 - [Product_Specification_v1.0.md](../Reference/Product_Specification_v1.0.md) — complete datasheet
 
 ---

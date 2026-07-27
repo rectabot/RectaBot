@@ -56,7 +56,8 @@ RectaBot/
 │   │   ├── Pinout.md                    # RP2350B pinmap (GP0-GP47)
 │   │   ├── Schematic_References.md       # Reference schematics for all ICs
 │   │   ├── Hardware_Design_Guidelines.md # PCB layout guidelines
-│   │   └── VFD_Wiring_Guide.md          # VFD connection guide
+│   │   ├── VFD_Wiring_Guide.md          # VFD connection guide (analog 0-10V)
+│   │   └── VFD_Modbus_Setup.md          # VFD spindle control over RS-485/Modbus
 │   ├── Manufacturing/                   # Send-to-fab production data
 │   │   ├── BOM_v1.0_final.csv           # Bill of Materials (~80 components)
 │   │   ├── CPL_RectaBot_V1.0.csv        # Component Placement List for JLCPCB
@@ -179,7 +180,7 @@ Note: v1 isolates the input side only.
 5. Firmware flash via BOOTSEL+USB (15 min)
 6. grblHAL configuration (`$$` parameters for RectaBot, 20 min) — use [Docs/configurator/](Docs/configurator/) to generate
 7. First axis test with a DM556 driver (10 min)
-8. VFD wiring — see [VFD Wiring Guide](Docs/Reference/VFD_Wiring_Guide.md)
+8. VFD wiring — [analog 0-10V](Docs/Reference/VFD_Wiring_Guide.md) or [RS-485/Modbus](Docs/Reference/VFD_Modbus_Setup.md)
 
 ---
 
