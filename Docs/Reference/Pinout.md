@@ -16,11 +16,31 @@ Stepper drivers operate in **Common Anode** mode: +5V on OPT+, the 74HC14D pulls
 **Input galvanic isolation:** 10 isolated inputs via **LTV-217-B-G** optocouplers (U8-U20), powered from **+24V_ISO** (B2424S-2WR3 isolated DC/DC). GND_ISO is separated from GND by a 2mm copper void barrier.
 
 **Input wiring (each connector: `24V · GND · SIG`):** the inputs are **sinking (active LOW)** — same convention as the VFD outputs.
-- **Mechanical switch** (limit / E-stop, NO contact): wire between **GND** and **SIG**. The 24V pin is not needed.
-- **Inductive sensor — NPN (sinking), recommended** (e.g. LJ12A3): use all three pins — **24V** (power) + **GND** + **SIG**. The sensor pulls SIG to GND when triggered.
-- **PNP (sourcing) sensors are not directly compatible** (they drive SIG to 24V) — use an external relay module, as with PNP VFDs.
+- **Mechanical switch** (limit / E-stop): wire between **GND** and **SIG**. The 24V pin is not needed.
+- **Inductive sensor — NPN (sinking)**: use all three pins — **24V** (power) + **GND** + **SIG**. The sensor switches SIG to GND.
+- **PNP (sourcing) sensors are not directly compatible** (they drive SIG to 24V, so no current flows through the opto LED and the input never sees them) — use an external relay module, as with PNP VFDs.
 
-See the [hardware configurator](../configurator/index.html) (Limit input type: NPN vs Mechanical) for the matching grblHAL `$` settings.
+### NC or NO — and why NC is the one to ship
+
+With **`$5=0`** an input reads **triggered when the circuit is OPEN**. So on the
+`GND · SIG` wiring above:
+
+| Device | `$5` | Broken wire behaves as |
+|---|---|---|
+| **NC** (normally closed) — recommended | `0` | **triggered → machine stops** ✅ |
+| NO (normally open) | invert that axis | nothing — the fault is invisible ⚠️ |
+
+That is the whole argument for NC: a cut wire, a loose terminal or a corroded
+contact looks exactly like a tripped limit, so the machine refuses to move instead
+of running blind past its own end stops. A NO switch fails silent — you find out
+when the gantry does.
+
+For inductive sensors the same rule picks the suffix: **`LJ12A3-4-Z/AX` (NPN NC)**
+matches `$5=0`; `/BX` (NPN NO) needs `$5` inverted for that axis. `/AY` and `/BY`
+are PNP and need a relay module either way.
+
+`$5` is a per-axis mask, so a machine may mix types if it must — but a mixed
+machine has mixed failure modes, which is its own kind of expensive.
 
 | Function | RP2350 Pin | Notes |
 | :--- | :--- | :--- |
