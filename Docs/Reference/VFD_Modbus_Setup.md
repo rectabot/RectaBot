@@ -73,6 +73,20 @@ The shipped firmware has all VFD protocols compiled in; you select one at runtim
 - **`Huanyang v1`** — the original HY protocol (HY01/HY02/HY03 series, `PD` parameters)
 - **`Huanyang P2A`** — the newer P2A generation
 
+Ask the board itself rather than trusting a table — **`$SPINDLESH`** enumerates what
+this firmware actually carries, with the id `$395` expects. On the shipped build:
+
+| `$395` | Driver |
+|---|---|
+| `0` | PWM (analog 0-10 V, the default) |
+| `1` | Huanyang v1 |
+| `2` | Huanyang P2A |
+| `3` | Durapulse GS20 |
+| `4` | Yalang YL620A |
+| `5` | MODVFD (generic Modbus) |
+| `6` | H-100 |
+| `7` | Nowforever |
+
 In RectaControl: **Settings → Spindle & laser → Spindle type**, then reset the board.
 `$I` lists every registered spindle, so you can confirm the driver came up.
 
