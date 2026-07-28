@@ -273,12 +273,27 @@ check which register that is in the manual for your revision.
 | Reported RPM is a fixed multiple of the commanded one | `PD144` again — the ratio tells you the factor |
 | Driver not listed in `$I` | `$395` not set, or the board was not reset afterwards |
 | Works, then drops out under load | ground/shielding: route the RS-485 pair away from motor cables, terminate 120 Ω |
+| `M3` turns the spindle the wrong way | swap any two motor phases (see below) |
 | Spindle will not go below some RPM | that is `PD011`, working as intended |
 
 **Bus timing note:** Huanyang drives have been measured failing to answer when the
 silent period between messages is under 6 ms. The firmware already applies longer
 silence timeouts per baud rate for this family, so a Huanyang that does not respond
 is a wiring or parameter problem, not a timing one.
+
+### Spindle turns the wrong way
+
+Swap **any two of the three motor phases** at the drive's `U`/`V`/`W` terminals; the
+third stays put. That is the whole fix — a three-phase motor reverses on any swapped
+pair. Then re-check that `M3` is clockwise seen from above and `M4` counter-clockwise.
+
+There is no setting for this on a Modbus spindle. `$16` ("invert spindle signals")
+acts on the **PWM** spindle's output pins (`settings.pwm_spindle.invert`), while a VFD
+driver sends direction as a command on the bus — the Huanyang driver writes `0x11` for
+CCW and `0x01` for CW, and nothing inverts it.
+
+> Power down, wait for the display to go dark **and several minutes more**, and measure
+> the DC bus at `P/+` and `N/−` before opening the terminal cover. See §5.
 
 ---
 
