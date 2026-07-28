@@ -26,6 +26,16 @@ The trade-off is setup: the VFD must be told to take its commands from the bus, 
 its parameters must describe the motor honestly, because **grblHAL reads the RPM
 range out of the VFD** (see the register table below).
 
+> ### The reason that last row matters
+> An analog spindle is commanded blind: the controller puts out a voltage and never
+> learns whether anything acted on it. If the drive faults mid-cut — lost phase,
+> overheat, overcurrent, a pulled wire — the spindle coasts to a stop while the
+> machine keeps driving the cutter through the material.
+>
+> Over Modbus the controller is in a conversation, so a drive that stops answering
+> raises `ALARM:19` and the program stops with it. Worth verifying once on your own
+> machine: with the spindle idle, pull the VFD's mains and confirm the alarm appears.
+
 ---
 
 ## 1. Wiring
@@ -65,8 +75,23 @@ The shipped firmware has all VFD protocols compiled in; you select one at runtim
 | Setting | Meaning |
 |---|---|
 | `$395` | Spindle type — pick the driver that matches your VFD |
-| `$460` | VFD Modbus address (must match the address set in the VFD) |
+| `$476` | Modbus address of the VFD bound to spindle 1 (must match the address set in the VFD), default `1` |
 | `$461` | RPM ↔ Hz factor (only used by drivers that need it) |
+
+> ### ⚠️ Why `$476` and not `$460`
+> Most grblHAL documentation names `$460` for the VFD's Modbus address, and on builds
+> carrying a single spindle that is correct. The shipped RectaBot firmware compiles in
+> every VFD protocol (`N_SPINDLE=8`), which puts grblHAL into its multi-spindle branch:
+> `$460` stays registered but **hidden**, and the address you edit is **`$476`** —
+> "Spindle 1 ModBus address" (`spindle/vfd/spindle.c`). Both write the same value, so
+> `$460=…` still takes; it simply never shows up in `$ES` or in RectaControl's settings
+> list, which reads like a broken firmware when it is not.
+>
+> If you ever run more than one VFD: `$477`, `$478`, `$479` address spindles 2, 3 and 4.
+>
+> `$476` **only appears once `$395` names a VFD driver and the board has been reset** —
+> the setting is gated on the bound spindle actually being a VFD. Its absence before
+> that point is expected, not a fault.
 
 `$395` takes effect **after a board reset**. Two drivers cover the Huanyang family:
 
@@ -82,7 +107,7 @@ this firmware actually carries, with the id `$395` expects. On the shipped build
 | `1` | Huanyang v1 |
 | `2` | Huanyang P2A |
 | `3` | Durapulse GS20 |
-| `4` | Yalang YL620A |
+| `4` | Yalang YS620 (the drive is sold as YL620-A; the firmware spells it YS620) |
 | `5` | MODVFD (generic Modbus) |
 | `6` | H-100 |
 | `7` | Nowforever |
@@ -146,9 +171,16 @@ driving a **2.2 kW / 8 A / 24 000 RPM / 400 Hz** spindle.
 | `PD014` | `10`–`15` | acceleration time, seconds |
 | `PD015` | `10`–`15` | deceleration time, seconds |
 
-> **Why a 6 000 RPM floor:** these spindles are cooled and lubricated by their own
-> rotation. Running one at a few hundred RPM to "take it easy" does the opposite.
-> Set the floor in the VFD and grblHAL inherits it.
+> **Why a 6 000 RPM floor:** on an **air-cooled** spindle the fan sits on the shaft,
+> so running at a few hundred RPM to "take it easy" leaves it with almost no cooling
+> — the opposite of gentle. A **water-cooled** spindle (the `GDZ` families) is cooled
+> by the pump regardless of speed, so the floor there is not about heat but about
+> torque: a V/f drive with no vector control gets weak and stall-prone down low.
+>
+> Either way a floor is worth having — it stops a stray `S1000` in someone else's
+> g-code from bogging the spindle down mid-cut. Set it in the VFD and grblHAL
+> inherits it; `100` Hz (6 000 RPM here) suits general work, and going lower is
+> reasonable only if you actually run large-diameter cutters.
 
 ### Communication block
 
@@ -156,7 +188,7 @@ driving a **2.2 kW / 8 A / 24 000 RPM / 400 Hz** spindle.
 |---|---|
 | `PD001` | run command source → RS-485 |
 | `PD002` | frequency source → RS-485 |
-| `PD163` | slave address (match `$460`) |
+| `PD163` | slave address (match `$476`) |
 | `PD164` | baud rate |
 | `PD165` | data format (8N1, RTU) |
 
@@ -174,16 +206,36 @@ Do it in this order; each step is checkable on its own.
 1. **Power off.** Wire A/B/GND. Leave the spindle unmounted or the collet empty.
 2. Program the VFD: motor block → frequency block → communication block last.
    (Communication last, so you are not fighting a half-configured drive over a bus.)
-3. Set `$395` to the matching driver and `$460` to the VFD's address, then **reset
-   the board**.
+3. Set `$395` to the matching driver, then **reset the board**. `$476` (the VFD's
+   Modbus address) becomes visible only after that reset — set it then, unless the
+   VFD is already on the default address `1`.
 4. Send `$I` — the driver must be listed. No entry means `$395` did not take, or the
    board was not reset.
-5. Read `$$`. If min/max RPM now reflect your spindle, the controller is talking to
-   the VFD and reading its registers. That is the moment the bus is proven.
+5. Send **`$SPINDLESH`** and read the trailing `rpm_min,rpm_max` field of the active
+   spindle. If it reflects your spindle, the controller is talking to the VFD and
+   reading its registers — that is the moment the bus is proven.
+
+   > Do **not** look for this in `$$`. `$30`/`$31` are the PWM spindle's own settings
+   > and stay whatever you typed; a VFD's range lands in the spindle HAL
+   > (`grbl/spindle_control.c`), which only `$SPINDLESH` reports.
+
 6. Command a low speed (e.g. `M3 S6000`), watch the reported RPM settle at the
    commanded value, then `M5`. Only then fit a tool.
+7. Set **`$340`** (spindle at-speed tolerance) to about `5` percent.
 
-### Doing steps 2-6 with no motor connected
+   > ### ⚠️ Why `$340=0` breaks the first cut
+   > A Modbus VFD reports its real speed back, so grblHAL can wait for the spindle to
+   > actually reach the commanded RPM before running the next block. That wait is
+   > enabled **only** when `$340 > 0` (`spindle_control.c`: `at_speed_enabled =
+   > at_speed_tolerance > 0.0f`). Left at the default `0`, `M3 S24000` returns
+   > immediately and the machine starts cutting while the spindle is still spinning
+   > up — which a VFD spindle can take several seconds to finish.
+   >
+   > `$394` (spindle on delay) solves the same problem with a fixed wait, but it waits
+   > the same amount whether the spindle needs it or not. With a VFD, `$340` is the
+   > better tool: it waits exactly as long as the drive says it needs.
+
+### Doing steps 2-7 with no motor connected
 
 Recommended, in fact — settle the parameters and the bus while nothing can spin.
 
