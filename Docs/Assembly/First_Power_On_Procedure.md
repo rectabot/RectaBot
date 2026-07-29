@@ -178,11 +178,15 @@ With **power on**, measure the following (black probe on GND, red on the test po
 Without firmware, the W5500 doesn't initialize, but the RJ45 magnetics work at the physical level — the LINK LED should light up if the hardware is OK.
 
 ### 5c. With firmware (later)
-After flashing grblHAL, the W5500 acquires an IP via DHCP, and you can ping:
+RectaBot firmware comes up on a **fixed address, not DHCP**: `192.168.5.1 / 255.255.255.0`,
+hostname `rectabot`. Give the PC an address on the same subnet (e.g. `192.168.5.20/24`) and:
 ```
-ping rectabot.local       # mDNS (if supported)
-ping <ip-from-router>     # direct
+ping 192.168.5.1
 ```
+A router is not needed — a direct cable between the PC and RJ1 works. If the board answers
+nowhere, it is on DHCP: either the address was changed by hand (`$300..$304`) or the image
+predates 2026-07-29, when the static default first actually took effect. Connect over USB and
+read `$$` to find out which.
 
 ---
 
