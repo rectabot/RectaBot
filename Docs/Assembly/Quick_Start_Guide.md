@@ -6,19 +6,28 @@ Estimated time: **2-3 hours** (including soldering 28 TH components).
 
 ---
 
-## 📦 What's in the box
+## 📦 What arrives
 
-### From the JLCPCB package (DHL Express DDP)
-- ✅ **5× RectaBot v1.0 PCB** with SMT-mounted components
-- ✅ ENIG gold finish (durable, great for soldering)
-- ❌ **NO Through-Hole components** — JLCPCB doesn't assemble the TH parts you didn't select at ordering; you hand-solder them (see [Hand_Solder_Components.md](Hand_Solder_Components.md))
-- 📄 JLCPCB packaging + invoice
+If you had the boards made from the files in [`Docs/Manufacturing/`](../Manufacturing/),
+your parcels hold this. Two of them, because the two halves come from different places.
 
-### From the LCSC package (FedEx International Priority)
-- ✅ **28 TH components × 5 sets** + MOQ extras
+### From the PCB assembler
+- ✅ **RectaBot v1.0 PCB** with the SMT components already mounted
+- ✅ ENIG gold finish (durable, and pleasant to solder onto)
+- ❌ **No through-hole components** — an assembler only fits what you selected when
+  ordering, and the TH parts are not part of the SMT run. You solder those yourself
+  (see [Hand_Solder_Components.md](Hand_Solder_Components.md))
+- 📄 The invoice — keep it, customs may ask
+
+### From the parts distributor
+- ✅ **28 through-hole components** per board, plus whatever the minimum order
+  quantities forced you to buy extra of
   - Detailed list: [Hand_Solder_Components.md](Hand_Solder_Components.md)
-- ✅ **Male KEFA connectors** (KF2EDGK series) for screw terminals
-- 📄 LCSC invoice (keep for customs!)
+- ✅ **Male KEFA connectors** (KF2EDGK series) for the screw terminals
+- 📄 The invoice — same reason
+
+If you bought an assembled board instead, skip both lists and the soldering with them;
+start at [First_Power_On_Procedure.md](First_Power_On_Procedure.md).
 
 ### What YOU need to provide (not in the package)
 
