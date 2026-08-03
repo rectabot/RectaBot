@@ -15,7 +15,7 @@ _RectaBot is the first piece of an open CNC ecosystem we're actively building. N
 | | |
 |---|---|
 | **Current version** | v1.0 |
-| **Status** | ✅ v1.0 — first 5 boards assembled & bench-tested (RS-422 pendant link pending) |
+| **Status** | ✅ v1.0 — running a machine: homing, probing, Modbus spindle, Ethernet, SD. One interface not yet exercised: the RS-422 pendant header |
 | **First production batch** | 5 boards (JLCPCB Economic PCBA + ENIG finish) |
 | **Firmware** | grblHAL fork for RP2350B |
 | **Form factor** | 150 × 100 mm, 4-layer PCB, 1.6mm |
@@ -166,7 +166,7 @@ Note: v1 isolates the input side only.
 
 ## 🚀 Quick Start
 
-> **📦 Status:** The first batch of five v1.0 boards has been assembled and passed bench testing. Everything documented below is verified. The one interface not yet confirmed is the **RS-422 pendant** link — until it is validated, treat that header as untested. Follow the assembly and wiring guides below.
+> **📦 Status:** The first batch of five v1.0 boards has been assembled, and a board has been driving a machine since: homing and hard limits, probing cycles, a Modbus VFD spindle, Ethernet, the SD card and the coolant outputs. Everything documented below is verified on hardware, with one exception — nothing has yet been connected to the **RS-422 pendant header (CN41)**. Its transceivers are populated and its pins are documented, but the link has never carried traffic, so treat that one interface as untested. Follow the assembly and wiring guides below.
 
 **Main guides:**
 - **[Quick_Start_Guide.md](Docs/Assembly/Quick_Start_Guide.md)** — Complete walkthrough from unboxing to first motor (estimated: 2-3h)

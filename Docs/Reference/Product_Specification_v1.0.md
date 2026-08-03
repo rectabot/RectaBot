@@ -95,7 +95,7 @@ RectaBot is a professional CNC mill controller designed for hobby-pro and small 
   - CC1/CC2 5.1kΩ pull-down (device mode)
   - 22Ω series termination on D+/D-
 - ✅ **RS-485 Modbus** for VFD spindle and external I/O expansion (SP3485)
-- ✅ **RS-422 Pendant interface** (CN41, full duplex, dual SP3485)
+- ✅ **RS-422 pendant interface** (CN41, full duplex, dual SP3485) — populated and pinned out, but nothing has been connected to it yet; treat it as untested
 - ✅ **MicroSD card** for G-code file storage and configuration
 
 ### Power Distribution
