@@ -91,7 +91,7 @@ machine has mixed failure modes, which is its own kind of expensive.
 | X_MIN | `GP33` | X-axis limit switch |
 | Y_MIN | `GP34` | Y-axis limit switch |
 | Z_MAX | `GP35` | Z-axis limit switch (homing up) |
-| A_MIN | `GP36` | A-axis limit switch |
+| A_MIN | `GP36` | A-axis limit switch — free on 4/5-axis builds, see below |
 | B_MIN | `GP37` | B-axis limit switch (Y2 auto-square) |
 | ESTOP | `GP38` | Emergency Stop → grblHAL alarm |
 | PROBE | `GP39` | Tool length probe |
@@ -104,3 +104,36 @@ machine has mixed failure modes, which is its own kind of expensive.
 | SD CS | `GP45` | SPI1 CSN |
 | SD CLK | `GP46` | SPI1 SCK |
 | VBUS_DET | `GP47` | USB VBUS detect, 10kΩ/10kΩ divider (R6/R8) → 2.5V (above VIH=2.15V) |
+
+## A_MIN (`GP36`) is a spare isolated input on a 4-axis machine
+
+A rotary A axis is not homed, so it has no limit switch and its input sits unused. That
+makes `GP36` the one 24 V isolated input still free on a fully populated board — every
+`AUXINPUT` is spoken for (E-stop, probe, cycle start, feed hold, door) — and it goes
+through the same LTV-217 optocoupler as the other limits. A mechanical **tool setter** is
+what it is worth spending on: a fixed pad the machine touches off against, which is what
+tool-length offsets need and what the probe input alone cannot give you, since the probe
+travels with the spindle.
+
+When it is free, and when it is not:
+
+| build | `GP36` |
+|---|---|
+| 4- and 5-axis, any Y arrangement | **free** — A takes motor 3, so an auto-squared Y2 lands on `GP37` |
+| 3-axis, single or plain ganged Y | **free** — nothing claims it |
+| 3-axis, auto-squared Y | **taken** — the second Y home switch is here |
+
+grblHAL assigns a ganged motor to the highest channel, which is why the same wire lands on
+a different pad depending on axis count. The board map does this for you; the table is
+just so you can check the pad before wiring to it.
+
+**The pad is wired; the firmware images do not read it.** None of the published builds
+enable a tool setter, so this is a build you make yourself — the hardware is here for it,
+which is the part you cannot add later.
+
+Declare `GP36` as an aux input in the board map and define `TOOLSETTER_PIN 36` /
+`TOOLSETTER_ENABLE 1`, guarded so an auto-squared 3-axis build does not claim the pad twice,
+and grblHAL registers a second probe of its own, separate from `PROBE`. Settings survive the
+flash — the tool setter's invert / pull-up / auto-select flags are bits in a word that
+already exists, so the settings structure does not grow. See `variants/CONFIG.md` for how a
+variant is built, and for the options where that is *not* true.
