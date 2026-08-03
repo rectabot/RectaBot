@@ -18,6 +18,7 @@ _RectaBot is the first piece of an open CNC ecosystem we're actively building. N
 | **Status** | ✅ v1.0 — running a machine: homing, probing, Modbus spindle, Ethernet, SD. One interface not yet exercised: the RS-422 pendant header |
 | **First production batch** | 5 boards (JLCPCB Economic PCBA + ENIG finish) |
 | **Firmware** | grblHAL fork for RP2350B |
+| **Software** | [RectaControl](https://github.com/rectabot/RectaControl) — desktop sender built for this board |
 | **Form factor** | 150 × 100 mm, 4-layer PCB, 1.6mm |
 
 ---
@@ -77,11 +78,13 @@ RectaBot is split across separate GitHub repos for better modularity:
 |---|---|
 | **[rectabot/RectaBot](https://github.com/rectabot/RectaBot)** (this one) | Hardware design (Gerber), docs, BOM, brand assets, configurator tool |
 | **[rectabot/RectaBot-firmware](https://github.com/rectabot/RectaBot-firmware)** | grblHAL fork with RectaBot board map + pre-built UF2 |
+| **[rectabot/RectaControl](https://github.com/rectabot/RectaControl)** | Desktop sender (Electron) — settings, probing, 3D toolpath, firmware flashing |
 
 **Clone everything at once:**
 ```powershell
 git clone https://github.com/rectabot/RectaBot.git
 git clone https://github.com/rectabot/RectaBot-firmware.git
+git clone https://github.com/rectabot/RectaControl.git
 ```
 
 ---
@@ -199,6 +202,7 @@ Note: v1 isolates the input side only.
 - **Hardware design files** (Gerber, BOM, CPL): CERN-OHL-S v2 (see [LICENSE.hardware](LICENSE.hardware))
 - **Brand assets** (the name "RectaBot" + logo SVGs): **reserved — all rights reserved**, not open-licensed (see [Docs/Brand_Assets/README.md](Docs/Brand_Assets/README.md))
 - **grblHAL firmware fork:** GPL-3.0 (inherits from upstream, in the separate [RectaBot-firmware](https://github.com/rectabot/RectaBot-firmware) repo)
+- **RectaControl sender:** GPL-3.0 (separate [RectaControl](https://github.com/rectabot/RectaControl) repo)
 
 ---
 

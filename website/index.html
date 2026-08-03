@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RectaBot v1.0 — Industrial 5-Axis CNC Controller</title>
-    <meta name="description" content="Open-source industrial CNC controller. RP2350B + grblHAL. 5-axis, 1kV input-side isolation, Ethernet, VFD 0-10V.">
+    <meta name="description" content="Open-source industrial CNC controller. RP2350B + grblHAL. 5-axis, 1kV input-side isolation, Ethernet, VFD 0-10V — with RectaControl, a free desktop sender built for it.">
 
     <!-- Open Graph -->
     <meta property="og:title" content="RectaBot v1.0 — Industrial 5-Axis CNC Controller">
-    <meta property="og:description" content="Open-source CNC controller. RP2350B + grblHAL. 1kV input-side isolation, Ethernet, VFD 0-10V.">
+    <meta property="og:description" content="Open-source CNC controller. RP2350B + grblHAL. 1kV input-side isolation, Ethernet, VFD 0-10V — with a free desktop sender built for it.">
+    <meta property="og:image" content="https://rectabot.org/board-photo.webp">
+    <meta name="twitter:card" content="summary_large_image">
     <meta property="og:type" content="website">
 
     <!-- Favicon -->
@@ -207,6 +209,7 @@
             <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
                 <a href="#features" class="hover:text-cyan-400 transition">Features</a>
                 <a href="#architecture" class="hover:text-cyan-400 transition">Architecture</a>
+                <a href="#software" class="hover:text-cyan-400 transition">Software</a>
                 <a href="#specs" class="hover:text-cyan-400 transition">Specs</a>
                 <a href="#compatibility" class="hover:text-cyan-400 transition">Compatibility</a>
                 <a href="configurator/" class="hover:text-cyan-400 transition flex items-center gap-1">
@@ -253,6 +256,7 @@
                 <span class="px-3 py-1 bg-slate-900 border border-slate-700 rounded">Ethernet + USB-C</span>
                 <span class="px-3 py-1 bg-slate-900 border border-slate-700 rounded">microSD storage</span>
                 <span class="px-3 py-1 bg-slate-900 border border-slate-700 rounded">Open hardware</span>
+                <span class="px-3 py-1 bg-slate-900 border border-slate-700 rounded">Free sender included</span>
             </div>
 
             <!-- CTAs -->
@@ -542,7 +546,7 @@
                         </svg>
                     </div>
                     <h3 class="text-xl font-semibold mb-2">microSD Storage</h3>
-                    <p class="text-slate-400 text-sm">Store G-code files, configuration, macros, and tool tables on card. A PC runs the job in v1; the board also carries an RS-422 pendant header (CN41) for standalone handheld control.</p>
+                    <p class="text-slate-400 text-sm">Store G-code files, configuration and macros on the card, and run them from it. A PC running RectaControl streams the job over Ethernet or USB; the board also carries an RS-422 pendant header (CN41) for handheld control.</p>
                 </div>
 
                 <!-- Feature 6 -->
@@ -553,7 +557,7 @@
                         </svg>
                     </div>
                     <h3 class="text-xl font-semibold mb-2">Open Source</h3>
-                    <p class="text-slate-400 text-sm">grblHAL firmware (MIT licensed). Schematics and BOM published openly. No vendor lock-in, no obsolescence anxiety.</p>
+                    <p class="text-slate-400 text-sm">grblHAL firmware fork (GPL-3.0) and the RectaControl sender (GPL-3.0). Hardware design files under CERN-OHL-S v2, docs and configurator under MIT. No vendor lock-in, no obsolescence anxiety.</p>
                 </div>
 
             </div>
@@ -605,6 +609,65 @@
         </div>
     </section>
 
+    <!-- RectaControl (the sender) -->
+    <section id="software" class="py-24 border-y border-slate-800 bg-slate-950">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 mb-6 bg-cyan-500/10 border border-cyan-500/30 rounded-full">
+                    <span class="text-cyan-300 text-sm font-mono">DESKTOP SENDER · GPL-3.0</span>
+                </div>
+                <h2 class="text-4xl font-bold mb-4">Meet <span class="text-cyan-400">RectaControl</span></h2>
+                <p class="text-slate-400 max-w-3xl mx-auto leading-relaxed">
+                    A controller is only as good as the thing you drive it with. RectaControl is our own
+                    sender, built alongside the board and tested on the same machine — it knows this
+                    hardware, so setting the machine up is answering questions, not looking up
+                    <span class="font-mono text-slate-300">$</span>-numbers and bitmasks.
+                    It talks grblHAL, so it also runs other grblHAL boards.
+                </p>
+            </div>
+
+            <div class="mb-10 flex justify-center">
+                <button type="button" class="lightbox-trigger group relative cursor-zoom-in border-0 bg-transparent p-0" data-full="rectacontrol.png" aria-label="Enlarge RectaControl screenshot">
+                    <img src="rectacontrol.png" alt="RectaControl showing the Connections screen: a diagram of the RectaBot board with a connector selected and its wiring explained, DRO and jog controls on the left" class="w-full max-w-5xl rounded-xl border border-slate-800" loading="lazy">
+                    <span class="pointer-events-none absolute bottom-3 right-3 rounded-md border border-slate-700 bg-slate-900/80 px-2.5 py-1 font-mono text-xs text-slate-300 opacity-0 transition-opacity group-hover:opacity-100">🔍 Click to enlarge</span>
+                </button>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="feature-card bg-slate-900 border border-slate-800 rounded-xl p-6">
+                    <h3 class="text-lg font-semibold mb-2">It knows the board</h3>
+                    <p class="text-slate-400 text-sm">Click a connector on the board diagram and it tells you what goes on each pin. An input test lights up the connector a switch is actually wired to — the fastest way to find the one that is dead, with hard limits suspended while you press.</p>
+                </div>
+                <div class="feature-card bg-slate-900 border border-slate-800 rounded-xl p-6">
+                    <h3 class="text-lg font-semibold mb-2">Settings without bitmasks</h3>
+                    <p class="text-slate-400 text-sm">A guided editor with real controls, a steps/mm calculator and a raw <span class="font-mono text-slate-300">$</span> browser with search. Settings are backed up automatically, exported to a file, and compared against it later.</p>
+                </div>
+                <div class="feature-card bg-slate-900 border border-slate-800 rounded-xl p-6">
+                    <h3 class="text-lg font-semibold mb-2">Probing that draws itself</h3>
+                    <p class="text-slate-400 text-sm">Tool Z, edge and corner zeroing, and skew — which measures how far the workpiece is turned and rotates the program to match, so a part that is not square to the table still cuts right. Each cycle is drawn as its numbered touches.</p>
+                </div>
+                <div class="feature-card bg-slate-900 border border-slate-800 rounded-xl p-6">
+                    <h3 class="text-lg font-semibold mb-2">3D view, park &amp; resume</h3>
+                    <p class="text-slate-400 text-sm">Toolpath in 3D with a live tool marker and the cut path recoloured as it goes. Pause a job, jog the head away to clear a chip or change a tool, then return to the exact line it stopped on and continue.</p>
+                </div>
+                <div class="feature-card bg-slate-900 border border-slate-800 rounded-xl p-6">
+                    <h3 class="text-lg font-semibold mb-2">Errors in plain language</h3>
+                    <p class="text-slate-400 text-sm">Every grblHAL alarm and error with its cause, what to do about it, and one-click recovery. If a board loses its settings, a guided recovery walks it back: erase, reflash, restore.</p>
+                </div>
+                <div class="feature-card bg-slate-900 border border-slate-800 rounded-xl p-6">
+                    <h3 class="text-lg font-semibold mb-2">Free, and yours</h3>
+                    <p class="text-slate-400 text-sm">GPL-3.0, source on GitHub, no account and no licence key. Flash firmware from inside the app, manage the SD card over the network, and keep a g-code library on the PC.</p>
+                </div>
+            </div>
+
+            <div class="mt-10 text-center">
+                <a href="https://github.com/rectabot/RectaControl" class="inline-flex items-center gap-2 border border-slate-700 hover:border-cyan-400 text-slate-100 font-semibold px-8 py-4 rounded-md transition">
+                    RectaControl on GitHub →
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Specs Table -->
     <section id="specs" class="py-24 bg-slate-950/50 border-y border-slate-800">
         <div class="max-w-7xl mx-auto px-6">
@@ -622,7 +685,7 @@
                         </tr>
                         <tr class="hover:bg-slate-900/50">
                             <td class="px-6 py-4 text-slate-400">Firmware</td>
-                            <td class="px-6 py-4">grblHAL (MIT licensed)</td>
+                            <td class="px-6 py-4">grblHAL fork for RP2350B (GPL-3.0)</td>
                         </tr>
                         <tr class="hover:bg-slate-900/50">
                             <td class="px-6 py-4 text-slate-400">Axes</td>
@@ -806,8 +869,15 @@
                             <td class="px-6 py-3 text-center text-emerald-400">✓ Open-source</td>
                         </tr>
                         <tr>
+                            <td class="px-6 py-3 text-slate-400">Control Software</td>
+                            <td class="px-6 py-3 text-center text-emerald-400">✓ RectaControl, free &amp; open</td>
+                            <td class="px-6 py-3 text-center text-amber-400">⚠ Bundled, proprietary</td>
+                            <td class="px-6 py-3 text-center text-amber-400">⚠ Paid licence</td>
+                            <td class="px-6 py-3 text-center text-emerald-400">✓ LinuxCNC</td>
+                        </tr>
+                        <tr>
                             <td class="px-6 py-3 text-slate-400">PC Required to Run</td>
-                            <td class="px-6 py-3 text-center text-amber-400">Yes (v1) · Pendant in dev</td>
+                            <td class="px-6 py-3 text-center text-amber-400">Yes · sender included</td>
                             <td class="px-6 py-3 text-center text-red-400">Yes (Windows)</td>
                             <td class="px-6 py-3 text-center text-red-400">Yes (Windows)</td>
                             <td class="px-6 py-3 text-center text-red-400">Yes (Linux)</td>
@@ -834,7 +904,7 @@
         <div class="max-w-3xl mx-auto px-6 text-center">
             <div class="inline-flex items-center gap-2 px-4 py-1.5 mb-6 bg-cyan-500/10 border border-cyan-500/30 rounded-full">
                 <span class="w-2 h-2 bg-cyan-400 rounded-full"></span>
-                <span class="text-cyan-300 text-sm font-mono">OPEN HARDWARE · MIT + CERN-OHL-S</span>
+                <span class="text-cyan-300 text-sm font-mono">OPEN HARDWARE · CERN-OHL-S + GPL-3.0</span>
             </div>
 
             <h2 class="text-4xl md:text-5xl font-bold mb-6">
@@ -842,8 +912,8 @@
             </h2>
 
             <p class="text-xl text-slate-300 mb-10 leading-relaxed">
-                Schematics, Gerbers, BOM, firmware and the configurator are all open.
-                Explore the design, build your own, or make it yours.
+                Schematics, Gerbers, BOM, firmware, the configurator and the RectaControl
+                sender are all open. Explore the design, build your own, or make it yours.
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -902,6 +972,7 @@
                     <h4 class="font-semibold mb-3 text-slate-300">Product</h4>
                     <ul class="space-y-2 text-sm text-slate-400">
                         <li><a href="#features" class="hover:text-cyan-400 transition">Features</a></li>
+                        <li><a href="#software" class="hover:text-cyan-400 transition">RectaControl sender</a></li>
                         <li><a href="#specs" class="hover:text-cyan-400 transition">Specifications</a></li>
                         <li><a href="#compatibility" class="hover:text-cyan-400 transition">Compatibility</a></li>
                         <li><a href="configurator/" class="hover:text-cyan-400 transition">Configurator</a></li>
@@ -913,6 +984,7 @@
                         <li><a href="https://github.com/rectabot/RectaBot/tree/main/Docs" class="hover:text-cyan-400 transition">Documentation</a></li>
                         <li><a href="https://github.com/grblHAL/core/wiki" class="hover:text-cyan-400 transition">grblHAL Wiki</a></li>
                         <li><a href="https://github.com/rectabot/RectaBot" class="hover:text-cyan-400 transition">GitHub Repo</a></li>
+                        <li><a href="https://github.com/rectabot/RectaControl" class="hover:text-cyan-400 transition">RectaControl (sender)</a></li>
                         <li><a href="https://github.com/rectabot/RectaBot/tree/main/Docs/Manufacturing" class="hover:text-cyan-400 transition">Schematic &amp; Gerbers</a></li>
                     </ul>
                 </div>
