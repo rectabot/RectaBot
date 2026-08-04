@@ -286,8 +286,9 @@
                 <p class="text-slate-300 leading-relaxed mb-6">
                     RectaBot v1.0 — a 150 × 100 mm, 4-layer PCB with ENIG finish. Everything the
                     controller needs is <span class="text-slate-100 font-semibold">integrated on a single
-                    board</span>: 5-axis motion, the spindle interface, isolated I/O, Ethernet, USB-C and
-                    microSD. No stacked driver boards, no breakout modules, no level-shifter add-ons to wire up.
+                    board</span>: 5-axis motion, the spindle interface, optically isolated inputs, Ethernet, USB-C
+                    and microSD. No stacked driver boards, no breakout modules, no level-shifter add-ons to wire up.
+                    Stepper drivers stay external — this board commands DM556-class drivers, it does not replace them.
                 </p>
                 <ul class="space-y-3 text-sm text-slate-400 mb-6">
                     <li class="flex gap-2.5">
@@ -310,9 +311,11 @@
                     </li>
                     <li class="flex gap-2.5">
                         <span class="text-cyan-400 mt-0.5">▹</span>
-                        <span><span class="text-slate-200 font-medium">The only extras you add:</span> 2–3
-                        solid-state relays for coolant / vacuum — the board already drives them from isolated
-                        outputs.</span>
+                        <span><span class="text-slate-200 font-medium">Coolant is three wires away.</span> Add
+                        2–3 solid-state relays for mist, flood and vacuum; the board drives them at 5 V through
+                        three spare channels of the same Schmitt-trigger inverter as the step outputs, with
+                        M7/M8/M62 already mapped. The signal is inverted there, and these outputs sit on the
+                        board's ground — the optical isolation is on the input side.</span>
                     </li>
                 </ul>
                 <div class="flex flex-wrap gap-3 text-sm font-mono">
