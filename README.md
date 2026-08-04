@@ -15,7 +15,7 @@ _RectaBot is the first piece of an open CNC ecosystem we're actively building. N
 | | |
 |---|---|
 | **Current version** | v1.0 |
-| **Status** | ✅ v1.0 — running a machine: homing, probing, Modbus spindle, Ethernet, SD. One interface not yet exercised: the RS-422 pendant header |
+| **Status** | ✅ v1.0 — running a machine: homing, probing, Modbus spindle, Ethernet, SD. One interface is hardware only — the RS-422 pendant header, which the firmware does not use |
 | **First production batch** | 5 boards (JLCPCB Economic PCBA + ENIG finish) |
 | **Firmware** | grblHAL fork for RP2350B |
 | **Software** | [RectaControl](https://github.com/rectabot/RectaControl) — desktop sender built for this board |
