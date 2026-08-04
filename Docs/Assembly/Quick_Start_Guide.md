@@ -270,20 +270,44 @@ until someone notices.
 
 ### Which relay to buy
 
-**Buy one whose control input is an optocoupler.** These pins are signal outputs behind a
-330 Ω resistor, good for about 4 mA — sized for the optocoupler in a stepper driver, which
-is exactly what they also feed.
+**Buy a relay module whose control input is an optocoupler**, and wire `VCC`→pin 1,
+`GND`→pin 5, `IN`→the signal pin. One number in the datasheet decides it:
 
-| | |
-| :--- | :--- |
-| ✅ **Optocoupler relay / SSR module** with a logic-level `IN` pin (3.3–5 V) | works — wire `VCC`→pin 1, `GND`→pin 5, `IN`→the signal pin |
-| ✅ PCB-mount opto SSR with a **bare LED input** (~1.2 V, trigger ≤ 4 mA) | works |
-| ❌ Any SSR whose box says **"control 3–32 VDC"** — Fotek SSR-40 DA and most industrial ones | **does not work** |
+> **input current at 5 V must be ≤ 5 mA**
 
-The 3–32 VDC type has a current regulator inside that needs 3 V at its own terminals
-before it conducts. Measured with a Fotek SSR-40 DA on these outputs: **1.96 V reaches the
-relay**, and it never triggers. That is a limit of the output, not a fault — to use one
-anyway you need a transistor between, see [Pinout.md](../Reference/Pinout.md).
+If it says 10 mA or more, or if it says **"control 3–32 VDC"** instead of naming an input
+current, it will not work here.
+
+#### Why a module works and a bare SSR does not
+
+It is not about quality — it is about gain. A module gives you a stage:
+
+```
+this board's ~3 mA  →  opto LED  →  transistor  →  80 mA through the coil, from VCC
+```
+
+The board only has to light an optocoupler. The relay's own current comes from `VCC`. A
+solid-state relay wired directly has no such stage: it must be switched by whatever current
+this pin can push, and this pin is a 74HC14D channel behind a 330 Ω resistor — about 4 mA,
+sized for the optocoupler inside a stepper driver, which is the other thing it feeds.
+
+A "3–32 VDC" input is not an LED at all. It is a current regulator that needs **3 V across
+its own terminals** before it conducts. **Measured with a Fotek SSR-40 DA on these
+outputs: only 1.96 V reaches the relay**, and it never triggers. No wiring change fixes
+that — to use one anyway you need a transistor between, see
+[Pinout.md](../Reference/Pinout.md).
+
+#### Industrial modules
+
+DIN-rail interface relays (Phoenix Contact PLC-INTERFACE, Weidmüller TERMSERIES, Wago 859,
+Omron G3RV-SR) are built to be driven by a PLC output that sources half an amp, so most of
+them ask for 10–15 mA even on their 5 V models. Some low-current variants exist — check
+that one number before ordering.
+
+Their input stage is the same optocoupler the cheap module uses. What the money buys is the
+output: contacts that survive, terminals that hold, and a housing that belongs on a
+machine. For a mill that runs every day that is worth paying for; the electrical
+requirement is identical either way.
 
 A relay module's coils draw 70–80 mA each and kick when they release. If your module has a
 **`JD-VCC` jumper**, pull it and feed `JD-VCC` from a separate 5 V supply — keeping grounds

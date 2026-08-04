@@ -43,10 +43,12 @@ These are **signal outputs, not relay drivers.** Each one is a 74HC14D channel b
 optocoupler in a DM556, which is what it was designed for. The 74HC14D sinks a guaranteed
 **4 mA**.
 
+The number to check before buying anything: **input current at 5 V ≤ 5 mA.**
+
 | Load | Works? |
 | :--- | :--- |
-| Input is a bare **opto-LED**, ~1.2–1.5 V forward drop, trigger ≤ 4 mA | ✅ yes — this is the matched load |
-| Opto-isolated relay / SSR **module** with a logic-level `IN` pin | ✅ yes |
+| Opto-isolated relay / SSR **module** with a logic-level `IN` pin, ≤ 5 mA | ✅ yes — this is the matched load |
+| Input is a bare **opto-LED**, ~1.2 V drop — check its trigger current, and note the 330 Ω alone lets ~11 mA through, so it may need a series resistor added | ⚠️ depends |
 | SSR whose datasheet says **"control 3–32 VDC"** | ❌ **no** |
 
 A "3–32 VDC" input is not an LED — it is an internal current regulator that needs **3 V
@@ -57,7 +59,15 @@ leaves **1.96 V across the relay input** against the 3 V it needs, while already
 make it.
 
 Most industrial SSRs (Crydom D-series, Omron G3NA, Opto22 G4) are in that second group.
-The cheap optocoupler relay module works here precisely because its input **is** an LED.
+
+A relay **module** works because it has a gain stage: ~3 mA from this pin lights an
+optocoupler, whose transistor then pulls the 70–80 mA of coil current out of the module's
+own `VCC`. A solid-state relay wired directly has no such stage — it has to be switched by
+whatever current this pin can push. That is the whole difference, and it is architecture
+rather than quality. DIN-rail interface relays (Phoenix Contact PLC-INTERFACE, Weidmüller
+TERMSERIES, Wago 859, Omron G3RV-SR) use the same optocoupler input, but are specified for
+PLC outputs that source half an amp, so many of their 5 V models still ask 10–15 mA. Check
+the figure, not the brand.
 
 **To use a 3–32 VDC SSR anyway,** interpose a driver — a P-channel MOSFET (e.g. AO3401)
 high side: source to `+5V`, gate to the signal pin, drain to the SSR input, SSR return to
