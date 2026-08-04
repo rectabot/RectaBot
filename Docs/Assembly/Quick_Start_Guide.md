@@ -248,10 +248,10 @@ Once the X axis runs reliably:
 2. **Connect limit switches** (CN27-CN31)
 3. **Configure homing** (`$H` command)
 4. **Connect the VFD** — see [VFD_Wiring_Guide.md](../Reference/VFD_Wiring_Guide.md)
-5. **Connect coolant / vacuum SSRs to CN40** — see below before you wire them
+5. **Connect coolant / vacuum relays to CN40** — read below before you buy or wire them
 6. **Test G-code execution** with a sender (UGS, CNCjs, IO Sender)
 
-### ⚠️ Wiring an SSR to CN40 — which way round matters
+### ⚠️ Wiring a relay to CN40 — which way round matters
 
 `CN40` is `+5V · VAC · FLOOD · MIST · GND`. Wire each SSR control input between
 **`+5V` (pin 1)** and its signal pin — the same common-anode arrangement as the stepper

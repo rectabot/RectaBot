@@ -157,7 +157,7 @@ RectaBot is a professional CNC mill controller designed for hobby-pro and small 
 ### Auxiliary / Communication
 | Connector | Function |
 |---|---|
-| **CN40** | AUX (+5V, VAC, FLOOD, MIST, GND) — 5-pin SSR outputs |
+| **CN40** | AUX (+5V, VAC, FLOOD, MIST, GND) — 5-pin, 5 V signal outputs for relay modules |
 | **CN41** | RS-422 Pendant (24V/TX+/TX−/RX+/RX−/GND) — 6-pin |
 | **CN32** | RS-485 Modbus (GND/A+/B-) |
 | **CARD1** | MicroSD socket (SPI mode) |

@@ -29,7 +29,7 @@ A 5-axis CNC controller with optical input isolation, integrated Ethernet, and a
 
 ### Key features
 
-- 🧩 **Single-board, fully integrated** — no add-on driver boards, breakout modules, or level-shifter add-ons to wire up. Every active part is soldered down (only the field-wiring terminals plug in), so vibration can't work a module loose over time; high-speed step/dir and comms lines are laid out for EMI immunity. The only external hardware you add is **2–3 SSRs for coolant/vacuum** — the board already drives them from isolated outputs
+- 🧩 **Single-board, fully integrated** — no add-on driver boards, breakout modules, or level-shifter add-ons to wire up. Every active part is soldered down (only the field-wiring terminals plug in), so vibration can't work a module loose over time; high-speed step/dir and comms lines are laid out for EMI immunity. Stepper drivers stay external — this board commands DM556-class drivers rather than replacing them — and coolant needs 2–3 **optocoupler-input relay modules** on `CN40` ([which ones](Docs/Assembly/Quick_Start_Guide.md#which-relay-to-buy))
 - ⚙️ **5-axis stepper control** (X, Y, Z, A, B) — PIO-based step generation up to **300kHz per axis**
 - 🔌 **Spindle 0-10V interface** with overvoltage protection — compatible with Huanyang/Lapond/Delta/Hitachi VFDs
 - 🛡️ **Optically isolated inputs** — all 10 field inputs through LTV-217-B-G optocouplers on a dedicated 24V_ISO rail (input side only)
@@ -37,7 +37,7 @@ A 5-axis CNC controller with optical input isolation, integrated Ethernet, and a
 - 💾 **MicroSD slot** for G-code files and configuration
 - 🔋 **24V DC power input** (buck-regulated to 5V) — **ORing Schottky diodes** let the 24V supply and USB-C stay connected **at the same time** and hand off the 5V rail automatically; **no VBUS/5V select jumpers** to flip by hand (also blocks USB-C back-feed)
 - 📡 **RS-485 Modbus + RS-422 Pendant** interfaces
-- 🚦 **10 isolated inputs** + **3 SSR outputs** (Mist/Flood/Vac)
+- 🚦 **10 isolated inputs** + **3 auxiliary 5 V outputs** (Mist M7 / Flood M8 / Vac M62) — signal level, ~4 mA, for optocoupler-input relay modules
 
 **Detailed specification:** [Docs/Reference/Product_Specification_v1.0.md](Docs/Reference/Product_Specification_v1.0.md)
 
@@ -131,7 +131,7 @@ git clone https://github.com/rectabot/RectaControl.git
        │                       │               │                       │
        ▼                       ▼               ▼                       ▼
 ┌──────────────┐        ┌──────────────┐ ┌──────────────┐       ┌──────────────┐
-│  MOTION      │        │  SPINDLE     │ │  AUX (SSR)   │       │  I/O & COMM  │
+│  MOTION      │        │  SPINDLE     │ │  AUX (RELAY) │       │  I/O & COMM  │
 │              │        │              │ │              │       │              │
 │ PIO step gen │        │ PWM @ 25kHz  │ │ GP0-2 →      │       │ SPI0 W5500   │
 │ GP8-22 →     │        │ GP27 →       │ │ 74HC14D      │       │ UART1 RS485  │

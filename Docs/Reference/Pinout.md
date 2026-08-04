@@ -99,10 +99,10 @@ machine has mixed failure modes, which is its own kind of expensive.
 
 | Function | RP2350 Pin | Notes |
 | :--- | :--- | :--- |
-| **Auxiliary outputs** | | Through 74HC14D FREE channels → SSR |
-| VAC | `GP0` | Through 74HC14D (inverted) → SSR, grblHAL M62/M63 |
-| FLOOD | `GP1` | Through 74HC14D (inverted) → SSR, grblHAL M8/M9 |
-| MIST | `GP2` | Through 74HC14D (inverted) → SSR, grblHAL M7/M9 |
+| **Auxiliary outputs** | | Through 74HC14D FREE channels + 330 Ω — see *AUX output wiring* above |
+| VAC | `GP0` | Through 74HC14D (inverted) → relay module, grblHAL M62/M63 |
+| FLOOD | `GP1` | Through 74HC14D (inverted) → relay module, grblHAL M8/M9 |
+| MIST | `GP2` | Through 74HC14D (inverted) → relay module, grblHAL M7/M9 |
 | SD Card Detect | `GP3` | MicroSD socket CD switch (active LOW when card inserted) |
 | **W5500 Ethernet (SPI0)** | | |
 | MISO | `GP4` | SPI0 RX |
