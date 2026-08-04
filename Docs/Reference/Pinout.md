@@ -30,6 +30,19 @@ input between **`+5V` (pin 1)** and the signal pin — **never between the signa
 | `+` | **1** — `+5V` |
 | `−` | **2** `VAC` · **3** `FLOOD` · **4** `MIST` |
 
+Worked example, a Fotek SSR-40 DA running a mains lamp on `M7` — built and run, not
+sketched:
+
+| SSR terminal | to |
+| :--- | :--- |
+| **1** | 230 V live in |
+| **2** | 230 V out → load → neutral |
+| **3** (control `+`) | `CN40` pin 1 — `+5V` |
+| **4** (control `−`) | `CN40` pin 4 — `MIST` |
+
+Switches from `M7`/`M9`, from a sender's coolant button, and holds up under repeated
+rapid on/off.
+
 The 74HC14D inverts, so each coolant pin **idles HIGH (~5 V) and is pulled LOW when the
 M-code switches the output on** — measured on the reference board: ~5 V at idle, ~0 V
 under `M7`, back to ~5 V after `M9`. Wiring the SSR to `GND` instead inverts the whole

@@ -278,10 +278,19 @@ guaranteed up to 4 mA. Both of these work:
 transistor pulls the 70–80 mA of coil current from the module's own `VCC`, so the board
 never supplies the relay itself. Look for an input current of about 5 mA at 5 V.
 
-**A solid-state relay wired straight on** — measured on the reference board, a **Fotek
-SSR-40 DA switching a 230 V lamp**: 5.07 V open circuit, **3.11 V across the relay's
-control input**, ~5.9 mA, and the output still pulls to ground. Its datasheet minimum is
-3 V, so it clears — and it switches.
+**A solid-state relay wired straight on** — a **Fotek SSR-40 DA** was built and run this
+way on the reference board:
+
+| Fotek terminal | to |
+| :--- | :--- |
+| **1** | 230 V live in |
+| **2** | 230 V out → load → neutral |
+| **3** (control `+`) | `CN40` pin 1 — `+5V` |
+| **4** (control `−`) | `CN40` pin 4 — `MIST` |
+
+It switches from `M7`/`M9`, from the sender's coolant button, and survives repeated rapid
+on/off. Measured: 5.07 V open circuit, **3.11 V across the control input**, ~5.9 mA, with
+the output still pulling to ground. The Fotek's datasheet minimum is 3 V, so it clears.
 
 What decides it is not the chip's current capability but how much voltage the 330 Ω leaves
 for the relay. If a particular SSR needs more than roughly 3 V and will not trigger, put a
