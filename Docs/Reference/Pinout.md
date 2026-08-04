@@ -38,42 +38,41 @@ moment `M7`/`M8`/`M62` runs. Nothing warns you — the flood pump simply runs al
 
 #### ⚠️ Which relays these outputs can actually drive
 
-These are **signal outputs, not relay drivers.** Each one is a 74HC14D channel behind a
+These are **signal outputs**, not relay drivers. Each one is a 74HC14D channel behind a
 **330 Ω** series resistor (`R45`, `R63`, `R91`) — the same arrangement that feeds the
-optocoupler in a DM556, which is what it was designed for. The 74HC14D sinks a guaranteed
-**4 mA**.
+optocoupler in a DM556, which is what it was drawn for. The 74HC14D sinks a **guaranteed
+4 mA** (absolute maximum 25 mA).
 
-The number to check before buying anything: **input current at 5 V ≤ 5 mA.**
+**Measured on the reference board, with a Fotek SSR-40 DA switching a 230 V lamp:**
 
-| Load | Works? |
+| | |
 | :--- | :--- |
-| Opto-isolated relay / SSR **module** with a logic-level `IN` pin, ≤ 5 mA | ✅ yes — this is the matched load |
-| Input is a bare **opto-LED**, ~1.2 V drop — check its trigger current, and note the 330 Ω alone lets ~11 mA through, so it may need a series resistor added | ⚠️ depends |
-| SSR whose datasheet says **"control 3–32 VDC"** | ❌ **no** |
+| Pin, open circuit | **5.07 V** |
+| Across the relay's control input, with it connected | **3.11 V** |
+| Remainder across the 330 Ω → current | 1.96 V → **~5.9 mA** |
+| Result | **It switches the lamp.** |
 
-A "3–32 VDC" input is not an LED — it is an internal current regulator that needs **3 V
-across its own terminals** before it conducts at all. Through the 330 Ω it never gets
-there. **Measured with a Fotek SSR-40 DA:** the pin sits at 3.11 V instead of ~0 V, which
-leaves **1.96 V across the relay input** against the 3 V it needs, while already drawing
-~6 mA — past the 74HC14D's rating. It does not trigger, and no amount of rewiring will
-make it.
+So a Fotek — a "control 3–32 VDC" input, meaning an internal current regulator that needs
+3 V at its own terminals — does get enough. It clears its 3 V minimum by 0.11 V.
 
-Most industrial SSRs (Crydom D-series, Omron G3NA, Opto22 G4) are in that second group.
+⚠️ **But it draws ~6 mA from a channel guaranteed for 4 mA.** That is inside the part's
+25 mA absolute maximum and it works, but it is outside the specified operating point: the
+output's low-level voltage rises and there is no margin left for a relay that wants a
+little more, or for a hot day. Treat it as working rather than as designed-for.
 
-A relay **module** works because it has a gain stage: ~3 mA from this pin lights an
-optocoupler, whose transistor then pulls the 70–80 mA of coil current out of the module's
-own `VCC`. A solid-state relay wired directly has no such stage — it has to be switched by
-whatever current this pin can push. That is the whole difference, and it is architecture
-rather than quality. DIN-rail interface relays (Phoenix Contact PLC-INTERFACE, Weidmüller
-TERMSERIES, Wago 859, Omron G3RV-SR) use the same optocoupler input, but are specified for
-PLC outputs that source half an amp, so many of their 5 V models still ask 10–15 mA. Check
-the figure, not the brand.
+**Comfortable loads** are anything whose input is an optocoupler — a relay/SSR module with
+a logic-level `IN` pin drawing ≤ 5 mA. Those have a gain stage: a few mA from this pin
+lights an LED, whose transistor then pulls the 70–80 mA of coil current from the module's
+own `VCC`. Note that DIN-rail interface relays (Phoenix Contact PLC-INTERFACE, Weidmüller
+TERMSERIES, Wago 859, Omron G3RV-SR) use that same optocoupler input but are specified for
+PLC outputs sourcing half an amp, so many of their 5 V models ask 10–15 mA. Check the
+figure, not the brand.
 
-**To use a 3–32 VDC SSR anyway,** interpose a driver — a P-channel MOSFET (e.g. AO3401)
-high side: source to `+5V`, gate to the signal pin, drain to the SSR input, SSR return to
-`GND`. The gate draws no current, so the 330 Ω costs nothing and the relay sees the full
-5 V. The active-low signal suits a P-channel part directly. *(Reasoned from the numbers
-above, not yet built and measured.)*
+**For margin, or for a relay that will not trigger,** interpose a driver — a P-channel
+MOSFET (e.g. AO3401) high side: source to `+5V`, gate to the signal pin, drain to the SSR
+input, SSR return to `GND`. The gate draws no current, so the 330 Ω costs nothing and the
+relay sees the full 5 V. The active-low signal suits a P-channel part directly.
+*(Reasoned from the numbers above, not built and measured.)*
 
 ### NC or NO — and why NC is the one to ship
 

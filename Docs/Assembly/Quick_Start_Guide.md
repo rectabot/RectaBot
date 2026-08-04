@@ -270,32 +270,26 @@ until someone notices.
 
 ### Which relay to buy
 
-**Buy a relay module whose control input is an optocoupler**, and wire `VCC`→pin 1,
-`GND`→pin 5, `IN`→the signal pin. One number in the datasheet decides it:
+These pins are signal outputs, not relay drivers: a 74HC14D channel behind a 330 Ω
+resistor, **guaranteed for 4 mA**, sized for the optocoupler inside a stepper driver.
+One number in a relay's datasheet tells you how comfortably it will sit there:
 
-> **input current at 5 V must be ≤ 5 mA**
+> **input current at 5 V — 5 mA or less is comfortable**
 
-If it says 10 mA or more, or if it says **"control 3–32 VDC"** instead of naming an input
-current, it will not work here.
+**An optocoupler-input relay module is the easy answer.** Wire `VCC`→pin 1, `GND`→pin 5,
+`IN`→the signal pin. It has a gain stage — a few mA from this pin lights an LED, whose
+transistor pulls the 70–80 mA of coil current from the module's own `VCC` — so the board
+never has to supply the relay itself.
 
-#### Why a module works and a bare SSR does not
+**A solid-state relay wired straight on can also work, with less margin.** Measured on the
+reference board, a **Fotek SSR-40 DA switching a 230 V lamp**: 5.07 V open circuit, **3.11 V
+across the relay's control input**, ~5.9 mA. Its datasheet minimum is 3 V, so it clears
+by 0.11 V — and it switches.
 
-It is not about quality — it is about gain. A module gives you a stage:
-
-```
-this board's ~3 mA  →  opto LED  →  transistor  →  80 mA through the coil, from VCC
-```
-
-The board only has to light an optocoupler. The relay's own current comes from `VCC`. A
-solid-state relay wired directly has no such stage: it must be switched by whatever current
-this pin can push, and this pin is a 74HC14D channel behind a 330 Ω resistor — about 4 mA,
-sized for the optocoupler inside a stepper driver, which is the other thing it feeds.
-
-A "3–32 VDC" input is not an LED at all. It is a current regulator that needs **3 V across
-its own terminals** before it conducts. **Measured with a Fotek SSR-40 DA on these
-outputs: only 1.96 V reaches the relay**, and it never triggers. No wiring change fixes
-that — to use one anyway you need a transistor between, see
-[Pinout.md](../Reference/Pinout.md).
+> ⚠️ That 5.9 mA is more than the 4 mA the output is specified for. It is well inside the
+> chip's 25 mA absolute maximum and it runs, but there is no margin left for a relay that
+> wants slightly more. If you want headroom, use an optocoupler module, or put a small
+> P-channel MOSFET between — see [Pinout.md](../Reference/Pinout.md).
 
 #### Industrial modules
 
