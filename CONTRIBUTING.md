@@ -70,9 +70,10 @@ Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
 ## 🧪 Testing
 
 ### Web Configurator
-- Open `Docs/configurator/index.html` in a browser
-- Click through wizard steps
-- Verify generated `config.txt` matches expected format
+- Open `website/configurator/index.html` in a browser
+- Work through the axis and dual-Y choices
+- Check that each of the seven combinations names the right build, and that the
+  download link resolves against the firmware repo's `variants/` folder
 
 ### Documentation
 - Render Markdown locally (`Ctrl+Shift+V` in VS Code)

@@ -151,7 +151,7 @@ See [First_Power_On_Procedure.md](First_Power_On_Procedure.md) for the detailed 
 
 ### 5b. Flash grblHAL firmware
 1. Connect a USB-C cable PC ↔ RectaBot
-2. Pick the `.uf2` that matches your machine's kinematics — use the [firmware configurator](../configurator/index.html) or grab it from the firmware repo's `variants/` folder (e.g. `grblHAL_RectaBot_3axis_v1.0.uf2`, `..._4axis-a-ganged-y_v1.0.uf2`). RectaControl's Firmware panel can also flash it for you.
+2. Pick the `.uf2` that matches your machine's kinematics — use the [firmware configurator](https://rectabot.org/configurator/) or grab it from the firmware repo's `variants/` folder (e.g. `grblHAL_RectaBot_3axis_v1.0.uf2`, `..._4axis-a-ganged-y_v1.0.uf2`). RectaControl's Firmware panel can also flash it for you.
 3. Open `RPI-RP2` in Explorer and drag-and-drop the `.uf2` into the drive
 4. The drive disappears and the RP2350B reboots into grblHAL
 

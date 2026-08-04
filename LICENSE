@@ -27,7 +27,8 @@ SOFTWARE.
 This MIT License covers:
 
 - Markdown documentation in `Docs/`
-- The web-based grblHAL configurator tool in `Docs/configurator/`
+- The website in `website/`, including the firmware configurator in
+  `website/configurator/`
 - The main `README.md`
 - Any helper scripts and tooling in this repository
 

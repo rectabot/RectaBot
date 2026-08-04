@@ -42,7 +42,7 @@ Please **DO NOT** open a public GitHub issue for security or safety issues until
 
 This policy covers:
 - The hardware design files in this repository
-- The web configurator in `Docs/configurator/`
+- The web configurator in `website/configurator/`
 - The documentation in `Docs/`
 
 The firmware repository has its own security contact via the same `security@rectabot.org` address:

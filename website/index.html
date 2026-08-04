@@ -566,32 +566,37 @@
             <div class="mt-12 bg-gradient-to-br from-cyan-500/10 to-slate-900 border border-cyan-500/30 rounded-xl p-8 md:p-10">
                 <div class="grid md:grid-cols-2 gap-8 items-center">
                     <div>
-                        <span class="inline-block px-2 py-1 bg-cyan-500/20 text-cyan-300 text-xs font-mono rounded mb-3">NEW · v1.0 BETA</span>
-                        <h3 class="text-3xl font-bold mb-3">Plug &amp; Play <span class="text-cyan-400">Configurator</span></h3>
+                        <span class="inline-block px-2 py-1 bg-cyan-500/20 text-cyan-300 text-xs font-mono rounded mb-3">FIRMWARE PICKER</span>
+                        <h3 class="text-3xl font-bold mb-3">Which <span class="text-cyan-400">firmware</span>?</h3>
                         <p class="text-slate-300 mb-4 leading-relaxed">
-                            Skip the manual configuration. Our 5-step wizard generates a complete grblHAL
-                            configuration tailored to your machine — motor specs, mechanics, VFD, safety.
-                            Download as <span class="font-mono text-cyan-400">config.txt</span> or apply directly via SD card.
+                            There are seven builds, one per motor layout, and the file names do not explain
+                            themselves. Answer two questions about your machine and the configurator names
+                            the build and hands you the exact
+                            <span class="font-mono text-cyan-400">.uf2</span>.
                         </p>
                         <ul class="text-slate-400 text-sm space-y-2 mb-6">
-                            <li>✓ Auto-calculates steps/mm from your motor + screw specs</li>
-                            <li>✓ Supports 3, 4, or 5 axes with cloning (dual-head setups)</li>
-                            <li>✓ VFD control: 0-10V analog, Modbus RS-485, or both</li>
-                            <li>✓ Pre-tuned machine presets (router, mill, laser)</li>
-                            <li>✓ Honest warnings when custom firmware is needed</li>
+                            <li>✓ 3, 4 or 5 axes — the fourth can be rotary</li>
+                            <li>✓ Dual-Y gantry: ganged, or self-squaring on its own switch</li>
+                            <li>✓ Tells you the homing sequence that build expects</li>
+                            <li>✓ Drag it onto the RPI-RP2 drive, or let RectaControl flash it</li>
                         </ul>
+                        <p class="text-slate-500 text-sm mb-6 leading-relaxed">
+                            Worth getting right: grblHAL lays its settings out by axis and motor count, so an
+                            image built for a different layout resets the board to defaults — and a build
+                            without ganging never steps the second Y motor.
+                        </p>
                         <a href="configurator/" class="inline-flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold px-6 py-3 rounded-md transition">
                             Try Configurator →
                         </a>
                     </div>
                     <div class="bg-slate-950 border border-slate-800 rounded-lg p-6 font-mono text-sm">
-                        <div class="text-slate-500 mb-2">; Generated config example</div>
-                        <div class="text-cyan-400">$100<span class="text-slate-100">=</span><span class="text-amber-300">320.000</span></div>
-                        <div class="text-cyan-400">$110<span class="text-slate-100">=</span><span class="text-amber-300">3000.000</span></div>
-                        <div class="text-cyan-400">$120<span class="text-slate-100">=</span><span class="text-amber-300">200.000</span></div>
-                        <div class="text-cyan-400">$130<span class="text-slate-100">=</span><span class="text-amber-300">300.000</span></div>
-                        <div class="text-slate-600 mt-3">; ...46 more commands</div>
-                        <div class="text-emerald-400 mt-4">→ Ready in 30 seconds</div>
+                        <div class="text-slate-500 mb-2">; Example answer</div>
+                        <div class="text-slate-400">Axes<span class="text-slate-100"> → </span><span class="text-amber-300">4 (X Y Z + rotary A)</span></div>
+                        <div class="text-slate-400">Dual Y<span class="text-slate-100"> → </span><span class="text-amber-300">auto-square</span></div>
+                        <div class="text-slate-600 mt-3">; the build that matches</div>
+                        <div class="text-cyan-400 mt-1 break-all">grblHAL_RectaBot_<wbr>4axis-a-autosquare-y_v1.0.uf2</div>
+                        <div class="text-slate-400 mt-3">Homing<span class="text-slate-100"> → </span><span class="text-amber-300">X- · Y- · Z+ · Y2</span></div>
+                        <div class="text-emerald-400 mt-4">→ One file, no build toolchain</div>
                     </div>
                 </div>
 

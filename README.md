@@ -64,8 +64,9 @@ RectaBot/
 │   │   ├── CPL_RectaBot_V1.0.csv        # Component Placement List for JLCPCB
 │   │   ├── LCSC_Additional_Order.csv    # TH parts for a separate LCSC order
 │   │   └── Gerber_RectaBot_1.0/         # Production-ready Gerber files
-│   ├── Brand_Assets/                    # Logo files (SVG) — brand reserved, not open-licensed
-│   └── configurator/                    # Web-based grblHAL settings generator
+│   └── Brand_Assets/                    # Logo files (SVG) — brand reserved, not open-licensed
+├── website/                             # rectabot.org — landing page, deployed by Actions
+│   └── configurator/                    # Firmware picker: machine layout → the matching .uf2
 │
 └── (Submodules live in separate repos — see below)
 ```
@@ -180,8 +181,8 @@ Note: v1 isolates the input side only.
 2. Hand-soldering 28 TH components ([list](Docs/Assembly/Hand_Solder_Components.md), 60-90 min)
 3. Pre-Power-On continuity tests (15 min)
 4. First Power-On + LED + voltage verification (10 min)
-5. Firmware flash via BOOTSEL+USB (15 min)
-6. grblHAL configuration (`$$` parameters for RectaBot, 20 min) — use [Docs/configurator/](Docs/configurator/) to generate
+5. Firmware flash via BOOTSEL+USB (15 min) — [the configurator](https://rectabot.org/configurator/) names the `.uf2` your motor layout needs
+6. grblHAL configuration (`$$` parameters for RectaBot, 20 min) — RectaControl's Settings panel, with a steps/mm calculator
 7. First axis test with a DM556 driver (10 min)
 8. VFD wiring — [analog 0-10V](Docs/Reference/VFD_Wiring_Guide.md) or [RS-485/Modbus](Docs/Reference/VFD_Modbus_Setup.md)
 

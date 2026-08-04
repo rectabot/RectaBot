@@ -28,7 +28,7 @@ used in the RectaBot project, along with their respective licenses.
 ### Tailwind CSS (loaded via CDN)
 - Upstream: https://tailwindcss.com
 - License: MIT
-- Used by: Web configurator in `Docs/configurator/`
+- Used by: the website in `website/` (landing page and firmware configurator)
 
 
 ## Fonts
