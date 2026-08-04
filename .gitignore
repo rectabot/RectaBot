@@ -86,3 +86,13 @@ DRAFT_*.md
 
 # Vendor datasheets (third-party copyright — keep local only)
 Docs/Datasheet/
+
+# Docs/images: publish only the curated hero photo + layout render.
+# Raw photo sources (TIFF/DNG/full-res JPEG) stay local, out of the public repo.
+Docs/images/*
+!Docs/images/board.png
+!Docs/images/board-photo.webp
+!Docs/images/board-bare.webp
+
+# Public website (website/) is tracked in this repo and deployed to GitHub Pages
+# from that folder via .github/workflows/deploy-pages.yml.

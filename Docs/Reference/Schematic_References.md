@@ -36,14 +36,15 @@ RectaBot v1.0 uses the **74HC14D** (Schmitt-trigger HEX INVERTER) instead of the
 - **Inputs 1A, 2A, ..., 6A**: connected to MCU GP signals (3.3V TTL). The 74HC14D inputs accept 3.3V as logic 1 because the Schmitt threshold (VT+ ~3V at VCC=5V) can be crossed with 3.3V. **NOTE:** strictly speaking, the 74HC14D wants VIH≥3.5V at VCC=5V; in practice 3.3V works reliably, but for maximum safety the 74**HCT**14D (TTL-compatible, VIH=2V) can be used.
 - **Outputs 1Y, 2Y, ..., 6Y**: INVERTED 5V output → goes to STEP-/DIR-/EN- pins of the DM556 (through a 330Ω series resistor). The DM556 common wire goes to the **+5V** rail (Common Anode topology).
 - **Three 74HC14D chips** (U7, U10, U15) cover 18 signals: 5×STEP + 5×DIR + 5×EN + 3×coolant (MIST, FLOOD, VAC).
-- **CRITICAL for firmware:** the 74HC14D **inverts** all signals. In grblHAL set:
-  - `$2=31` — STEP_INVERT_MASK for all 5 axes (X|Y|Z|A|B)
-  - `$3=31` — DIRECTION_INVERT_MASK
-  - `$4=1` — STEPPER_ENABLE_INVERT_MASK
+- **Firmware settings (validated on the reference board):** the 74HC14D inverts, but with Common Anode drivers the STEP pulse lands correctly with no invert. In grblHAL set:
+  - `$2=0` — STEP invert OFF (Common Anode already accounts for the inversion; `$2`≠0 holds the opto on at idle → missed steps)
+  - `$4=15` — ENABLE invert on all axes (7 = 3-axis, 15 = 4-axis, 31 = 5-axis)
+  - `$5=0` — LIMIT invert OFF · `$6=1` — PROBE invert ON
+  - `$3` — DIRECTION invert is **per-machine** (set from how each axis actually moves), not a fixed value
   - Coolant invert is controlled via `MIST_INVERT` and `FLOOD_INVERT` in the driver configuration
 
 ## 4. Ethernet controller: WIZnet W5500
-**Datasheet:** [W5500](https://www.wiznet.io/wp-content/uploads/wiznethome/Chip/W5500/Document/W5500_ds_v109e.pdf)
+**Datasheet:** [W5500](https://docs.wiznet.io/img/products/w5500/W5500_ds_v110e.pdf)
 The Ethernet section requires slightly more careful routing of the MDI/MDO lines.
 - It typically uses a 25 MHz crystal (e.g. HC49/US, often Extended on JLCPCB).
 - **RJ45 connector**: the easiest path is a connector with integrated magnetics (e.g. HanRun HR911105A), which makes the job much simpler — i.e. you don't have to spread components around the board for the isolation transformer.
@@ -51,7 +52,7 @@ The Ethernet section requires slightly more careful routing of the MDI/MDO lines
 - **Reference schematic**: follow Figure 29 (page 61) in the official W5500 datasheet linked above ("W5500 Reference Schematic with RJ45"). Copy the passives from there: `49.9 Ohm` and `33 Ohm` resistors that are JLCPCB `Basic`.
 
 ## 5. Communication: SP3485EN-L/TR (RS485 for VFD and RS422 for the Pendant)
-RectaBot v1.0 uses the **SP3485EN-L/TR** (MaxLinear) — a 3.3V RS-485/RS-422 transceiver. The advantage over the MAX485: it runs directly at 3.3V (no level shift needed), low power, up to 10 Mbps. **Datasheet:** [SP3485](https://www.maxlinear.com/document/2098)
+RectaBot v1.0 uses the **SP3485EN-L/TR** (MaxLinear) — a 3.3V RS-485/RS-422 transceiver. The advantage over the MAX485: it runs directly at 3.3V (no level shift needed), low power, up to 10 Mbps. **Datasheet:** [SP3485](https://www.maxlinear.com/SP3485)
 
 **RS485 (Half Duplex for VFD/Modbus)** — 1× SP3485 (U19)
 - Power **3.3V** (and a `100nF` decoupler near pin 8).

@@ -45,9 +45,8 @@ This policy covers:
 - The web configurator in `Docs/configurator/`
 - The documentation in `Docs/`
 
-Separate repositories have their own security contacts via the same `security@rectabot.org` address:
+The firmware repository has its own security contact via the same `security@rectabot.org` address:
 - [RectaBot-firmware](https://github.com/rectabot/RectaBot-firmware) — grblHAL fork
-- [RectaPad](https://github.com/rectabot/RectaPad) — pendant firmware
 
 ## Out of scope
 

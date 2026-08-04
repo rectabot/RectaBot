@@ -126,7 +126,7 @@ With **power on**, measure the following (black probe on GND, red on the test po
 
 ### 3b. Ground reference verification (input-side isolation)
 
-**v1 uses optical isolation ONLY on the inputs** (CN23-CN32). Stepper outputs, VFD, AUX (SSR), and communication share the MCU ground. The test verifies the input-side barrier:
+**v1 uses optical isolation ONLY on the inputs** (CN22-CN31). Stepper outputs, VFD, AUX (SSR), and communication share the MCU ground. The test verifies the input-side barrier:
 
 | Test point 1 | Test point 2 | Expected | What it means |
 |---|---|---|---|
@@ -139,7 +139,7 @@ With **power on**, measure the following (black probe on GND, red on the test po
 - Probably a solder bridge across the 2mm void barrier
 - See Troubleshooting
 
-**Note for v2:** the stepper, VFD, and AUX sides are planned for full isolation in v2 (a separate 24V_ISO_OUT rail).
+**Note:** in v1 the stepper, VFD, and AUX output sides share the MCU ground (only the input side is isolated).
 
 ---
 
@@ -178,11 +178,15 @@ With **power on**, measure the following (black probe on GND, red on the test po
 Without firmware, the W5500 doesn't initialize, but the RJ45 magnetics work at the physical level — the LINK LED should light up if the hardware is OK.
 
 ### 5c. With firmware (later)
-After flashing grblHAL, the W5500 acquires an IP via DHCP, and you can ping:
+RectaBot firmware comes up on a **fixed address, not DHCP**: `192.168.5.1 / 255.255.255.0`,
+hostname `rectabot`. Give the PC an address on the same subnet (e.g. `192.168.5.20/24`) and:
 ```
-ping rectabot.local       # mDNS (if supported)
-ping <ip-from-router>     # direct
+ping 192.168.5.1
 ```
+A router is not needed — a direct cable between the PC and RJ1 works. If the board answers
+nowhere, it is on DHCP: either the address was changed by hand (`$300..$304`) or the image
+predates 2026-07-29, when the static default first actually took effect. Connect over USB and
+read `$$` to find out which.
 
 ---
 
@@ -292,15 +296,15 @@ Next step: [Quick_Start_Guide.md](Quick_Start_Guide.md) Step 5 (Firmware Flash).
 
 ---
 
-## 📝 Bring-up Log Template
+## 📝 First Power-On Log Template
 
-I suggest you fill this in for each of the 5 boards as bring-up documentation:
+Fill this in as you power on your board for the first time — a handy record of the checks below:
 
 ```
-RectaBot v1.0 — Bring-Up Log
-============================
+RectaBot v1.0 — First Power-On Log
+==================================
 Date: ___________
-Board #: 1 / 5
+Board #: ____
 Inspector: ___________
 
 Pre-power tests:

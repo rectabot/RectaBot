@@ -39,9 +39,8 @@ to match the nature of the content:
 | Content | License | Location |
 |---|---|---|
 | Hardware design files (Gerber, BOM, CPL, schematic) | CERN-OHL-S v2 | See `LICENSE.hardware` |
-| Brand assets (logo SVG files) | CERN-OHL-S v2 | See `Docs/Brand_Assets/README.md` |
+| Brand assets (name "RectaBot", logo SVGs) | **Reserved — all rights reserved** (not open-licensed) | See `Docs/Brand_Assets/README.md` |
 | grblHAL firmware fork | GPL-3.0 | Separate repo: [RectaBot-firmware](https://github.com/rectabot/RectaBot-firmware) |
-| RectaPad pendant firmware | MIT | Separate repo: [RectaPad](https://github.com/rectabot/RectaPad) |
 | Orbitron font (used in brand assets) | SIL Open Font License 1.1 | https://fonts.google.com/specimen/Orbitron |
 
 For third-party attribution and acknowledgments, see `NOTICE`.

@@ -2,11 +2,42 @@
 
 Logo files for the RectaBot CNC controller project.
 
-## License
+## License & brand usage
 
-These brand assets are part of the RectaBot project, licensed under **CERN-OHL-S v2** (Strong reciprocal open hardware). You may use, modify, and redistribute the logo files when including, modifying, or redistributing the RectaBot hardware design, provided you comply with the CERN-OHL-S terms.
+The RectaBot **hardware, firmware and documentation are open** (see `LICENSE`,
+`LICENSE.hardware`, and the firmware repo). The **name "RectaBot", the related
+product names in the same family (the "Recta" marks), and the logo/wordmark are
+NOT open-licensed** — they are the project's brand identity.
 
-**For derivative works:** change the wordmark to your own to avoid confusion with the upstream RectaBot project.
+**Copyright (c) 2026 Filip Perić. All rights reserved** for the RectaBot name, the
+"Recta" product-family names, and the marks in this folder (the `rectabot` wordmark,
+the `r` icon, the lockups, and the favicon).
+
+### You MAY (no permission needed)
+- Use the name and logo to **refer to** the genuine RectaBot project — "works with
+  RectaBot", a link back to rectabot.org, reviews, tutorials, articles.
+- Reproduce the logo **unmodified** to identify the official project.
+
+### You MAY NOT (without written permission)
+- Put the RectaBot name or logo on **your own hardware, firmware, or products** —
+  including boards you manufacture from the open design files.
+- Use the marks in a way that implies the RectaBot project **endorses, sponsors,
+  or is affiliated** with your product.
+- Use a **confusingly similar** name or logo (a modified wordmark, a similar `r`
+  icon, the same cyan lockup) for a competing or derivative product.
+
+### If you build on the open hardware design
+The design files are yours to use under CERN-OHL-S v2 — **but the brand is not.**
+**Rebrand your product:** use your own name and logo, and remove the RectaBot marks
+from silkscreen, docs, and UI. This keeps the open design open while avoiding
+confusion about who stands behind a given board.
+
+Questions or permission requests: **hello@rectabot.org**
+
+> *Why the brand is reserved while everything else is open: the design is meant to
+> be shared and built on; the brand is how people know a board came from us and can
+> trust its support and updates. Keeping the trademark while opening the tech is the
+> standard open-project model — Arduino, Raspberry Pi and Linux all do exactly this.*
 
 ---
 

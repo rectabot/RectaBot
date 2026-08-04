@@ -6,8 +6,9 @@ The RP2350B (QFN-80) has 48 GPIO pins (GP0-GP47).
 
 **The 74HC14D inverts the signal, but in Common Anode mode this is already accounted for** — no firmware STEP invert is needed. Validated on bench (TB6600 + NEMA17, smooth both directions, no missed steps up to F2000):
 - `$2=0` — STEP_INVERT_MASK. With `$2=0` the 74HC14D output idles HIGH (OPT− high → opto OFF) and each step pulse briefly pulls OPT− low (opto ON) — correct for Common Anode. Setting `$2`≠0 would hold the input opto continuously ON at idle and likely cause missed steps at speed.
-- `$3=0` — DIRECTION_INVERT_MASK baseline. Set per-axis on the actual machine so X+/Y+/Z+ move in the correct direction.
-- `$4` — STEPPER_ENABLE_INVERT_MASK: **not yet validated** (ENA left unconnected during bench test, driver always enabled). Verify once ENA is wired to the drivers.
+- `$3` — DIRECTION_INVERT_MASK is **per-machine** (depends on wiring/mechanics). Jog each axis and flip its bit so X+/Y+/Z+ move the right way — do not treat it as a fixed value.
+- `$4=15` — STEPPER_ENABLE_INVERT_MASK. The 74HC14D inverts EN, so enable is inverted on every axis: **7 = 3-axis, 15 = 4-axis, 31 = 5-axis** (reference board is 4-axis → 15).
+- `$5=0` — LIMIT invert OFF (the LTV-217 opto inputs already read active-low). `$6=1` — PROBE invert ON.
 - Coolant invert via driver configuration
 
 Stepper drivers operate in **Common Anode** mode: +5V on OPT+, the 74HC14D pulls OPT− to GND. Validated with TB6600; verified-under-load values (and any driver-specific differences, e.g. DM-series) to be confirmed when machining.
@@ -15,11 +16,31 @@ Stepper drivers operate in **Common Anode** mode: +5V on OPT+, the 74HC14D pulls
 **Input galvanic isolation:** 10 isolated inputs via **LTV-217-B-G** optocouplers (U8-U20), powered from **+24V_ISO** (B2424S-2WR3 isolated DC/DC). GND_ISO is separated from GND by a 2mm copper void barrier.
 
 **Input wiring (each connector: `24V · GND · SIG`):** the inputs are **sinking (active LOW)** — same convention as the VFD outputs.
-- **Mechanical switch** (limit / E-stop, NO contact): wire between **GND** and **SIG**. The 24V pin is not needed.
-- **Inductive sensor — NPN (sinking), recommended** (e.g. LJ12A3): use all three pins — **24V** (power) + **GND** + **SIG**. The sensor pulls SIG to GND when triggered.
-- **PNP (sourcing) sensors are not directly compatible** (they drive SIG to 24V) — use an external relay module, as with PNP VFDs.
+- **Mechanical switch** (limit / E-stop): wire between **GND** and **SIG**. The 24V pin is not needed.
+- **Inductive sensor — NPN (sinking)**: use all three pins — **24V** (power) + **GND** + **SIG**. The sensor switches SIG to GND.
+- **PNP (sourcing) sensors are not directly compatible** (they drive SIG to 24V, so no current flows through the opto LED and the input never sees them) — use an external relay module, as with PNP VFDs.
 
-See the [hardware configurator](../configurator/index.html) (Limit input type: NPN vs Mechanical) for the matching grblHAL `$` settings.
+### NC or NO — and why NC is the one to ship
+
+With **`$5=0`** an input reads **triggered when the circuit is OPEN**. So on the
+`GND · SIG` wiring above:
+
+| Device | `$5` | Broken wire behaves as |
+|---|---|---|
+| **NC** (normally closed) — recommended | `0` | **triggered → machine stops** ✅ |
+| NO (normally open) | invert that axis | nothing — the fault is invisible ⚠️ |
+
+That is the whole argument for NC: a cut wire, a loose terminal or a corroded
+contact looks exactly like a tripped limit, so the machine refuses to move instead
+of running blind past its own end stops. A NO switch fails silent — you find out
+when the gantry does.
+
+For inductive sensors the same rule picks the suffix: **`LJ12A3-4-Z/AX` (NPN NC)**
+matches `$5=0`; `/BX` (NPN NO) needs `$5` inverted for that axis. `/AY` and `/BY`
+are PNP and need a relay module either way.
+
+`$5` is a per-axis mask, so a machine may mix types if it must — but a mixed
+machine has mixed failure modes, which is its own kind of expensive.
 
 | Function | RP2350 Pin | Notes |
 | :--- | :--- | :--- |
@@ -70,7 +91,7 @@ See the [hardware configurator](../configurator/index.html) (Limit input type: N
 | X_MIN | `GP33` | X-axis limit switch |
 | Y_MIN | `GP34` | Y-axis limit switch |
 | Z_MAX | `GP35` | Z-axis limit switch (homing up) |
-| A_MIN | `GP36` | A-axis limit switch |
+| A_MIN | `GP36` | A-axis limit switch — free on 4/5-axis builds, see below |
 | B_MIN | `GP37` | B-axis limit switch (Y2 auto-square) |
 | ESTOP | `GP38` | Emergency Stop → grblHAL alarm |
 | PROBE | `GP39` | Tool length probe |
@@ -83,3 +104,36 @@ See the [hardware configurator](../configurator/index.html) (Limit input type: N
 | SD CS | `GP45` | SPI1 CSN |
 | SD CLK | `GP46` | SPI1 SCK |
 | VBUS_DET | `GP47` | USB VBUS detect, 10kΩ/10kΩ divider (R6/R8) → 2.5V (above VIH=2.15V) |
+
+## A_MIN (`GP36`) is a spare isolated input on a 4-axis machine
+
+A rotary A axis is not homed, so it has no limit switch and its input sits unused. That
+makes `GP36` the one 24 V isolated input still free on a fully populated board — every
+`AUXINPUT` is spoken for (E-stop, probe, cycle start, feed hold, door) — and it goes
+through the same LTV-217 optocoupler as the other limits. A mechanical **tool setter** is
+what it is worth spending on: a fixed pad the machine touches off against, which is what
+tool-length offsets need and what the probe input alone cannot give you, since the probe
+travels with the spindle.
+
+When it is free, and when it is not:
+
+| build | `GP36` |
+|---|---|
+| 4- and 5-axis, any Y arrangement | **free** — A takes motor 3, so an auto-squared Y2 lands on `GP37` |
+| 3-axis, single or plain ganged Y | **free** — nothing claims it |
+| 3-axis, auto-squared Y | **taken** — the second Y home switch is here |
+
+grblHAL assigns a ganged motor to the highest channel, which is why the same wire lands on
+a different pad depending on axis count. The board map does this for you; the table is
+just so you can check the pad before wiring to it.
+
+**The pad is wired; the firmware images do not read it.** None of the published builds
+enable a tool setter, so this is a build you make yourself — the hardware is here for it,
+which is the part you cannot add later.
+
+Declare `GP36` as an aux input in the board map and define `TOOLSETTER_PIN 36` /
+`TOOLSETTER_ENABLE 1`, guarded so an auto-squared 3-axis build does not claim the pad twice,
+and grblHAL registers a second probe of its own, separate from `PROBE`. Settings survive the
+flash — the tool setter's invert / pull-up / auto-select flags are bits in a word that
+already exists, so the settings structure does not grow. See `variants/CONFIG.md` for how a
+variant is built, and for the options where that is *not* true.

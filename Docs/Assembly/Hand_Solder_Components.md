@@ -10,13 +10,21 @@ See: [LCSC_Additional_Order.csv](../Manufacturing/LCSC_Additional_Order.csv) for
 
 ---
 
+## 📥 How the board arrives
+
+![RectaBot v1.0 — the board as it arrives from JLCPCB, SMT-assembled with no through-hole parts](../images/board-bare.webp)
+
+This is exactly how the board ships from JLCPCB: **all SMT parts pre-assembled**, but **none of the through-hole components** — no screw terminals, no RJ45, no DC/DC module, no SWD header, and none of the electrolytic / trim-pot / Zener. You add the 28 TH parts listed below by hand.
+
+---
+
 ## 📦 Component list (by designator)
 
 | # | Designator | Value | Footprint | LCSC | Mounting |
 |---|---|---|---|---|---|
 | 1 | **C7** | 100µF electrolytic | TH BD6.0-P2.50 | C2873969 | Vertical, watch polarity (-/+ on silkscreen) |
 | 2 | **C61** | 1nF / 2kV ceramic | TH L6.8-W2.6-P5.08 | C2976624 | Bob Smith chassis coupling |
-| 3 | **CN22** | KF2EDGR-3.5-3P | TH 3-pin | C441172 | RS485 Modbus |
+| 3 | **CN22** | KF2EDGR-3.5-3P | TH 3-pin | C441172 | DOOR input |
 | 4 | **CN23** | KF2EDGR-3.5-3P | TH 3-pin | C441172 | FEED HOLD input |
 | 5 | **CN24** | KF2EDGR-3.5-3P | TH 3-pin | C441172 | CYCLE START input |
 | 6 | **CN25** | KF2EDGR-3.5-3P | TH 3-pin | C441172 | PROBE input |
@@ -26,7 +34,7 @@ See: [LCSC_Additional_Order.csv](../Manufacturing/LCSC_Additional_Order.csv) for
 | 10 | **CN29** | KF2EDGR-3.5-3P | TH 3-pin | C441172 | Z_LIMIT input |
 | 11 | **CN30** | KF2EDGR-3.5-3P | TH 3-pin | C441172 | Y_LIMIT input |
 | 12 | **CN31** | KF2EDGR-3.5-3P | TH 3-pin | C441172 | X_LIMIT input |
-| 13 | **CN32** | KF2EDGR-3.5-3P | TH 3-pin | C441172 | DOOR input |
+| 13 | **CN32** | KF2EDGR-3.5-3P | TH 3-pin | C441172 | RS485 Modbus (GND/A+/B−) |
 | 14 | **CN33** | KF2EDGR-3.5-2P | TH 2-pin | C441171 | Laser PWM / GND |
 | 15 | **CN42** | KF2EDGR-3.5-2P | TH 2-pin | C441171 | 24V DC INPUT |
 | 16 | **CN34** | KF2EDGR-3.5-4P | TH 4-pin | C441173 | X Stepper (STEP/DIR/EN/GND) |
@@ -100,3 +108,11 @@ See: [LCSC_Additional_Order.csv](../Manufacturing/LCSC_Additional_Order.csv) for
 **ALL components on this list (28 TH parts) + male KEFA mating connectors.**
 
 See: [LCSC_Additional_Order.csv](../Manufacturing/LCSC_Additional_Order.csv) — full BOM for 5 boards (~$50 with male connectors).
+
+---
+
+## ✅ The finished board
+
+![RectaBot v1.0 — after hand-soldering the through-hole parts: all screw terminals, RJ45, DC/DC module and headers in place](../images/board-photo.webp)
+
+Once the 28 TH parts are soldered, the board is complete: every screw terminal, the RJ45 jack, the isolated DC/DC module and the SWD header in place — ready to wire up and flash.

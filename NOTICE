@@ -17,14 +17,8 @@ used in the RectaBot project, along with their respective licenses.
 ### Raspberry Pi Pico SDK
 - Upstream: https://github.com/raspberrypi/pico-sdk
 - License: BSD-3-Clause
-- Used by: RectaPad pendant firmware (separate repository)
+- Used by: RectaBot-firmware (separate repository)
 - Provides hardware abstraction for the RP2350B microcontroller.
-
-### LVGL (Light and Versatile Graphics Library)
-- Upstream: https://github.com/lvgl/lvgl
-- License: MIT
-- Used by: RectaPad pendant firmware (separate repository)
-- Provides the touch GUI framework on the pendant.
 
 ### WIZnet ioLibrary
 - Upstream: https://github.com/Wiznet/ioLibrary_Driver
@@ -88,7 +82,7 @@ Specifically, Claude was used to:
 
 - Research components, suppliers, and alternative parts
 - Generate first drafts of technical documentation (datasheets, guides,
-  pinout references, bring-up procedures)
+  pinout references, power-on procedures)
 - Review schematics and identify potential issues
 - Plan project structure and file organization
 - Draft commit messages and pull request descriptions

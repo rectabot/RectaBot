@@ -4,6 +4,11 @@
 
 This guide explains how to connect and configure popular Variable Frequency Drives (VFDs) to the RectaBot CNC controller for spindle control.
 
+It covers **analog** control: a 0-10 V speed reference plus enable/direction lines on
+CN39. If your VFD has an RS-485 port, digital control is the better option — exact
+speeds and real feedback from the drive — see
+[VFD_Modbus_Setup.md](VFD_Modbus_Setup.md).
+
 ---
 
 ## 📐 CN39 Spindle Connector Pinout
