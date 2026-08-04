@@ -943,9 +943,19 @@
                     <span class="font-mono text-cyan-400 text-lg">from&nbsp;$149</span>.
                     The first batch is limited and hand-assembled; join the list to be notified when boards are available.
                 </p>
-                <a href="mailto:hello@rectabot.org?subject=RectaBot%20waitlist&body=Hi%20Filip%2C%20please%20add%20me%20to%20the%20RectaBot%20v1.0%20waitlist.%0A%0AName%3A%0ACountry%3A%0AAxes%20needed%20(3%2F4%2F5)%3A" class="inline-flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold px-8 py-4 rounded-md transition glow-cyan">
-                    Join the waitlist →
-                </a>
+                <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <a id="waitlist-link" href="mailto:hello@rectabot.org?subject=RectaBot%20waitlist&body=Hi%20Filip%2C%20please%20add%20me%20to%20the%20RectaBot%20v1.0%20waitlist.%0A%0AName%3A%0ACountry%3A%0AAxes%20needed%20(3%2F4%2F5)%3A" class="inline-flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold px-8 py-4 rounded-md transition glow-cyan">
+                        Join the waitlist →
+                    </a>
+                    <button id="waitlist-copy" type="button" class="inline-flex items-center gap-2 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-slate-100 font-mono text-sm px-5 py-4 rounded-md transition">
+                        <span id="waitlist-copy-label">Copy hello@rectabot.org</span>
+                    </button>
+                </div>
+                <p class="text-slate-500 text-sm mt-4">
+                    The button opens your mail app. If nothing happens, it means this computer has
+                    no mail app set up — copy the address instead and write from wherever you read
+                    your mail. Tell me your country and whether you need 3, 4 or 5 axes.
+                </p>
             </div>
         </div>
     </section>
@@ -1054,6 +1064,46 @@
             });
             lb.addEventListener('click', function (e) { if (e.target !== img) close(); });
             document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+        })();
+
+        // Waitlist address: mailto only works if this machine has a mail app
+        // registered, and when it does not the click does nothing at all. The
+        // copy button is the way out that does not depend on that.
+        (function () {
+            const btn = document.getElementById('waitlist-copy');
+            const label = document.getElementById('waitlist-copy-label');
+            if (!btn || !label) return;
+            const address = 'hello@rectabot.org';
+            const idle = label.textContent;
+            let revert;
+
+            function say(msg) {
+                label.textContent = msg;
+                clearTimeout(revert);
+                revert = setTimeout(function () { label.textContent = idle; }, 2500);
+            }
+
+            btn.addEventListener('click', function () {
+                // Clipboard API needs a secure context; the fallback covers the rest.
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(address).then(
+                        function () { say('Copied ✓'); },
+                        function () { say(address); }
+                    );
+                    return;
+                }
+                const ta = document.createElement('textarea');
+                ta.value = address;
+                ta.setAttribute('readonly', '');
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                let ok = false;
+                try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+                document.body.removeChild(ta);
+                say(ok ? 'Copied ✓' : address);
+            });
         })();
     </script>
 
