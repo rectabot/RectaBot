@@ -38,10 +38,11 @@ moment `M7`/`M8`/`M62` runs. Nothing warns you — the flood pump simply runs al
 
 #### ⚠️ Which relays these outputs can actually drive
 
-These are **signal outputs**, not relay drivers. Each one is a 74HC14D channel behind a
-**330 Ω** series resistor (`R45`, `R63`, `R91`) — the same arrangement that feeds the
-optocoupler in a DM556, which is what it was drawn for. The 74HC14D sinks a **guaranteed
-4 mA** (absolute maximum 25 mA).
+Each output is a 74HC14D channel behind a **330 Ω** series resistor (`R45`, `R63`, `R91`),
+the same arrangement that feeds the optocoupler in a DM556. Two figures from the datasheet
+matter and they are not the same thing: **4 mA** is where `VOL` is *guaranteed* — the DC
+test point — and **25 mA per pin** is the absolute maximum. Drawing more than 4 mA is not
+an overload; it only means the datasheet stops promising a number.
 
 **Measured on the reference board, with a Fotek SSR-40 DA switching a 230 V lamp:**
 
@@ -50,17 +51,17 @@ optocoupler in a DM556, which is what it was drawn for. The 74HC14D sinks a **gu
 | Pin, open circuit | **5.07 V** |
 | Across the relay's control input, with it connected | **3.11 V** |
 | Remainder across the 330 Ω → current | 1.96 V → **~5.9 mA** |
+| Implied `VOL` (5.07 − 3.11 − 1.96) | **≈ 0 V** — the output is not straining |
 | Result | **It switches the lamp.** |
 
 So a Fotek — a "control 3–32 VDC" input, meaning an internal current regulator that needs
-3 V at its own terminals — does get enough. It clears its 3 V minimum by 0.11 V.
+3 V at its own terminals — gets what it needs, clearing its 3 V minimum. At 5.9 mA the
+output still pulls essentially to ground, and there is roughly 4× headroom to the 25 mA
+limit. What the 330 Ω sets is how much voltage is left for the relay, not whether the chip
+can cope.
 
-⚠️ **But it draws ~6 mA from a channel guaranteed for 4 mA.** That is inside the part's
-25 mA absolute maximum and it works, but it is outside the specified operating point: the
-output's low-level voltage rises and there is no margin left for a relay that wants a
-little more, or for a hot day. Treat it as working rather than as designed-for.
-
-**Comfortable loads** are anything whose input is an optocoupler — a relay/SSR module with
+**The load this was drawn for** is anything whose input is an optocoupler — a relay/SSR
+module with
 a logic-level `IN` pin drawing ≤ 5 mA. Those have a gain stage: a few mA from this pin
 lights an LED, whose transistor then pulls the 70–80 mA of coil current from the module's
 own `VCC`. Note that DIN-rail interface relays (Phoenix Contact PLC-INTERFACE, Weidmüller
@@ -68,7 +69,8 @@ TERMSERIES, Wago 859, Omron G3RV-SR) use that same optocoupler input but are spe
 PLC outputs sourcing half an amp, so many of their 5 V models ask 10–15 mA. Check the
 figure, not the brand.
 
-**For margin, or for a relay that will not trigger,** interpose a driver — a P-channel
+**For a relay that will not trigger** — one needing more voltage than the 330 Ω leaves —
+interpose a driver: a P-channel
 MOSFET (e.g. AO3401) high side: source to `+5V`, gate to the signal pin, drain to the SSR
 input, SSR return to `GND`. The gate draws no current, so the 330 Ω costs nothing and the
 relay sees the full 5 V. The active-low signal suits a P-channel part directly.

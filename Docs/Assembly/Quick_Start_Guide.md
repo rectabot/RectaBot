@@ -270,26 +270,22 @@ until someone notices.
 
 ### Which relay to buy
 
-These pins are signal outputs, not relay drivers: a 74HC14D channel behind a 330 Ω
-resistor, **guaranteed for 4 mA**, sized for the optocoupler inside a stepper driver.
-One number in a relay's datasheet tells you how comfortably it will sit there:
+Each pin is a 74HC14D channel behind a 330 Ω resistor — 25 mA absolute maximum, with `VOL`
+guaranteed up to 4 mA. Both of these work:
 
-> **input current at 5 V — 5 mA or less is comfortable**
+**An optocoupler-input relay module** — the easy answer. Wire `VCC`→pin 1, `GND`→pin 5,
+`IN`→the signal pin. It has a gain stage: a few mA from this pin lights an LED, whose
+transistor pulls the 70–80 mA of coil current from the module's own `VCC`, so the board
+never supplies the relay itself. Look for an input current of about 5 mA at 5 V.
 
-**An optocoupler-input relay module is the easy answer.** Wire `VCC`→pin 1, `GND`→pin 5,
-`IN`→the signal pin. It has a gain stage — a few mA from this pin lights an LED, whose
-transistor pulls the 70–80 mA of coil current from the module's own `VCC` — so the board
-never has to supply the relay itself.
+**A solid-state relay wired straight on** — measured on the reference board, a **Fotek
+SSR-40 DA switching a 230 V lamp**: 5.07 V open circuit, **3.11 V across the relay's
+control input**, ~5.9 mA, and the output still pulls to ground. Its datasheet minimum is
+3 V, so it clears — and it switches.
 
-**A solid-state relay wired straight on can also work, with less margin.** Measured on the
-reference board, a **Fotek SSR-40 DA switching a 230 V lamp**: 5.07 V open circuit, **3.11 V
-across the relay's control input**, ~5.9 mA. Its datasheet minimum is 3 V, so it clears
-by 0.11 V — and it switches.
-
-> ⚠️ That 5.9 mA is more than the 4 mA the output is specified for. It is well inside the
-> chip's 25 mA absolute maximum and it runs, but there is no margin left for a relay that
-> wants slightly more. If you want headroom, use an optocoupler module, or put a small
-> P-channel MOSFET between — see [Pinout.md](../Reference/Pinout.md).
+What decides it is not the chip's current capability but how much voltage the 330 Ω leaves
+for the relay. If a particular SSR needs more than roughly 3 V and will not trigger, put a
+small P-channel MOSFET between — see [Pinout.md](../Reference/Pinout.md).
 
 #### Industrial modules
 

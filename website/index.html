@@ -314,11 +314,10 @@
                         <span><span class="text-slate-200 font-medium">Coolant is three wires away.</span>
                         <span class="text-slate-300">CN40</span> carries
                         <span class="font-mono text-slate-300">+5V · VAC · FLOOD · MIST · GND</span> with M7/M8/M62
-                        already mapped — add relay modules with an optocoupler input and they wire straight on.
-                        These are 4 mA signal pins, so buy for <span class="text-slate-300">≤ 5 mA input at
-                        5 V</span> if you want margin; a Fotek SSR-40 DA also switches, measured, but runs the
-                        output above its rating. The docs give the numbers. These outputs also sit on the board's
-                        ground — the optical isolation is on the input side.</span>
+                        already mapped. Optocoupler-input relay modules wire straight on, and a Fotek SSR-40 DA
+                        switches directly too — measured on the bench at 3.11 V across its input. The docs give
+                        the numbers for anything else. These outputs sit on the board's ground — the optical
+                        isolation is on the input side.</span>
                     </li>
                 </ul>
                 <div class="flex flex-wrap gap-3 text-sm font-mono">
