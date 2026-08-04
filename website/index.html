@@ -13,8 +13,10 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta property="og:type" content="website">
 
-    <!-- Favicon -->
+    <!-- Favicon. iOS will not take the SVG: without the PNG below, a page added
+         to the home screen gets a screenshot of itself instead of an icon. -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>

@@ -11,5 +11,8 @@ from this `website/` folder via `.github/workflows/deploy-pages.yml`.
 - `board-photo.webp` / `board-photo-full.webp` — board photo (thumbnail + lightbox)
 - `rectacontrol.png` — sender screenshot; copied from the RectaControl repo's
   `docs/images/rectacontrol.png`, re-copy it when the UI changes
-- `Brand_Assets/favicon.svg`, `favicon.svg` — icons
+- `Brand_Assets/favicon.svg`, `favicon.svg` — browser tab icon (identical files)
+- `apple-touch-icon.png` — 180×180, for iOS home screens, which ignore SVG icons.
+  Resized from the RectaControl app icon (`rectacontrol/build/icon.png`), so the
+  two stay the same picture; regenerate from there if the brand mark changes
 - `CNAME` — custom domain (rectabot.org)
