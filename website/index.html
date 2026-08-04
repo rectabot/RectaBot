@@ -311,12 +311,13 @@
                     </li>
                     <li class="flex gap-2.5">
                         <span class="text-cyan-400 mt-0.5">▹</span>
-                        <span><span class="text-slate-200 font-medium">Coolant is three wires away.</span> Add
-                        2–3 solid-state relays for mist, flood and vacuum; <span class="text-slate-300">CN40</span>
-                        carries <span class="font-mono text-slate-300">+5V · VAC · FLOOD · MIST · GND</span> with
-                        M7/M8/M62 already mapped, and the relay wires common-anode across +5 V and its signal pin,
-                        same as the drivers. These outputs sit on the board's ground — the optical isolation is on
-                        the input side.</span>
+                        <span><span class="text-slate-200 font-medium">Coolant is three wires away.</span>
+                        <span class="text-slate-300">CN40</span> carries
+                        <span class="font-mono text-slate-300">+5V · VAC · FLOOD · MIST · GND</span> with M7/M8/M62
+                        already mapped — add relay modules with an optocoupler input and they wire straight on.
+                        These are 4 mA signal pins, so an SSR specified “control 3–32 VDC” needs a transistor
+                        between; the docs give the numbers. They also sit on the board's ground — the optical
+                        isolation is on the input side.</span>
                     </li>
                 </ul>
                 <div class="flex flex-wrap gap-3 text-sm font-mono">

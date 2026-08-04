@@ -268,6 +268,27 @@ you get the exact opposite: the pump or vacuum runs **whenever the machine is id
 switches **off** when the program calls for it. Nothing reports an error — it simply runs
 until someone notices.
 
+### Which relay to buy
+
+**Buy one whose control input is an optocoupler.** These pins are signal outputs behind a
+330 Ω resistor, good for about 4 mA — sized for the optocoupler in a stepper driver, which
+is exactly what they also feed.
+
+| | |
+| :--- | :--- |
+| ✅ **Optocoupler relay / SSR module** with a logic-level `IN` pin (3.3–5 V) | works — wire `VCC`→pin 1, `GND`→pin 5, `IN`→the signal pin |
+| ✅ PCB-mount opto SSR with a **bare LED input** (~1.2 V, trigger ≤ 4 mA) | works |
+| ❌ Any SSR whose box says **"control 3–32 VDC"** — Fotek SSR-40 DA and most industrial ones | **does not work** |
+
+The 3–32 VDC type has a current regulator inside that needs 3 V at its own terminals
+before it conducts. Measured with a Fotek SSR-40 DA on these outputs: **1.96 V reaches the
+relay**, and it never triggers. That is a limit of the output, not a fault — to use one
+anyway you need a transistor between, see [Pinout.md](../Reference/Pinout.md).
+
+A relay module's coils draw 70–80 mA each and kick when they release. If your module has a
+**`JD-VCC` jumper**, pull it and feed `JD-VCC` from a separate 5 V supply — keeping grounds
+common — so that kick stays off the same 5 V rail that carries your step pulses.
+
 ---
 
 ## 🆘 Troubleshooting

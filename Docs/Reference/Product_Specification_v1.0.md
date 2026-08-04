@@ -82,7 +82,9 @@ RectaBot is a professional CNC mill controller designed for hobby-pro and small 
 - ✅ **10 optically isolated inputs** (24V_ISO domain, LTV-217 optocouplers, 5kV component rating)
   - 5× limit switches (X_MIN, Y_MIN, Z_MAX, A_MIN, B_MIN)
   - E-Stop, Probe, Cycle Start, Feed Hold, Door safety
-- ✅ **3 SSR-compatible outputs** (Mist M7, Flood M8, Vacuum M62/M63)
+- ✅ **3 auxiliary 5 V outputs** (Mist M7, Flood M8, Vacuum M62/M63) — signal level, 330 Ω
+  series, ~4 mA. Drives optocoupler-input relay modules; **not** SSRs specified
+  "control 3–32 VDC" (see [Pinout.md](Pinout.md))
 - ✅ **24V_ISO isolated supply** (B2424S-2WR3, 2W isolated DC-DC)
 - ✅ Hardware debounce (100nF parallel to optocoupler LED)
 

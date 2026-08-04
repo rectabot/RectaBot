@@ -36,6 +36,35 @@ under `M7`, back to ~5 V after `M9`. Wiring the SSR to `GND` instead inverts the
 thing: the relay is **energised whenever the machine sits idle** and switches **off** the
 moment `M7`/`M8`/`M62` runs. Nothing warns you — the flood pump simply runs all night.
 
+#### ⚠️ Which relays these outputs can actually drive
+
+These are **signal outputs, not relay drivers.** Each one is a 74HC14D channel behind a
+**330 Ω** series resistor (`R45`, `R63`, `R91`) — the same arrangement that feeds the
+optocoupler in a DM556, which is what it was designed for. The 74HC14D sinks a guaranteed
+**4 mA**.
+
+| Load | Works? |
+| :--- | :--- |
+| Input is a bare **opto-LED**, ~1.2–1.5 V forward drop, trigger ≤ 4 mA | ✅ yes — this is the matched load |
+| Opto-isolated relay / SSR **module** with a logic-level `IN` pin | ✅ yes |
+| SSR whose datasheet says **"control 3–32 VDC"** | ❌ **no** |
+
+A "3–32 VDC" input is not an LED — it is an internal current regulator that needs **3 V
+across its own terminals** before it conducts at all. Through the 330 Ω it never gets
+there. **Measured with a Fotek SSR-40 DA:** the pin sits at 3.11 V instead of ~0 V, which
+leaves **1.96 V across the relay input** against the 3 V it needs, while already drawing
+~6 mA — past the 74HC14D's rating. It does not trigger, and no amount of rewiring will
+make it.
+
+Most industrial SSRs (Crydom D-series, Omron G3NA, Opto22 G4) are in that second group.
+The cheap optocoupler relay module works here precisely because its input **is** an LED.
+
+**To use a 3–32 VDC SSR anyway,** interpose a driver — a P-channel MOSFET (e.g. AO3401)
+high side: source to `+5V`, gate to the signal pin, drain to the SSR input, SSR return to
+`GND`. The gate draws no current, so the 330 Ω costs nothing and the relay sees the full
+5 V. The active-low signal suits a P-channel part directly. *(Reasoned from the numbers
+above, not yet built and measured.)*
+
 ### NC or NO — and why NC is the one to ship
 
 With **`$5=0`** an input reads **triggered when the circuit is OPEN**. So on the
