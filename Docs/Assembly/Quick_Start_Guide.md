@@ -248,7 +248,25 @@ Once the X axis runs reliably:
 2. **Connect limit switches** (CN27-CN31)
 3. **Configure homing** (`$H` command)
 4. **Connect the VFD** — see [VFD_Wiring_Guide.md](../Reference/VFD_Wiring_Guide.md)
-5. **Test G-code execution** with a sender (UGS, CNCjs, IO Sender)
+5. **Connect coolant / vacuum SSRs to CN40** — see below before you wire them
+6. **Test G-code execution** with a sender (UGS, CNCjs, IO Sender)
+
+### ⚠️ Wiring an SSR to CN40 — which way round matters
+
+`CN40` is `+5V · VAC · FLOOD · MIST · GND`. Wire each SSR control input between
+**`+5V` (pin 1)** and its signal pin — the same common-anode arrangement as the stepper
+drivers, which is why the `+5V` pin is on the connector at all.
+
+| SSR control terminal | CN40 pin |
+| :--- | :--- |
+| `+` | **1** — `+5V` |
+| `−` | **2** `VAC` (`M62`/`M63`) · **3** `FLOOD` (`M8`) · **4** `MIST` (`M7`) |
+
+The signal passes through the 74HC14D inverter, so a coolant pin **idles at ~5 V and is
+pulled to 0 V when the M-code turns the output on**. Wire the SSR to `GND` instead and
+you get the exact opposite: the pump or vacuum runs **whenever the machine is idle**, and
+switches **off** when the program calls for it. Nothing reports an error — it simply runs
+until someone notices.
 
 ---
 

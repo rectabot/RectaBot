@@ -20,6 +20,22 @@ Stepper drivers operate in **Common Anode** mode: +5V on OPT+, the 74HC14D pulls
 - **Inductive sensor — NPN (sinking)**: use all three pins — **24V** (power) + **GND** + **SIG**. The sensor switches SIG to GND.
 - **PNP (sourcing) sensors are not directly compatible** (they drive SIG to 24V, so no current flows through the opto LED and the input never sees them) — use an external relay module, as with PNP VFDs.
 
+**AUX output wiring — SSR (`CN40`: `+5V · VAC · FLOOD · MIST · GND`):** the coolant
+outputs are **Common Anode, exactly like the stepper drivers**. Wire the SSR control
+input between **`+5V` (pin 1)** and the signal pin — **never between the signal pin and
+`GND`**.
+
+| SSR control terminal | CN40 pin |
+| :--- | :--- |
+| `+` | **1** — `+5V` |
+| `−` | **2** `VAC` · **3** `FLOOD` · **4** `MIST` |
+
+The 74HC14D inverts, so each coolant pin **idles HIGH (~5 V) and is pulled LOW when the
+M-code switches the output on** — measured on the reference board: ~5 V at idle, ~0 V
+under `M7`, back to ~5 V after `M9`. Wiring the SSR to `GND` instead inverts the whole
+thing: the relay is **energised whenever the machine sits idle** and switches **off** the
+moment `M7`/`M8`/`M62` runs. Nothing warns you — the flood pump simply runs all night.
+
 ### NC or NO — and why NC is the one to ship
 
 With **`$5=0`** an input reads **triggered when the circuit is OPEN**. So on the
