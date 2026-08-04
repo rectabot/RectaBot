@@ -22,7 +22,17 @@ Given the choice of 4 layers and the need to minimize EMI (especially because of
 - The grblHAL RP2350 chip outputs I/O signals at 3.3V. RectaBot v1.0 uses the **74HC14D** (Schmitt-trigger HEX **inverter**) for the 3.3V→5V level shift. Power the buffers from +5V from the main buck converter.
 - Control outputs (Step, Dir, Enable) run in *Common Anode* mode: the DM556 optocoupler's `+` lead is permanently tied to +5V, and the 74HC14D pulls the `−` lead to GND to turn the opto on.
 - The 74HC14D inverts, but the Common Anode opto conducts on a LOW cathode, so a grbl active-high step pulse lands correctly at the opto with **no** firmware step invert: **`$2=0`** (validated on the reference board — `$2`≠0 holds the opto on at idle and causes missed steps). The **ENABLE** line does need inverting because of the driver's ENA polarity: **`$4`** = all axes (7 for 3-axis, 15 for 4-axis, 31 for 5-axis). Limit/probe opto inputs use **`$5=0`** / **`$6=1`**. Direction (`$3`) is per-machine — set it from how each axis actually moves.
-- *Heads up:* the grblHAL PIO step generation on RP2040/RP2350 requires **consecutive** pins on the microcontroller! For that we dedicated `GP8` - `GP12` only for step pulses, then `GP13` - `GP17` for Dir, and `GP18` - `GP22` for Enable signals. Follow this numbering exactly when drawing the schematic!
+- *Heads up:* **the STEP pins must be consecutive.** grblHAL drives them from PIO
+  (`STEP_PORT = GPIO_PIO`, `STEP_PINS_BASE = 8`), and a PIO state machine writes one
+  contiguous field of bits across a pin range — so `GP8`-`GP12` is a hard requirement, not
+  a preference. **Dir (`GP13`-`GP17`) and Enable (`GP18`-`GP22`) are ordinary GPIO**
+  (`DIRECTION_PORT = GPIO_OUTPUT`, `GPIO_MAP`), individually mapped: they are numbered in
+  runs for tidiness, and may be moved when drawing a new board. Direction only has to
+  settle before the pulse (`$29` setup time), which needs no PIO.
+- On the RP2350B a PIO instance sees a **32-GPIO window** — `0`-`31` by default, or
+  `16`-`47` via `pio_set_gpio_base()`. Keep the step pins inside one window; `GP8`-`GP12`
+  sits well within the default one, so no base shifting and no splitting across PIO
+  instances.
 
 ### Alternatives considered for v2 (NOT in v1):
 - **74HCT245** (octal bus transceiver) — does not invert, but uses more pins and does not clean up noise like a Schmitt trigger.
