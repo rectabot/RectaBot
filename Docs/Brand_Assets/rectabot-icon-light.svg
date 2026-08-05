@@ -12,10 +12,11 @@
     </style>
   </defs>
 
-  <!-- Cyan rounded square background -->
-  <rect width="256" height="256" rx="32" ry="32" fill="#22d3ee"/>
+  <!-- Cyan background with one rounded corner, top left, at the radius the letter's
+       own elbow is drawn with (16.1% of the edge). Matches rectabot-icon-cyan.svg. -->
+  <path d="M41.25,0 H256 V256 H0 V41.25 A41.25,41.25 0 0 1 41.25,0 Z" fill="#22d3ee"/>
 
   <!-- Lowercase "r" centered, dark -->
-  <text x="128" y="200" text-anchor="middle" class="rb-icon"
-        font-size="220" fill="#020617">r</text>
+  <text x="128.23" y="208.55" text-anchor="middle" class="rb-icon"
+        font-size="273.14" fill="#020617">r</text>
 </svg>

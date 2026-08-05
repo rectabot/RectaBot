@@ -10,8 +10,11 @@
       }
     </style>
   </defs>
-  <rect width="64" height="64" rx="8" ry="8" fill="#020617"/>
-  <text x="32" y="50" text-anchor="middle"
+  <!-- One rounded corner, top left, at the radius the letter's own elbow is drawn
+       with (165 px on the 1024 master = 16.1% of the edge). A rect cannot do this:
+       rx rounds all four. -->
+  <path d="M10.3125,0 H64 V64 H0 V10.3125 A10.3125,10.3125 0 0 1 10.3125,0 Z" fill="#020617"/>
+  <text x="32.06" y="52.14" text-anchor="middle"
         font-family="Orbitron, sans-serif" font-weight="900"
-        font-size="52" fill="#22d3ee">r</text>
+        font-size="68.28" fill="#22d3ee">r</text>
 </svg>

@@ -12,14 +12,16 @@
     </style>
   </defs>
 
-  <!-- Dark rounded square background -->
-  <rect width="256" height="256" rx="32" ry="32" fill="#020617"/>
+  <!-- Dark background with one rounded corner, top left, at the radius the letter's
+       own elbow is drawn with (165 px on the 1024 master = 16.1% of the edge). A
+       rect cannot do this: rx rounds all four. -->
+  <path d="M41.25,0 H256 V256 H0 V41.25 A41.25,41.25 0 0 1 41.25,0 Z" fill="#020617"/>
 
-  <!-- Inner subtle frame -->
-  <rect x="16" y="16" width="224" height="224" rx="24" ry="24"
-        fill="none" stroke="#22d3ee" stroke-width="2" opacity="0.2"/>
+  <!-- The inner frame that used to sit here is gone. Two pixels of 20% cyan survive
+       nothing: at 16-32 px, the sizes an app icon is actually drawn at, it collapsed
+       into a grey ring hugging the edge and took the mark's contrast with it. -->
 
   <!-- Lowercase "r" centered, big -->
-  <text x="128" y="200" text-anchor="middle" class="rb-icon"
-        font-size="220" fill="#22d3ee">r</text>
+  <text x="128.23" y="208.55" text-anchor="middle" class="rb-icon"
+        font-size="273.14" fill="#22d3ee">r</text>
 </svg>
