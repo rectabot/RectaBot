@@ -17,6 +17,6 @@
   <path d="M41.25,0 H256 V256 H0 V41.25 A41.25,41.25 0 0 1 41.25,0 Z" fill="#22d3ee"/>
 
   <!-- Lowercase "r" centered, dark -->
-  <text x="128.23" y="208.55" text-anchor="middle" class="rb-icon"
+  <text x="107.73" y="208.55" text-anchor="middle" class="rb-icon"
         font-size="273.14" fill="#020617">r</text>
 </svg>

@@ -17,7 +17,7 @@
     <!-- One rounded corner, top left, 16.1% of the edge — the same shape as the
          standalone icons, scaled to this block. -->
     <path d="M19.3125,0 H120 V120 H0 V19.3125 A19.3125,19.3125 0 0 1 19.3125,0 Z" fill="#22d3ee"/>
-    <text x="60.11" y="97.75" text-anchor="middle" class="rb-text"
+    <text x="50.50" y="97.75" text-anchor="middle" class="rb-text"
           font-size="128.03" fill="#020617">r</text>
   </g>
 

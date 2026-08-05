@@ -14,7 +14,7 @@
        with (165 px on the 1024 master = 16.1% of the edge). A rect cannot do this:
        rx rounds all four. -->
   <path d="M10.3125,0 H64 V64 H0 V10.3125 A10.3125,10.3125 0 0 1 10.3125,0 Z" fill="#020617"/>
-  <text x="32.06" y="52.14" text-anchor="middle"
+  <text x="26.94" y="52.14" text-anchor="middle"
         font-family="Orbitron, sans-serif" font-weight="900"
         font-size="68.28" fill="#22d3ee">r</text>
 </svg>
