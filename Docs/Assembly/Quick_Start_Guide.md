@@ -296,6 +296,15 @@ What decides it is not the chip's current capability but how much voltage the 33
 for the relay. If a particular SSR needs more than roughly 3 V and will not trigger, put a
 small P-channel MOSFET between — see [Pinout.md](../Reference/Pinout.md).
 
+**All three outputs can drive one each, at the same time.** `MIST`, `FLOOD` and `VAC` come
+off three *different* 74HC14D chips (`U7`, `U10`, `U15`), so a second and third SSR do not
+pile onto the chip driving the first. Together they draw about **17.7 mA** from `CN40`
+pin 1. Buy one relay per output and wire each control `−` to its own signal pin.
+
+That margin belongs to the individual relay, though, not to how many of them you run — and
+counterfeit Foteks are common. **Confirm each new one actually switches before you build it
+into the machine.**
+
 #### Industrial modules
 
 DIN-rail interface relays (Phoenix Contact PLC-INTERFACE, Weidmüller TERMSERIES, Wago 859,

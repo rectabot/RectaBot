@@ -73,6 +73,29 @@ output still pulls essentially to ground, and there is roughly 4× headroom to t
 limit. What the 330 Ω sets is how much voltage is left for the relay, not whether the chip
 can cope.
 
+**All three outputs at once.** `MIST`, `FLOOD` and `VAC` are not three gates of one chip —
+each sits on the last inverter of a *different* 74HC14D. Traced through the fabrication
+netlist:
+
+| Output | Series resistor | Inverter |
+| :--- | :--- | :--- |
+| `MIST_5V` (`M7`) | `R45` | **U7** pin 12 |
+| `FLOOD_5V` (`M8`) | `R63` | **U10** pin 12 |
+| `VAC_5V` (`M62`/`M63`) | `R91` | **U15** pin 12 |
+
+So a second and a third relay add nothing to the package already carrying the first: each
+5.9 mA stays on its own chip's ground pin, against the same 25 mA per-pin limit, and the
+five stepper channels sharing each chip are untouched either way. What the three outputs
+do share is `CN40` pin 1 — three Foteks draw **~17.7 mA** in total from the `+5V` rail,
+which is negligible beside what that rail already feeds the buffers.
+
+The caveat that remains is per-unit, not per-count: the **3.11 V** measured above sits just
+over the Fotek's 3 V minimum, and that margin is a property of the individual relay — it
+does not shrink as you add more. Counterfeit Foteks are common, so **check that each new
+one actually triggers before building it in.**
+*(Chip assignment read from the netlist; the current figures are the single-relay
+measurement above carried across, not three relays measured together.)*
+
 **The load this was drawn for** is anything whose input is an optocoupler — a relay/SSR
 module with
 a logic-level `IN` pin drawing ≤ 5 mA. Those have a gain stage: a few mA from this pin

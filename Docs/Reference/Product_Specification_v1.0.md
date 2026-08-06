@@ -84,7 +84,9 @@ RectaBot is a professional CNC mill controller designed for hobby-pro and small 
   - E-Stop, Probe, Cycle Start, Feed Hold, Door safety
 - ✅ **3 auxiliary 5 V outputs** (Mist M7, Flood M8, Vacuum M62/M63) — signal level, 330 Ω
   series, 25 mA per pin. Drives optocoupler-input relay modules, and a Fotek SSR-40 DA
-  switches directly (measured 3.11 V / ~5.9 mA on a 230 V lamp) — see [Pinout.md](Pinout.md)
+  switches directly (measured 3.11 V / ~5.9 mA on a 230 V lamp). The three outputs sit on
+  three separate buffer chips, so one SSR per output can run at once — see
+  [Pinout.md](Pinout.md)
 - ✅ **24V_ISO isolated supply** (B2424S-2WR3, 2W isolated DC-DC)
 - ✅ Hardware debounce (100nF parallel to optocoupler LED)
 
