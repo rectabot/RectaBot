@@ -314,8 +314,10 @@
                         <span><span class="text-slate-200 font-medium">Coolant is three wires away.</span>
                         <span class="text-slate-300">CN40</span> carries
                         <span class="font-mono text-slate-300">+5V · VAC · FLOOD · MIST · GND</span> with M7/M8/M62
-                        already mapped. Optocoupler-input relay modules wire straight on, and a Fotek SSR-40 DA
-                        switches directly too — measured on the bench at 3.11 V across its input. The docs give
+                        already mapped. The only thing to add is a solid-state relay for each output you actually
+                        use — three, one, or none. Each output sits on its own buffer chip, so all three can run
+                        at once. A Fotek SSR-40 DA switches straight off the pin, measured on the bench at 3.11 V
+                        across its input; optocoupler-input relay modules wire on just the same. The docs give
                         the numbers for anything else. These outputs sit on the board's ground — the optical
                         isolation is on the input side.</span>
                     </li>
@@ -724,7 +726,7 @@
                         </tr>
                         <tr class="hover:bg-slate-900/50">
                             <td class="px-6 py-4 text-slate-400">Aux Outputs</td>
-                            <td class="px-6 py-4">3× 5 V signal, ~4 mA (Mist M7, Flood M8, Vacuum M62/M63) — for optocoupler-input relay modules</td>
+                            <td class="px-6 py-4">3× 5 V signal, 25 mA per pin (Mist M7, Flood M8, Vacuum M62/M63) — one solid-state relay or optocoupler-input module each; 5.9 mA measured driving a Fotek SSR-40 DA</td>
                         </tr>
                         <tr class="hover:bg-slate-900/50">
                             <td class="px-6 py-4 text-slate-400">Ethernet</td>
