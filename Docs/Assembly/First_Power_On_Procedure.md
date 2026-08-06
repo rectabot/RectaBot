@@ -132,7 +132,12 @@ With **power on**, measure the following (black probe on GND, red on the test po
 |---|---|---|---|
 | **GND (USB shell)** | **GND_ISO (CN23 pin 3, isolated input side)** | **NO continuity** in DC | Input-side barrier works ✓ |
 | **CGND (RJ45 shell)** | **GND** | ~0V through 1MΩ + 1nF/2kV | Bob Smith termination works |
-| **GND (USB shell)** | **GND (CN34 pin 4, stepper)** | **HAS continuity** (≈0Ω) | Stepper shares MCU GND (by design) ✓ |
+| **GND (USB shell)** | **GND (CN40 pin 5, AUX)** | **HAS continuity** (≈0Ω) | Output side shares MCU GND (by design) ✓ |
+
+⚠️ **Do not look for GND on a stepper connector.** CN34-CN38 are `+5V · STEP · DIR · EN` —
+common anode, no ground pin (CN34 pin 4 is `EN_X_5V`). Probing pin 4 against USB GND will
+**not** read 0 Ω, and that is correct behaviour, not a fault. CN40 pin 5 is a real GND on the
+same non-isolated side, so it is the point that answers this test.
 
 **If GND and GND_ISO have continuity (the buzzer beeps):**
 - The input-side isolation barrier is breached

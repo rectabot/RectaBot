@@ -279,7 +279,7 @@ This calibration accounts for PWM source variation (3.2V vs 3.3V from MCU) and r
 
 ### E-Stop Behavior
 
-When ESTOP is triggered (CN37 or grblHAL alarm):
+When ESTOP is triggered (**CN26**, or a grblHAL alarm):
 1. MCU immediately sets GP27 PWM = 0%, GP30/31 = LOW
 2. VFD_10V drops to 0V within 10ms
 3. VFD_EN and VFD_DIR go to floating (inactive)

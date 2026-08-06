@@ -37,7 +37,7 @@ This is exactly how the board ships from JLCPCB: **all SMT parts pre-assembled**
 | 13 | **CN32** | KF2EDGR-3.5-3P | TH 3-pin | C441172 | RS485 Modbus (GND/A+/B−) |
 | 14 | **CN33** | KF2EDGR-3.5-2P | TH 2-pin | C441171 | Laser PWM / GND |
 | 15 | **CN42** | KF2EDGR-3.5-2P | TH 2-pin | C441171 | 24V DC INPUT |
-| 16 | **CN34** | KF2EDGR-3.5-4P | TH 4-pin | C441173 | X Stepper (STEP/DIR/EN/GND) |
+| 16 | **CN34** | KF2EDGR-3.5-4P | TH 4-pin | C441173 | X Stepper (+5V/STEP/DIR/EN — common anode, no GND pin) |
 | 17 | **CN35** | KF2EDGR-3.5-4P | TH 4-pin | C441173 | Y Stepper |
 | 18 | **CN36** | KF2EDGR-3.5-4P | TH 4-pin | C441173 | Z Stepper |
 | 19 | **CN37** | KF2EDGR-3.5-4P | TH 4-pin | C441173 | A Stepper |

@@ -59,7 +59,7 @@ RectaBot v1.0 uses the **SP3485EN-L/TR** (MaxLinear) — a 3.3V RS-485/RS-422 tr
 - RO (pin 1) to `GP25` (RP2350 RX).
 - DI (pin 4) to `GP24` (RP2350 TX).
 - RE (pin 2) and DE (pin 3) tied together and connected to the Modbus Direction pin `GP26`.
-- A (pin 6) and B (pin 7) to connector CN22; **120Ω** terminator via jumper.
+- A (pin 6) and B (pin 7) to connector **CN32** (`GND · A+ · B−`); **120Ω** terminator via jumper.
 - **TVS protection:** `PSM712-LF-T7` (D4) on the A/B line **at the connector**, NOT next to the SP3485.
 - No galvanic isolation in v1; if VFD noise becomes a problem, consider SI8621 + B0505S for v2.
 
@@ -70,7 +70,7 @@ RectaBot v1.0 uses the **SP3485EN-L/TR** (MaxLinear) — a 3.3V RS-485/RS-422 tr
 - U21's A/B outputs go to the pendant (pendant RX side) — differential pair 1.
 - Z/Y (the A/B from U22's perspective) receive from the pendant (pendant TX side) — differential pair 2.
 - **120Ω 0603 terminator** on the input side of U22 (R111).
-- **TVS protection:** `PSM712-LF-T7` (D5, D6) on each pair — **at connector CN32**.
+- **TVS protection:** `PSM712-LF-T7` (D5, D6) on each pair — **at connector CN41** (the pendant header).
 - Pins: `GP28` (UART0 TX → U21 DI), `GP29` (UART0 RX ← U22 RO).
 
 ## 6. Spindle 0-10V Converter + EN/DIR (CN39)

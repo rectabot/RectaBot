@@ -130,11 +130,16 @@ RectaBot is a professional CNC mill controller designed for hobby-pro and small 
 ### Stepper Motors (X, Y, Z, A, B)
 | Connector | Pinout | Function |
 |---|---|---|
-| **CN34** | X axis (4-pin) | STEP, DIR, EN, GND (5V Common Anode) |
-| **CN35** | Y axis (4-pin) | STEP, DIR, EN, GND |
-| **CN36** | Z axis (4-pin) | STEP, DIR, EN, GND |
-| **CN37** | A axis (4-pin) | STEP, DIR, EN, GND |
-| **CN38** | B axis (4-pin) | STEP, DIR, EN, GND (Y2 tandem) |
+| **CN34** | X axis (4-pin) | +5V, STEP, DIR, EN (5V Common Anode) |
+| **CN35** | Y axis (4-pin) | +5V, STEP, DIR, EN |
+| **CN36** | Z axis (4-pin) | +5V, STEP, DIR, EN |
+| **CN37** | A axis (4-pin) | +5V, STEP, DIR, EN |
+| **CN38** | B axis (4-pin) | +5V, STEP, DIR, EN (Y2 tandem) |
+
+**There is no GND pin on a stepper connector, and there is not meant to be.** Common anode
+means pin 1 feeds the driver's `PUL+`/`DIR+`/`ENA+` together, and the on-board 74HC14D pulls
+`PUL−`/`DIR−`/`ENA−` down — the signal lines are the return path. A board that put GND here
+instead would be wired common cathode, which this one is not.
 
 ### Spindle / Laser
 | Connector | Pinout | Function |
