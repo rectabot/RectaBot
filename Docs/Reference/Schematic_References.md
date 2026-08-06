@@ -91,11 +91,11 @@ RectaBot v1 integrates a **0-10V analog speed reference** and **open-drain EN/DI
 
 - **U23 = LM358DR2G** (Basic, SOIC-8). VCC = 24V_IN (rail-to-rail is not an issue on a 24V supply).
 - **2-stage RC filter:** R116 (10k) + C81 (100nF), R117 (10k) + C83 (100nF) → cutoff 159Hz × 2, attenuation 88dB at 25kHz PWM.
-- **Gain network:** R122 (10k) + R118 (10k trim pot) + R120 (10k) → safe gain range **1.5-3.0** (max 9.9V from 3.3V PWM).
+- **Gain network:** R122 (10k) + R128 (10k trim pot) + R120 (10k) → safe gain range **1.5-3.0** (max 9.9V from 3.3V PWM).
 - **Overvoltage protection:** R123 (1kΩ) in series + **D7 = 1N4742A 12V Zener (TH, hand-soldered)** + C84 (10nF) → clamps to 12V max regardless of failure.
 - **LED indicator:** U23B unity buffer follows VFD_10V → R121 (2k) → LED6 (4mA at 10V).
 
-**Calibration:** tune trim pot R118 with the multimeter so that at 100% PWM you get exactly 10.0V on CN39 pin 1.
+**Calibration:** tune trim pot R128 with the multimeter so that at 100% PWM you get exactly 10.0V on CN39 pin 1.
 
 ### 6.2 EN/DIR open-drain buffers (2× 2N7002)
 

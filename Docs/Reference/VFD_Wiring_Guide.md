@@ -107,7 +107,7 @@ $32=0              ; Laser mode disabled (we're using spindle)
 | Spindle doesn't start | PD001 wrong | Set PD001=1 (terminal control) |
 | Speed control doesn't work | PD002 wrong | Set PD002=1 (AVI analog) |
 | M4 (reverse) doesn't work | PD044 wrong | Set PD044=1 (two-line mode 1) |
-| Spindle runs at wrong speed | Calibration | Adjust trim pot R118 on RectaBot until 100% PWM = 10.0V exactly |
+| Spindle runs at wrong speed | Calibration | Adjust trim pot R128 on RectaBot until 100% PWM = 10.0V exactly |
 | VFD alarm "ESC" | Both FOR+REV active | Check PD044=1 (NOT PD044=0) |
 
 ---
@@ -264,7 +264,7 @@ After connecting any VFD, calibrate the 0-10V converter:
 2. Set multimeter to DC voltage, 20V range
 3. In grblHAL console, send: `M3 S<MAX_RPM>` (e.g., `M3 S24000` for 24000 RPM max)
 4. Read multimeter — should show close to 10.0V
-5. **Adjust trim pot R118** on RectaBot (on top of PCB, labeled "SPIN_TRIM"):
+5. **Adjust trim pot R128** on RectaBot (on top of PCB, labeled "SPIN_TRIM"):
    - Turn clockwise → higher voltage
    - Turn counter-clockwise → lower voltage
 6. Repeat until multimeter reads exactly **10.00V at S<MAX_RPM>**
@@ -315,7 +315,7 @@ For longer runs (>3m), use **shielded multi-conductor cable** and ground the shi
 │  Pin 4  GND      → Analog + digital ground              │
 ├─────────────────────────────────────────────────────────┤
 │  VFD MUST be in "Two-line mode 1" (RUN/DIR semantic)    │
-│  Calibrate trim pot R118 for 10.0V at max RPM           │
+│  Calibrate trim pot R128 for 10.0V at max RPM           │
 │  Use external 2-ch relay for PNP/industrial VFDs        │
 └─────────────────────────────────────────────────────────┘
 ```
