@@ -126,6 +126,27 @@ The wordmark uses **Orbitron** (Google Fonts, SIL Open Font License) at weight 9
 
 ---
 
+## Do
+
+- Use lowercase `rectabot` in the wordmark.
+- Keep the letter-spacing at `0.06em`.
+- Leave generous clear space around the mark (see below).
+- Use the white wordmark on PCB silkscreen.
+- Use cyan-400 (`#22d3ee`) as the accent colour.
+- Use the icon rather than the wordmark when space is tight.
+- **Use the asset files.** Do not rebuild the mark in CSS or by setting an `r` in
+  a rounded box — that loses the single cut corner, which is the mark.
+
+## Don't
+
+- Don't write `RECTABOT` or `Rectabot` in the marks. In body text, "RectaBot" is fine.
+- Don't substitute other fonts.
+- Don't rotate, skew, stretch or compress the logo.
+- Don't recolour it outside the palette above.
+- Don't apply drop shadows, gradients or 3D effects.
+
+---
+
 ## Minimum sizes
 
 - **Wordmark:** 80px wide minimum (for readability)
