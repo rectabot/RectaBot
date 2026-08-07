@@ -55,8 +55,18 @@ Questions or permission requests: **hello@rectabot.org**
 
 | File | Use |
 |---|---|
-| `rectabot-icon-cyan.svg` | Icon for dark backgrounds (cyan-400 square with dark `r`) |
-| `rectabot-icon-light.svg` | Inverted icon |
+| `rectabot-icon-cyan.svg` | Dark `#020617` tile with a cyan `r`. For light backgrounds. |
+| `rectabot-icon-light.svg` | Cyan `#22d3ee` tile with a dark `r`. For dark backgrounds. |
+
+The two names are not consistent with each other — in `-cyan` the cyan thing is
+the letter, in `-light` it is the tile. **Go by the description, not the
+filename.** The rule is simply: pick the tile that stands out against the surface
+you are putting it on.
+
+Every icon has **one cut corner, top left**, at the radius the letter's own elbow
+is drawn with, so the corner and the elbow read as a single gesture. A tile with
+four rounded corners is not the mark — if you find yourself writing
+`rounded-lg`, use the asset instead.
 
 ### Combined lockup
 
