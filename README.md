@@ -212,4 +212,4 @@ Note: v1 isolates the input side only.
 **Project lead:** Filip Perić
 **Website:** [rectabot.org](https://rectabot.org)
 **Email:** hello@rectabot.org
-**Location:** Kragujevac, Serbia
+**Location:** Serbia
